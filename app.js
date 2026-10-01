@@ -340,6 +340,7 @@
   const $ = (id) => document.getElementById(id);
   const el = {
     root: document.documentElement,
+    main: document.querySelector('main'), stage: document.querySelector('.stage'),
     form: $('searchForm'), input: $('searchInput'), field: $('searchField'), suggest: $('suggestBox'),
     engineBtn: $('engineBtn'), engineMenu: $('engineMenu'),
     engineLogo: $('engineLogo'), engineName: $('engineName'),
@@ -978,24 +979,37 @@
     applySearchPos();
   }
 
-  /** 搜索栏位置：只在隐藏快捷网址栏时可用，滑块 0–100 映射到上下 ±22vh */
+  /** 搜索栏位置：只在隐藏快捷网址栏时可用。
+      滑块 0–100（50 = 居中）映射到「整个 main 里能挪动的最大范围」——
+      上限按可用高度动态算，所以界限尽可能宽，又不会怼到页脚。 */
   function applySearchPos() {
     const active = !state.showLinks;
     el.searchPosRow.hidden = !active;
 
-    const offset = Math.round((state.searchPos - 50) / 50 * 22);
-    el.root.style.setProperty('--stage-shift', active && offset ? offset + 'vh' : '0px');
+    let maxShift = 0;
+    if (active) {
+      const mainRect = el.main.getBoundingClientRect();
+      maxShift = Math.max(0, Math.round((mainRect.height - el.stage.offsetHeight) / 2) - 14);
+    }
+    const px = Math.round((state.searchPos - 50) / 50 * maxShift);
+
+    el.root.style.setProperty('--stage-shift', px + 'px');
 
     el.searchPos.value = String(state.searchPos);
-    el.searchPosOut.textContent = offset === 0
+    el.searchPosOut.textContent = px === 0
       ? t('settings.searchPosCenter')
-      : (offset < 0 ? '↑ ' : '↓ ') + Math.abs(offset) + 'vh';
+      : (px < 0 ? '↑ ' : '↓ ') + Math.round(Math.abs(px) / window.innerHeight * 100) + 'vh';
   }
 
   el.searchPos.addEventListener('input', () => {
     state.searchPos = Number(el.searchPos.value);
     store.set(KEY.searchPos, state.searchPos);
     applySearchPos();
+  });
+
+  // 窗口尺寸变了，可用范围也跟着变
+  window.addEventListener('resize', () => {
+    if (!state.showLinks) applySearchPos();
   });
 
   /** 一年中的第几天：让「每日一言 / 今天吃什么」每天自动换一次 */
