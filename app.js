@@ -1525,7 +1525,9 @@
       item.setAttribute('aria-selected', String(active));
     });
     el.settingsSections.forEach((section) => {
-      section.hidden = section.dataset.settingsSection !== selected;
+      const active = section.dataset.settingsSection === selected;
+      section.hidden = !active;
+      section.classList.toggle('settings-section--enter', active);
     });
   }));
 
