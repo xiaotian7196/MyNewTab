@@ -60,6 +60,4 @@ Firefox、Edge 和 Chrome 使用不同的浏览器账户同步空间，不能仅
 
 本项目在 <https://github.com/xiaotian7196/MyNewTab> 开源，使用 MIT License。
 
-视觉灵感来自 Jurina 的 Liquid Glass 风格，项目中保留 Jurina 致谢。
-
-版权所有：xiaotian7196、Jurina，2026。
+版权所有：xiaotian7196，2026。
