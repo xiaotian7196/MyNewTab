@@ -6,3 +6,5 @@ Thumbs.db
 Desktop.ini
 .vscode/
 .idea/
+homepage-crx-build/
+*.pem

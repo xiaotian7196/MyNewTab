@@ -123,6 +123,11 @@
     <button type="button" class="text-btn" id="browserHistoryBtn" data-i18n="settings.browserHistoryEnable">允许读取浏览记录</button>
     <p class="setting__hint" id="browserHistoryStatus" data-i18n="settings.browserHistoryOff">未启用：只使用本页搜索记录</p>
   </section>
+  <section class="setting setting--actions">
+    <p class="setting__label" data-i18n="settings.browserChecksTitle">浏览器状态</p>
+    <p class="setting__hint" id="newTabCheckStatus"></p>
+    <p class="setting__hint" id="homeCheckStatus"></p>
+  </section>
 </div>
 
 <!-- ============ 主体 ============ -->
@@ -258,6 +263,10 @@
       <button type="button" class="button button-primary" id="acceptConsentBtn" data-i18n="consent.accept">继续使用主页</button>
     </div>
     <p class="consent__note" data-i18n="consent.note">你可以稍后在设置中开启或关闭浏览记录建议。</p>
+    <div class="consent__checks">
+      <p><span class="status-dot status-dot--ok"></span><span data-i18n="consent.newTabCheck">新标签页：此扩展正在接管当前页面</span></p>
+      <p><span class="status-dot status-dot--warn"></span><span data-i18n="consent.homeCheck">浏览器首页：Firefox/Chrome 不开放网页读取此设置，请在浏览器设置中确认</span></p>
+    </div>
   </section>
 </div>
 

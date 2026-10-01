@@ -1057,6 +1057,11 @@ main {
 .consent__item span { color: var(--muted); font-size: 12px; }
 .consent__actions { display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap; }
 .consent__note { margin: 15px 0 0; font-size: 11.5px; }
+.consent__checks { display: grid; gap: 6px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
+.consent__checks p { display: flex; align-items: flex-start; gap: 8px; margin: 0; color: var(--muted); font-size: 11.5px; line-height: 1.45; }
+.status-dot { flex: 0 0 auto; width: 8px; height: 8px; margin-top: 4px; border-radius: 50%; }
+.status-dot--ok { background: #34c759; box-shadow: 0 0 0 4px rgba(52, 199, 89, .13); }
+.status-dot--warn { background: #ff9500; box-shadow: 0 0 0 4px rgba(255, 149, 0, .13); }
 
 /* ---------- 入场动画 ----------
    分成两层，是有原因的：

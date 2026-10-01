@@ -154,8 +154,8 @@
       'settings.opacityLinks': '快捷网址栏', 'settings.opacitySync': '两栏同步',
        'settings.searchPos': '搜索栏位置', 'settings.searchPosCenter': '居中', 'settings.searchPosReset': '恢复居中',
       'settings.resetLinks': '恢复默认快捷网址',
-       'settings.clearHistory': '清空搜索历史', 'settings.browserHistoryEnable': '允许读取浏览记录', 'settings.browserHistoryDisable': '关闭浏览记录建议', 'settings.browserHistoryOn': '已启用：使用浏览器浏览记录建议', 'settings.browserHistoryOff': '未启用：只使用本页搜索记录',
-       'consent.title': '先确认两项设置', 'consent.copy': '这个扩展会作为新标签页显示。它不会在后台联网或上传数据；搜索、联想推荐和网站图标只有在相关功能被使用时才会请求网络。背景图片只保存在本机。', 'consent.newTabTitle': '使用这个页面作为新标签页', 'consent.newTabCopy': '浏览器的新标签页将显示这个搜索主页。', 'consent.historyTitle': '读取浏览器浏览记录', 'consent.historyCopy': '只用于搜索框建议，不上传、不修改、不删除记录。', 'consent.decline': '暂不同意', 'consent.accept': '继续使用主页', 'consent.note': '你可以稍后在设置中开启或关闭浏览记录建议。', 'consent.declineHelp': '你可以在扩展管理页停用此主页扩展。',
+       'settings.clearHistory': '清空搜索历史', 'settings.browserHistoryEnable': '允许读取浏览记录', 'settings.browserHistoryDisable': '关闭浏览记录建议', 'settings.browserHistoryOn': '已启用：使用浏览器浏览记录建议', 'settings.browserHistoryOff': '未启用：只使用本页搜索记录', 'settings.browserChecksTitle': '浏览器状态', 'settings.newTabCheck': '新标签页：当前页面正在生效', 'settings.homeCheck': '浏览器首页：无法由网页读取，请在浏览器设置中确认',
+       'consent.title': '先确认两项设置', 'consent.copy': '这个扩展会作为新标签页显示。它不会在后台联网或上传数据；搜索、联想推荐和网站图标只有在相关功能被使用时才会请求网络。背景图片只保存在本机。', 'consent.newTabTitle': '使用这个页面作为新标签页', 'consent.newTabCopy': '浏览器的新标签页将显示这个搜索主页。', 'consent.historyTitle': '读取浏览器浏览记录', 'consent.historyCopy': '只用于搜索框建议，不上传、不修改、不删除记录。', 'consent.decline': '暂不同意', 'consent.accept': '继续使用主页', 'consent.note': '你可以稍后在设置中开启或关闭浏览记录建议。', 'consent.declineHelp': '你可以在扩展管理页停用此主页扩展。', 'consent.newTabCheck': '新标签页：此扩展正在接管当前页面', 'consent.homeCheck': '浏览器首页：Firefox/Chrome 不开放网页读取此设置，请在浏览器设置中确认',
       'dialog.addTitle': '添加快捷网址', 'dialog.editTitle': '编辑快捷网址',
       'dialog.name': '名称', 'dialog.url': '网址',
       'dialog.namePlaceholder': '例如：知乎', 'dialog.urlPlaceholder': '例如：zhihu.com',
@@ -196,8 +196,8 @@
       'settings.opacityLinks': '捷徑列', 'settings.opacitySync': '兩欄同步',
        'settings.searchPos': '搜尋欄位置', 'settings.searchPosCenter': '居中', 'settings.searchPosReset': '恢復居中',
       'settings.resetLinks': '還原預設捷徑',
-       'settings.clearHistory': '清除搜尋記錄', 'settings.browserHistoryEnable': '允許讀取瀏覽記錄', 'settings.browserHistoryDisable': '關閉瀏覽記錄建議', 'settings.browserHistoryOn': '已啟用：使用瀏覽器瀏覽記錄建議', 'settings.browserHistoryOff': '未啟用：只使用本頁搜尋記錄',
-       'consent.title': '先確認兩項設定', 'consent.copy': '這個擴充功能會作為新分頁顯示。不會在背景連線或上傳資料；搜尋、聯想推薦和網站圖示只有在使用相關功能時才會連線。背景圖片只儲存在本機。', 'consent.newTabTitle': '使用這個頁面作為新分頁', 'consent.newTabCopy': '瀏覽器的新分頁將顯示這個搜尋主頁。', 'consent.historyTitle': '讀取瀏覽器瀏覽記錄', 'consent.historyCopy': '只用於搜尋框建議，不上傳、不修改、不刪除記錄。', 'consent.decline': '暫不同意', 'consent.accept': '繼續使用主頁', 'consent.note': '你可以稍後在設定中開啟或關閉瀏覽記錄建議。', 'consent.declineHelp': '你可以在擴充功能管理頁停用此主頁擴充功能。',
+       'settings.clearHistory': '清除搜尋記錄', 'settings.browserHistoryEnable': '允許讀取瀏覽記錄', 'settings.browserHistoryDisable': '關閉瀏覽記錄建議', 'settings.browserHistoryOn': '已啟用：使用瀏覽器瀏覽記錄建議', 'settings.browserHistoryOff': '未啟用：只使用本頁搜尋記錄', 'settings.browserChecksTitle': '瀏覽器狀態', 'settings.newTabCheck': '新分頁：目前頁面正在生效', 'settings.homeCheck': '瀏覽器首頁：網頁無法讀取，請在瀏覽器設定中確認',
+       'consent.title': '先確認兩項設定', 'consent.copy': '這個擴充功能會作為新分頁顯示。不會在背景連線或上傳資料；搜尋、聯想推薦和網站圖示只有在使用相關功能時才會連線。背景圖片只儲存在本機。', 'consent.newTabTitle': '使用這個頁面作為新分頁', 'consent.newTabCopy': '瀏覽器的新分頁將顯示這個搜尋主頁。', 'consent.historyTitle': '讀取瀏覽器瀏覽記錄', 'consent.historyCopy': '只用於搜尋框建議，不上傳、不修改、不刪除記錄。', 'consent.decline': '暫不同意', 'consent.accept': '繼續使用主頁', 'consent.note': '你可以稍後在設定中開啟或關閉瀏覽記錄建議。', 'consent.declineHelp': '你可以在擴充功能管理頁停用此主頁擴充功能。', 'consent.newTabCheck': '新分頁：此擴充功能正在接管目前頁面', 'consent.homeCheck': '瀏覽器首頁：Firefox/Chrome 不開放網頁讀取此設定，請在瀏覽器設定中確認',
       'dialog.addTitle': '新增捷徑', 'dialog.editTitle': '編輯捷徑',
       'dialog.name': '名稱', 'dialog.url': '網址',
       'dialog.namePlaceholder': '例如：PChome', 'dialog.urlPlaceholder': '例如：pchome.com.tw',
@@ -238,8 +238,8 @@
       'settings.opacityLinks': 'Shortcuts panel', 'settings.opacitySync': 'Link both',
        'settings.searchPos': 'Search bar position', 'settings.searchPosCenter': 'center', 'settings.searchPosReset': 'Reset center',
       'settings.resetLinks': 'Restore default shortcuts',
-       'settings.clearHistory': 'Clear search history', 'settings.browserHistoryEnable': 'Allow browsing history', 'settings.browserHistoryDisable': 'Disable history suggestions', 'settings.browserHistoryOn': 'Enabled: browser history suggestions are on', 'settings.browserHistoryOff': 'Off: only this page history is used',
-       'consent.title': 'Confirm two settings', 'consent.copy': 'This extension will appear as your new tab. It does not connect in the background or upload data; search, suggestions, and site icons connect only when those features are used. Background images stay on this device.', 'consent.newTabTitle': 'Use this page as the new tab', 'consent.newTabCopy': 'Your browser new tab will show this search homepage.', 'consent.historyTitle': 'Read browser history', 'consent.historyCopy': 'Used only for search suggestions. Nothing is uploaded, changed, or deleted.', 'consent.decline': 'Not now', 'consent.accept': 'Continue to homepage', 'consent.note': 'You can enable or disable history suggestions later in Settings.', 'consent.declineHelp': 'You can disable this homepage extension from the extensions manager.',
+       'settings.clearHistory': 'Clear search history', 'settings.browserHistoryEnable': 'Allow browsing history', 'settings.browserHistoryDisable': 'Disable history suggestions', 'settings.browserHistoryOn': 'Enabled: browser history suggestions are on', 'settings.browserHistoryOff': 'Off: only this page history is used', 'settings.browserChecksTitle': 'Browser status', 'settings.newTabCheck': 'New tab: this page is active', 'settings.homeCheck': 'Browser home page: web pages cannot read it; verify it in browser settings',
+       'consent.title': 'Confirm two settings', 'consent.copy': 'This extension will appear as your new tab. It does not connect in the background or upload data; search, suggestions, and site icons connect only when those features are used. Background images stay on this device.', 'consent.newTabTitle': 'Use this page as the new tab', 'consent.newTabCopy': 'Your browser new tab will show this search homepage.', 'consent.historyTitle': 'Read browser history', 'consent.historyCopy': 'Used only for search suggestions. Nothing is uploaded, changed, or deleted.', 'consent.decline': 'Not now', 'consent.accept': 'Continue to homepage', 'consent.note': 'You can enable or disable history suggestions later in Settings.', 'consent.declineHelp': 'You can disable this homepage extension from the extensions manager.', 'consent.newTabCheck': 'New tab: this extension is controlling the current page', 'consent.homeCheck': 'Browser home page: Firefox/Chrome do not let web pages read this setting; verify it in browser settings',
       'dialog.addTitle': 'Add shortcut', 'dialog.editTitle': 'Edit shortcut',
       'dialog.name': 'Name', 'dialog.url': 'URL',
       'dialog.namePlaceholder': 'e.g. Wikipedia', 'dialog.urlPlaceholder': 'e.g. wikipedia.org',
@@ -272,7 +272,7 @@
     lang: 'hp.lang', showLinks: 'hp.showLinks', bg: 'hp.bg', bgDim: 'hp.bgDim',
     footerMode: 'hp.footerMode', font: 'hp.font',
     opacitySearch: 'hp.opacitySearch', opacityLinks: 'hp.opacityLinks', opacitySync: 'hp.opacitySync',
-    searchPos: 'hp.searchPos', consent: 'hp.consent', browserHistory: 'hp.browserHistory'
+    searchPos: 'hp.searchPos', consent: 'hp.consent', consentBackup: 'hp.consentBackup', browserHistory: 'hp.browserHistory'
   };
 
   const store = {
@@ -327,6 +327,7 @@
   let remoteSuggestions = [];
   let browserHistorySuggestions = [];
   const browserApi = window.browser || window.chrome;
+  const SNAPSHOT_KEYS = Object.values(KEY).filter((key) => key !== KEY.consentBackup);
 
   function detectLang() {
     const nav = (navigator.language || 'zh-CN').toLowerCase();
@@ -367,6 +368,7 @@
     opacitySearchOut: $('opacitySearchOut'), opacityLinksOut: $('opacityLinksOut'), opacitySync: $('opacitySync'),
      resetLinksBtn: $('resetLinksBtn'), clearHistoryBtn: $('clearHistoryBtn'),
      browserHistoryBtn: $('browserHistoryBtn'), browserHistoryStatus: $('browserHistoryStatus'),
+     newTabCheckStatus: $('newTabCheckStatus'), homeCheckStatus: $('homeCheckStatus'),
      consentDialog: $('consentDialog'), acceptConsentBtn: $('acceptConsentBtn'), declineConsentBtn: $('declineConsentBtn'),
     toast: $('toast'),
     modal: $('linkModal'), linkForm: $('linkForm'), linkName: $('linkName'), linkUrl: $('linkUrl'),
@@ -690,7 +692,7 @@
       browserHistorySuggestions = (items || [])
         .map((item) => item && item.url)
         .filter((item) => /^https?:\/\//i.test(item || ''))
-        .slice(0, 8);
+      .slice(0, 4);
       renderSuggestions();
     } catch {
       browserHistorySuggestions = [];
@@ -705,12 +707,19 @@
     el.browserHistoryBtn.setAttribute('aria-pressed', String(state.browserHistoryEnabled));
   }
 
+  function updateBrowserChecks() {
+    el.newTabCheckStatus.textContent = t('settings.newTabCheck');
+    el.homeCheckStatus.textContent = t('settings.homeCheck');
+  }
+
   async function requestBrowserHistoryPermission() {
     const api = historyApi();
-    if (!api) { toast(t('toast.historyUnsupported')); return; }
+    if (!browserApi || !browserApi.permissions) { toast(t('toast.historyUnsupported')); return; }
     try {
-      const granted = typeof browserApi.permissions?.request === 'function'
-        ? await browserApi.permissions.request({ permissions: ['history'] }) : true;
+      const alreadyGranted = typeof browserApi.permissions?.contains === 'function'
+        ? await permissionCall('contains', { permissions: ['history'] }) : false;
+      const granted = alreadyGranted || (typeof browserApi.permissions?.request === 'function'
+        ? await permissionCall('request', { permissions: ['history'] }) : false);
       if (!granted) { toast(t('toast.historyDeclined')); return; }
       state.browserHistoryEnabled = true;
       store.set(KEY.browserHistory, true);
@@ -719,11 +728,43 @@
     } catch { toast(t('toast.historyDeclined')); }
   }
 
+  function permissionCall(method, details) {
+    const permissions = browserApi && browserApi.permissions;
+    if (!permissions || typeof permissions[method] !== 'function') return Promise.resolve(false);
+    if (window.browser && permissions === window.browser.permissions) {
+      return Promise.resolve(permissions[method](details));
+    }
+    return new Promise((resolve) => {
+      permissions[method](details, (result) => resolve(result === true));
+    });
+  }
+
+  function saveConsentSnapshot() {
+    if (store.get(KEY.consentBackup, null) !== null) return;
+    const snapshot = {};
+    SNAPSHOT_KEYS.forEach((key) => {
+      const raw = localStorage.getItem(key);
+      if (raw !== null) snapshot[key] = raw;
+    });
+    store.set(KEY.consentBackup, snapshot);
+  }
+
+  function restoreConsentSnapshot() {
+    const snapshot = store.get(KEY.consentBackup, null);
+    if (!snapshot || typeof snapshot !== 'object') return;
+    SNAPSHOT_KEYS.forEach((key) => {
+      if (Object.prototype.hasOwnProperty.call(snapshot, key)) localStorage.setItem(key, snapshot[key]);
+      else localStorage.removeItem(key);
+    });
+    store.set(KEY.consentBackup, null);
+  }
+
   function disableBrowserHistory() {
     state.browserHistoryEnabled = false;
     browserHistorySuggestions = [];
     store.set(KEY.browserHistory, false);
     updateBrowserHistoryUi();
+    updateBrowserChecks();
     renderSuggestions();
   }
 
@@ -1397,18 +1438,16 @@
   });
 
   el.acceptConsentBtn.addEventListener('click', () => {
-    store.set(KEY.consent, true);
+    store.set(KEY.consent, 'accepted');
     el.consentDialog.hidden = true;
     el.input.focus();
   });
 
   el.declineConsentBtn.addEventListener('click', () => {
+    restoreConsentSnapshot();
+    store.set(KEY.consent, 'declined');
     el.consentDialog.hidden = true;
-    if (browserApi && browserApi.runtime && typeof browserApi.runtime.openOptionsPage === 'function') {
-      toast(t('consent.declineHelp'));
-    } else {
-      toast(t('consent.declineHelp'));
-    }
+    window.location.reload();
   });
 
   el.langSeg.addEventListener('click', (event) => {
@@ -1420,6 +1459,7 @@
      15. 初始化
      --------------------------------------------------------- */
   function init() {
+    saveConsentSnapshot();
     state.browserHistoryEnabled = store.get(KEY.browserHistory, false) === true;
     applyTheme();
     applyFont();
@@ -1433,7 +1473,7 @@
     applyOpacity();
     updateBrowserHistoryUi();
     if (state.browserHistoryEnabled) refreshBrowserHistory('');
-    el.consentDialog.hidden = store.get(KEY.consent, false) === true;
+    el.consentDialog.hidden = ['accepted', 'declined'].includes(store.get(KEY.consent, null));
   }
 
   init();

@@ -6,7 +6,7 @@
 
 > **Firefox 条例说明：** 新标签页覆盖在安装清单中声明，首次打开会先向用户说明用途并询问是否继续使用；浏览器历史记录是可选权限，只有用户在设置中主动点击并通过 Firefox 权限确认后才会读取。扩展不会修改或删除历史记录。
 
-纯原生 **HTML + CSS + JavaScript**，零依赖、零构建：双击 `index.html` 即可使用，也可以作为 Chrome / Edge 新标签页扩展直接安装。
+纯原生 **HTML + CSS + JavaScript**，零依赖、零构建：双击 `index.html` 即可使用，也可以作为 Chrome / Edge 新标签页扩展直接安装。扩展名称为 **Homepage**。
 
 ## 安装为浏览器主页插件
 
@@ -21,6 +21,8 @@
 
 Firefox 使用同一个 `manifest.json` 和 `chrome_url_overrides.newtab` 配置。项目同时提供 `Homepage-Liquid-Glass.xpi`，可在 Firefox 的「调试附加组件」页面临时加载。普通 Firefox 安装通常要求扩展经过 Mozilla 签名；未签名 XPI 不能在正式版 Firefox 中永久安装。
 
+Chrome / Chromium 使用 `Homepage.crx`。CRX 使用本地生成的临时密钥打包，私钥不随项目发布；Chrome 仍可能要求开发者模式或从 Chrome Web Store 安装。Firefox、Chrome 和 Edge 都会在新标签页页面第一次打开时询问是否继续使用，不会由网页静默修改浏览器设置。
+
 界面风格参考 [lpxlpx7/jurinas-website](https://github.com/lpxlpx7/jurinas-website)（线上站 <https://www.lpxlpx7.top/>）：
 Apple 式的液态玻璃质感、`#f5f5f7` 底色加蓝色光晕、玻璃胶囊控件与圆角面板。
 
@@ -29,7 +31,7 @@ Apple 式的液态玻璃质感、`#f5f5f7` 底色加蓝色光晕、玻璃胶囊�
 ![浅色主题](preview-light.png)
 ![深色主题](preview-dark.png)
 
-首次打开时会显示新标签页覆盖和数据使用说明；浏览器浏览记录属于可选权限，只有在设置中点击「允许读取浏览记录」并通过浏览器权限确认后才会用于搜索建议。扩展不会修改或删除浏览记录。
+首次安装并打开新标签页时会询问是否使用此页面；点击「暂不同意」会恢复安装前保存在本地的页面设置。扩展不能读取或修改 Firefox/Chrome 的浏览器首页地址，因此首页状态需要用户在浏览器设置中手动确认；页面会透明标注这一限制。每次打开新标签页都会确认当前扩展覆盖仍在生效。浏览器浏览记录属于可选权限，只有在设置中点击「允许读取浏览记录」并通过浏览器权限确认后才会用于搜索建议，最多显示 4 条，扩展不会修改或删除浏览记录。
 
 ## 功能
 
@@ -94,6 +96,8 @@ styles.css        设计变量、玻璃质感、布局与响应式
 preload.js        首屏同步脚本：第一次绘制前就应用已保存的主题/字体/背景/面板透明度
 liquid-glass.js   注入液态玻璃用的 SVG 滤镜（feTurbulence + feDisplacementMap）
 app.js            引擎切换、搜索、快捷网址、设置、背景、多语言
+manifest.json     Chrome / Edge / Firefox 扩展清单，名称为 Homepage
+icons/            Homepage 搜索图标（16 / 32 / 48 / 128）
 ```
 
 ## 首屏不闪（preload.js）
@@ -187,6 +191,7 @@ favicon 要联网取，所以每张图加载成功时才加 `.is-loaded` 淡入�
 - **第三方服务**：搜索、建议和 favicon 请求会直接发送到对应第三方服务，其处理方式受对应服务自己的隐私政策约束。本项目不代理这些请求，也不保存其返回内容。
 - **加州用户**：本项目当前实现不销售或共享个人信息，不提供开发者侧广告画像，也不建立开发者侧账户或个人资料。若发行者未来增加分析、广告、账号或服务器功能，必须重新评估 CCPA/CPRA 义务并更新声明。
 - **法律状态**：以上是基于当前代码行为的工程说明，不是法律意见，也不等同于政府或 Mozilla 的认证。
+- **Google/Chrome 隐私说明**：本扩展使用 Chrome Manifest V3、`chrome_url_overrides.newtab` 和可选 `history` 权限；不使用后台服务、不上传本地数据、不出售或共享个人信息。Chrome Web Store 的最终审核、隐私披露和开发者账户义务仍由 Google 审核规则决定，本项目不声称获得 Google 官方认证。
 
 ## 开源协议
 
