@@ -89,34 +89,40 @@ app.js            引擎切换、搜索、快捷网址、设置、背景、多�
 
 ## 入场动画
 
-搜索卡片和快捷网址栏共用同一套 `rise`（淡入 + 上浮 16px），**但动画只加在面板内部的内容上**：
+搜索卡片和快捷网址栏的入场分成两层 —— 框滑动、内容淡入：
 
 ```css
-/* 首屏先藏起来。注意用 visibility 而不是 opacity —— 原因见下 */
-html.js .shortcuts { visibility: hidden; }
-html.js .shortcuts.is-ready { visibility: visible; }
+/* 玻璃框：只做位移。transform 不是 backdrop root 的触发条件，磨砂全程有效 */
+.search-card,
+html.js .shortcuts.is-ready .shortcuts-panel {
+  animation: panel-rise 1100ms cubic-bezier(.2, .8, .2, 1) both;    /* translateY(16px) → 0 */
+}
 
-/* 玻璃面板本身（底色 / 边框 / 磨砂）直接到位，只有内容做入场动画 */
+/* 框里的内容：只做淡入。位移已经在框那层做了，两层都加会叠成 32px */
 .search-card .search-row,
 html.js .shortcuts.is-ready .panel-head,
 html.js .shortcuts.is-ready .shortcut-list {
-  animation: rise 1100ms cubic-bezier(.2, .8, .2, 1) both;
+  animation: content-fade 1100ms cubic-bezier(.2, .8, .2, 1) both;  /* opacity 0 → 1 */
 }
+
+/* 首屏藏起来用 visibility，不要用 opacity */
+html.js .shortcuts { visibility: hidden; }
+html.js .shortcuts.is-ready { visibility: visible; }
 ```
 
-### 为什么不能用 opacity 隐藏/淡入面板
+### 为什么玻璃框不能"淡入"
 
 `opacity < 1` 会让元素成为 **backdrop root**，面板里的 `backdrop-filter` 就采不到背后的画面。
-表现是：整个淡入过程中磨砂是"关着"的，等动画跑完 opacity 回到 1，磨砂才"啪"地出现 —— 很突兀。
-`filter` / `mask` / `clip-path` 也有同样效果，所以这些属性一律不要加在带 `backdrop-filter`
-的元素或其祖先上，除非你就是要它失效。
+表现是：整个淡入过程中磨砂是"关着"的，等动画结束 opacity 回到 1，磨砂才"啪"地出现 —— 很突兀。
+`filter` / `mask` / `clip-path` 也是同样的效果。
 
-不用 `opacity` 之后，面板的磨砂从第一帧就是就位的，动画只是让里面的内容浮上来。
+**`transform` 不在这个名单里**，所以玻璃框可以滑动入场，而磨砂从第一帧就是好的。
+换句话说：玻璃元素可以移动、可以缩放，但别用透明度淡入淡出。
 
 ### 触发时机
 
-搜索卡片的内容在加载时立即播；快捷网址栏的内容等图标有结果（或 1.8 秒超时）再播，
-所以视觉上是"搜索框先出现、网址栏随后跟上"。想整体更快/更慢就改这两处的 `1100ms`。
+搜索卡片在加载时立即播；快捷网址栏等图标有结果（或 1.8 秒超时）再播，
+所以视觉上是"搜索框先出现、网址栏随后跟上"。想整体更快/更慢就改这几处的 `1100ms`。
 
 `app.js` 数着 favicon 的加载进度 —— 每个图标成功加载、或回退到备用服务、或最终退成首字母色块，
 都算"有结果了"，全部有结果就加上 `.is-ready`。

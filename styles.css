@@ -727,12 +727,19 @@ main {
 html.js .shortcuts { visibility: hidden; }
 html.js .shortcuts.is-ready { visibility: visible; }
 
-/* 入场动画只作用在面板里的内容上（和搜索卡片同一套 rise）：
-   玻璃面板本身（底色 / 边框 / 磨砂）直接到位，不参与动画。 */
+/* 圆角玻璃框：只做位移，不做透明度。
+   transform 不是 backdrop root 的触发条件，所以框一边滑上来、磨砂一边就是好的。
+   如果这里改成 opacity 淡入，磨砂就会全程失效、动画结束才出现。 */
+.search-card,
+html.js .shortcuts.is-ready .shortcuts-panel {
+  animation: panel-rise 1100ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+/* 框里的内容：只做淡入。位移交给外层的框了，两层都加位移会叠成 32px。 */
 .search-card .search-row,
 html.js .shortcuts.is-ready .panel-head,
 html.js .shortcuts.is-ready .shortcut-list {
-  animation: rise 1100ms cubic-bezier(.2, .8, .2, 1) both;
+  animation: content-fade 1100ms cubic-bezier(.2, .8, .2, 1) both;
 }
 
 .shortcuts-panel {
@@ -953,12 +960,18 @@ html.js .shortcuts.is-ready .shortcut-list {
 }
 
 /* ---------- 入场动画 ----------
-   两个面板共用这一套 rise。注意：动画只加在"内容"上（.search-row / .panel-head / .shortcut-list），
-   不要加在带 backdrop-filter 的玻璃面板本身或其祖先上 —— opacity < 1 会让它们成为 backdrop root，
-   磨砂会在动画期间消失、结束时突然出现。 */
-@keyframes rise {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: none; }
+   分成两层，是有原因的：
+   - 玻璃框只能用 transform（位移），不能用 opacity —— opacity < 1 会让它成为 backdrop root，
+     里面的 backdrop-filter 会失效，磨砂要等动画结束才出现。
+   - 框里的内容可以用 opacity（它们自己不带 backdrop-filter 的那种"大面积磨砂"）。
+   位移只放在框这一层，内容再叠一次位移就变成 32px 了。 */
+@keyframes panel-rise {
+  from { transform: translateY(16px); }
+  to { transform: none; }
+}
+@keyframes content-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* =========================================================
