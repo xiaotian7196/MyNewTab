@@ -719,28 +719,31 @@ main {
    ========================================================= */
 .shortcuts { position: relative; z-index: 1; width: 100%; }
 
-/* 首屏先藏起来，等图标有结果（或超时）由 app.js 加上 .is-ready 放出来。
-   这里刻意用 visibility 而不是 opacity：opacity < 1 会让元素成为 backdrop root，
-   面板里的 backdrop-filter 就采不到背后的画面 —— 表现是磨砂要等动画结束才"啪"地出现，
-   很突兀。visibility 不触发这个，所以一放出来磨砂就已经就位。
-   只在 JS 可用时隐藏：没脚本时保持原样可见。 */
-html.js .shortcuts { visibility: hidden; }
-html.js .shortcuts.is-ready { visibility: visible; }
-
-/* 圆角玻璃框：只做位移，不做透明度。
-   transform 不是 backdrop root 的触发条件，所以框一边滑上来、磨砂一边就是好的。
-   如果这里改成 opacity 淡入，磨砂就会全程失效、动画结束才出现。 */
+/* 入场动画：两个框同时开始、时长一致。
+   玻璃框只能用 transform（位移），不能用 opacity —— opacity < 1 会让它成为 backdrop root，
+   里面的 backdrop-filter 会失效，磨砂要等动画结束才出现。
+   位移只放在框这一层，内容再叠一次位移就变成 32px 了，所以内容只做淡入。 */
 .search-card,
-html.js .shortcuts.is-ready .shortcuts-panel {
+.shortcuts-panel {
   animation: panel-rise 1100ms cubic-bezier(.2, .8, .2, 1) both;
 }
 
-/* 框里的内容：只做淡入。位移交给外层的框了，两层都加位移会叠成 32px。 */
 .search-card .search-row,
-html.js .shortcuts.is-ready .panel-head,
-html.js .shortcuts.is-ready .shortcut-list {
+.panel-head,
+.shortcut-list {
   animation: content-fade 1100ms cubic-bezier(.2, .8, .2, 1) both;
 }
+
+/* 图标自己到达时淡入，避免"先看到一排空方块、图标再突然蹦出来" */
+.chip__icon img,
+.engine__icon-wrap img,
+.engine__logo img {
+  opacity: 0;
+  transition: opacity 320ms ease;
+}
+.chip__icon img.is-loaded,
+.engine__icon-wrap img.is-loaded,
+.engine__logo img.is-loaded { opacity: 1; }
 
 .shortcuts-panel {
   padding: 18px 20px 20px;
@@ -1003,6 +1006,5 @@ html.js .shortcuts.is-ready .shortcut-list {
 
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
-  html.js .shortcuts { visibility: visible; } /* 关掉动画后要保证它还是看得见的 */
   html { scroll-behavior: auto; }
 }

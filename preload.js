@@ -16,9 +16,6 @@
   var root = document.documentElement;
   var media = window.matchMedia('(prefers-color-scheme: dark)');
 
-  // 有了这个 class，CSS 才敢把快捷网址栏先藏起来（等图标加载完再放）
-  root.classList.add('js');
-
   /** 读取 JSON 格式的 localStorage 值 */
   function read(key, fallback) {
     try {

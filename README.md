@@ -16,8 +16,7 @@ Apple 式的液态玻璃质感、`#f5f5f7` 底色加蓝色光晕、玻璃胶囊�
   （Google / 百度 / 必应 / DuckDuckGo / 搜狗 / 360 搜索 / 知乎 / GitHub），选择会记住。
 - **快捷网址栏**：搜索框下方的玻璃面板，默认 8 个常用站点；
   支持 **添加 / 删除 / 拖动排序 / 双击编辑**，数据存在浏览器本地；可在设置里整栏关闭。
-  首次打开时会先藏起来，等图标（favicon）全部加载完再用和搜索框同一个 `rise` 动画淡入上浮放出来
-  —— 不会先看到一排空白方块。离线或图标卡住时最多等 1.8 秒兜底；`prefers-reduced-motion` 下直接显示、不播动画。
+  图标取不到时逐个淡入（先备用服务、再退成首字母色块），不会出现一排空方块。
 - **智能输入**：输入 `github.com` 这类网址直接跳转，输入关键词则交给当前引擎搜索。
 - **搜索建议**：聚焦输入框会给出历史记录、打开网址、以及在当前引擎中搜索三项提示，
   支持 ↑ ↓ 选择、Enter 确认、Esc 关闭；下拉框会盖在下面的网址面板之上。
@@ -89,26 +88,25 @@ app.js            引擎切换、搜索、快捷网址、设置、背景、多�
 
 ## 入场动画
 
-搜索卡片和快捷网址栏的入场分成两层 —— 框滑动、内容淡入：
+上下两个框**同时开始、时长一致**（各 1100ms），分两层做：
 
 ```css
 /* 玻璃框：只做位移。transform 不是 backdrop root 的触发条件，磨砂全程有效 */
 .search-card,
-html.js .shortcuts.is-ready .shortcuts-panel {
+.shortcuts-panel {
   animation: panel-rise 1100ms cubic-bezier(.2, .8, .2, 1) both;    /* translateY(16px) → 0 */
 }
 
 /* 框里的内容：只做淡入。位移已经在框那层做了，两层都加会叠成 32px */
 .search-card .search-row,
-html.js .shortcuts.is-ready .panel-head,
-html.js .shortcuts.is-ready .shortcut-list {
+.panel-head,
+.shortcut-list {
   animation: content-fade 1100ms cubic-bezier(.2, .8, .2, 1) both;  /* opacity 0 → 1 */
 }
-
-/* 首屏藏起来用 visibility，不要用 opacity */
-html.js .shortcuts { visibility: hidden; }
-html.js .shortcuts.is-ready { visibility: visible; }
 ```
+
+两个框都在加载时立即开始，所以时间线完全对齐（可以用 `document.getAnimations()` 核对
+`startTime` 是否相同）。想整体更快/更慢，改这两处的 `1100ms`。
 
 ### 为什么玻璃框不能"淡入"
 
@@ -119,17 +117,21 @@ html.js .shortcuts.is-ready { visibility: visible; }
 **`transform` 不在这个名单里**，所以玻璃框可以滑动入场，而磨砂从第一帧就是好的。
 换句话说：玻璃元素可以移动、可以缩放，但别用透明度淡入淡出。
 
-### 触发时机
+### 图标是各自淡入的
 
-搜索卡片在加载时立即播；快捷网址栏等图标有结果（或 1.8 秒超时）再播，
-所以视觉上是"搜索框先出现、网址栏随后跟上"。想整体更快/更慢就改这几处的 `1100ms`。
+favicon 要联网取，所以每张图加载成功时才加 `.is-loaded` 淡入（默认 `opacity: 0`），
+这样不会出现"先看到一排空方块、图标再突然蹦出来"：
 
-`app.js` 数着 favicon 的加载进度 —— 每个图标成功加载、或回退到备用服务、或最终退成首字母色块，
-都算"有结果了"，全部有结果就加上 `.is-ready`。
+```css
+.chip__icon img, .engine__icon-wrap img, .engine__logo img { opacity: 0; transition: opacity 320ms ease; }
+.chip__icon img.is-loaded, .engine__icon-wrap img.is-loaded, .engine__logo img.is-loaded { opacity: 1; }
+```
 
-注意别改成 `requestAnimationFrame` 后再加 class —— 后台标签页里 rAF 会被挂起，
-那样面板就一直不出来了；CSS 动画本身会从 `from` 关键帧开始播，不需要先等一帧。
-`prefers-reduced-motion: reduce` 时直接显示、不播动画。
+取不到就用备用服务，再取不到则换成首字母色块（色块不需要淡入，直接显示）。
+因为这些都只是普通 `<img>`，整个入场动画**不需要 JS 参与**，也就没有"等图标加载完再触发"那类时序问题
+（曾经试过用 rAF 延迟加 class，但后台标签页会挂起 rAF，面板就一直不出来）。
+
+`prefers-reduced-motion: reduce` 时不做动画、直接显示。
 
 ## 液态玻璃是怎么做的
 

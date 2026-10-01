@@ -400,21 +400,9 @@
     return tile;
   }
 
-  /* ---------- 图标加载进度 ----------
-     快捷网址栏首屏先藏着，等这些图标（favicon）都有结果了再动画放出来。 */
-  let pendingIcons = 0;
-  let onIconsSettled = null;
-
-  function iconSettled() {
-    pendingIcons = Math.max(0, pendingIcons - 1);
-    if (pendingIcons === 0 && onIconsSettled) {
-      const done = onIconsSettled;
-      onIconsSettled = null;
-      done();
-    }
-  }
-
-  /** 站点图标：favicon 服务 → 备用服务 → 首字母色块。 */
+  /** 站点图标：favicon 服务 → 备用服务 → 首字母色块。
+      加载成功时加 .is-loaded 让它淡入（CSS 里默认 opacity: 0），
+      这样不会出现"先一排空方块、图标再突然蹦出来"。 */
   function iconNode(host, label, className) {
     const wrap = document.createElement('span');
     wrap.className = className;
@@ -423,10 +411,9 @@
     const img = document.createElement('img');
     img.alt = '';
     img.referrerPolicy = 'no-referrer';
-    img.src = 'https://www.google.com/s2/favicons?domain=' + encodeURIComponent(host) + '&sz=64';
 
-    pendingIcons += 1;
-    img.addEventListener('load', iconSettled, { once: true });
+    // 先挂监听再设 src：缓存命中的图片也可能立刻触发 load
+    img.addEventListener('load', () => img.classList.add('is-loaded'), { once: true });
 
     let attempt = 0;
     img.addEventListener('error', () => {
@@ -434,12 +421,13 @@
       if (attempt === 1) {
         img.src = 'https://icons.duckduckgo.com/ip3/' + host + '.ico';
       } else {
-        // 两个服务都失败：换成首字母色块，同样算"有结果了"
+        // 两个服务都失败：换成首字母色块
         img.remove();
         wrap.appendChild(letterTile(label));
-        iconSettled();
       }
     });
+
+    img.src = 'https://www.google.com/s2/favicons?domain=' + encodeURIComponent(host) + '&sz=64';
 
     wrap.appendChild(img);
     return wrap;
@@ -1185,17 +1173,6 @@
   /* ---------------------------------------------------------
      15. 初始化
      --------------------------------------------------------- */
-  let linksRevealed = false;
-
-  /** 图标都有结果之后，把快捷网址栏动画放出来（只会执行一次）
-      这里直接加 class：CSS 动画会从 from 关键帧（opacity 0）开始播，
-      不需要先等一帧 —— 用 rAF 的话，后台标签页里 rAF 被挂起，面板就一直不出来了。 */
-  function revealLinks() {
-    if (linksRevealed) return;
-    linksRevealed = true;
-    el.linksBar.classList.add('is-ready');
-  }
-
   function init() {
     applyTheme();
     applyFont();
@@ -1208,11 +1185,6 @@
     applyBackground();
     applyOpacity();
     if (el.currentYear) el.currentYear.textContent = String(new Date().getFullYear());
-
-    // 等图标加载完（离线或卡住时最多等 1.8 秒）再放出来
-    onIconsSettled = revealLinks;
-    if (pendingIcons === 0) revealLinks();
-    else setTimeout(revealLinks, 1800);
   }
 
   init();
