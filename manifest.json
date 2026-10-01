@@ -15,6 +15,9 @@
   "optional_permissions": [
     "history"
   ],
+  "permissions": [
+    "storage"
+  ],
   "host_permissions": [
     "https://www.google.com/*",
     "https://suggestqueries.google.com/*",

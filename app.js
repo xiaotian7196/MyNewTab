@@ -55,6 +55,7 @@
       images: null
     }
   ];
+  const CUSTOM_ENGINE_ID = 'custom';
 
   /* ---------------------------------------------------------
      2. 默认快捷网址 / 应用面板
@@ -136,14 +137,14 @@
       'lang.label': '界面语言',
       'search.engine': '选择搜索引擎', 'search.placeholder': '搜索或输入网址',
       'search.placeholderImage': '搜索图片', 'search.go': '搜索', 'search.image': '以图搜图',
-      'search.mic': '语音搜索',
+       'search.mic': '语音搜索', 'search.imageTitle': 'Google 图片搜索', 'search.imageUrl': '粘贴图片链接', 'search.imageUrlPlaceholder': 'https://example.com/image.jpg', 'search.imageChoose': '选择图片', 'search.imageGo': '搜索图片', 'search.imageHint': 'Google 支持粘贴图片链接；本地图片会打开 Google Lens 的上传页。',
        'search.history': '本页记录', 'search.browserHistory': '浏览器记录', 'search.openUrl': '打开该网址',
        'search.inEngine': '在 %s 中搜索', 'search.recommended': '%s 推荐',
       'links.title': '快捷网址', 'links.edit': '编辑', 'links.done': '完成',
       'links.add': '添加快捷网址', 'links.remove': '移除 %s', 'links.empty': '还没有快捷网址',
-      'settings.title': '设置', 'settings.theme': '主题', 'settings.themeDark': '深色',
+       'settings.title': '设置', 'settings.tabGeneral': '常规', 'settings.tabSearch': '搜索', 'settings.tabAppearance': '外观', 'settings.tabPrivacy': '隐私', 'settings.theme': '主题', 'settings.themeDark': '深色',
       'settings.themeLight': '浅色', 'settings.themeSystem': '跟随系统',
-      'settings.engine': '默认搜索引擎',
+       'settings.engine': '默认搜索引擎', 'settings.customEngine': '自定义搜索引擎', 'settings.customEngineName': '名称，例如：我的搜索', 'settings.customEngineSearch': '搜索地址，必须包含 %s', 'settings.customEngineSuggest': '推荐地址，可选，必须包含 %s', 'settings.customEngineSave': '保存并使用', 'settings.customEngineHint': '地址中的 %s 会替换为关键词。',
       'settings.font': '字体', 'font.default': '默认', 'font.rounded': '圆润',
       'font.serif': '衬线', 'font.mono': '等宽',
       'settings.display': '显示', 'settings.showLinks': '快捷网址栏',
@@ -153,7 +154,7 @@
       'settings.opacity': '面板透明度', 'settings.opacitySearch': '搜索面板',
       'settings.opacityLinks': '快捷网址栏', 'settings.opacitySync': '两栏同步',
        'settings.searchPos': '搜索栏位置', 'settings.searchPosCenter': '居中', 'settings.searchPosReset': '恢复居中',
-      'settings.resetLinks': '恢复默认快捷网址',
+       'settings.resetLinks': '恢复默认快捷网址', 'settings.syncTitle': '跨浏览器同步', 'settings.syncHint': '同一浏览器账户可同步偏好；跨 Firefox、Edge、Chrome 请导出后导入。', 'settings.exportSettings': '导出设置', 'settings.importSettings': '导入设置',
        'settings.clearHistory': '清空搜索历史', 'settings.browserHistoryEnable': '允许读取浏览记录', 'settings.browserHistoryDisable': '关闭浏览记录建议', 'settings.browserHistoryOn': '已启用：使用浏览器浏览记录建议', 'settings.browserHistoryOff': '未启用：只使用本页搜索记录', 'settings.browserChecksTitle': '浏览器状态', 'settings.newTabCheck': '新标签页：当前页面正在生效', 'settings.homeCheck': '浏览器首页：无法由网页读取，请在浏览器设置中确认',
        'consent.title': '先确认两项设置', 'consent.copy': '这个扩展会作为新标签页显示。它不会在后台联网或上传数据；搜索、联想推荐和网站图标只有在相关功能被使用时才会请求网络。背景图片只保存在本机。', 'consent.newTabTitle': '使用这个页面作为新标签页', 'consent.newTabCopy': '浏览器的新标签页将显示这个搜索主页。', 'consent.historyTitle': '读取浏览器浏览记录', 'consent.historyCopy': '只用于搜索框建议，不上传、不修改、不删除记录。', 'consent.decline': '暂不同意', 'consent.accept': '继续使用主页', 'consent.note': '你可以稍后在设置中开启或关闭浏览记录建议。', 'consent.declineHelp': '你可以在扩展管理页停用此主页扩展。', 'consent.newTabCheck': '新标签页：此扩展正在接管当前页面', 'consent.homeCheck': '浏览器首页：Firefox/Chrome 不开放网页读取此设置，请在浏览器设置中确认',
       'dialog.addTitle': '添加快捷网址', 'dialog.editTitle': '编辑快捷网址',
@@ -171,21 +172,21 @@
       'toast.micUnsupported': '当前浏览器不支持语音搜索', 'toast.micError': '无法使用麦克风',
       'toast.noImage': '%s 暂不支持以图搜图', 'toast.reordered': '已调整顺序',
       'toast.bgSet': '已设为背景', 'toast.bgCleared': '已清除背景',
-       'toast.bgTooBig': '图片太大存不下，换一张小一点的', 'toast.bgFailed': '读不到这张图片，换一张试试', 'toast.historyUnsupported': '当前浏览器不支持读取浏览记录', 'toast.historyDeclined': '未获得浏览记录权限'
+       'toast.bgTooBig': '图片太大存不下，换一张小一点的', 'toast.bgFailed': '读不到这张图片，换一张试试', 'toast.historyUnsupported': '当前浏览器不支持读取浏览记录', 'toast.historyDeclined': '未获得浏览记录权限', 'toast.customEngineInvalid': '请填写名称和包含 %s 的搜索地址', 'toast.customEngineSaved': '自定义搜索引擎已保存', 'toast.settingsInvalid': '设置文件格式不正确'
     },
     'zh-TW': {
       'top.theme': '切換深色 / 淺色',
       'lang.label': '介面語言',
       'search.engine': '選擇搜尋引擎', 'search.placeholder': '搜尋或輸入網址',
       'search.placeholderImage': '搜尋圖片', 'search.go': '搜尋', 'search.image': '以圖搜圖',
-      'search.mic': '語音搜尋',
+       'search.mic': '語音搜尋', 'search.imageTitle': 'Google 圖片搜尋', 'search.imageUrl': '貼上圖片連結', 'search.imageUrlPlaceholder': 'https://example.com/image.jpg', 'search.imageChoose': '選擇圖片', 'search.imageGo': '搜尋圖片', 'search.imageHint': 'Google 支援貼上圖片連結；本地圖片會開啟 Google Lens 上傳頁。',
        'search.history': '本頁記錄', 'search.browserHistory': '瀏覽器記錄', 'search.openUrl': '開啟這個網址',
        'search.inEngine': '在 %s 中搜尋', 'search.recommended': '%s 推薦',
       'links.title': '捷徑', 'links.edit': '編輯', 'links.done': '完成',
       'links.add': '新增捷徑', 'links.remove': '移除 %s', 'links.empty': '還沒有捷徑',
-      'settings.title': '設定', 'settings.theme': '主題', 'settings.themeDark': '深色',
+       'settings.title': '設定', 'settings.tabGeneral': '一般', 'settings.tabSearch': '搜尋', 'settings.tabAppearance': '外觀', 'settings.tabPrivacy': '隱私', 'settings.theme': '主題', 'settings.themeDark': '深色',
       'settings.themeLight': '淺色', 'settings.themeSystem': '跟隨系統',
-      'settings.engine': '預設搜尋引擎',
+       'settings.engine': '預設搜尋引擎', 'settings.customEngine': '自訂搜尋引擎', 'settings.customEngineName': '名稱，例如：我的搜尋', 'settings.customEngineSearch': '搜尋網址，必須包含 %s', 'settings.customEngineSuggest': '推薦網址，可選，必須包含 %s', 'settings.customEngineSave': '儲存並使用', 'settings.customEngineHint': '網址中的 %s 會替換為關鍵字。',
       'settings.font': '字型', 'font.default': '預設', 'font.rounded': '圓潤',
       'font.serif': '襯線', 'font.mono': '等寬',
       'settings.display': '顯示', 'settings.showLinks': '捷徑列',
@@ -195,7 +196,7 @@
       'settings.opacity': '面板透明度', 'settings.opacitySearch': '搜尋面板',
       'settings.opacityLinks': '捷徑列', 'settings.opacitySync': '兩欄同步',
        'settings.searchPos': '搜尋欄位置', 'settings.searchPosCenter': '居中', 'settings.searchPosReset': '恢復居中',
-      'settings.resetLinks': '還原預設捷徑',
+       'settings.resetLinks': '還原預設捷徑', 'settings.syncTitle': '跨瀏覽器同步', 'settings.syncHint': '同一瀏覽器帳戶可同步偏好；跨 Firefox、Edge、Chrome 請匯出後匯入。', 'settings.exportSettings': '匯出設定', 'settings.importSettings': '匯入設定',
        'settings.clearHistory': '清除搜尋記錄', 'settings.browserHistoryEnable': '允許讀取瀏覽記錄', 'settings.browserHistoryDisable': '關閉瀏覽記錄建議', 'settings.browserHistoryOn': '已啟用：使用瀏覽器瀏覽記錄建議', 'settings.browserHistoryOff': '未啟用：只使用本頁搜尋記錄', 'settings.browserChecksTitle': '瀏覽器狀態', 'settings.newTabCheck': '新分頁：目前頁面正在生效', 'settings.homeCheck': '瀏覽器首頁：網頁無法讀取，請在瀏覽器設定中確認',
        'consent.title': '先確認兩項設定', 'consent.copy': '這個擴充功能會作為新分頁顯示。不會在背景連線或上傳資料；搜尋、聯想推薦和網站圖示只有在使用相關功能時才會連線。背景圖片只儲存在本機。', 'consent.newTabTitle': '使用這個頁面作為新分頁', 'consent.newTabCopy': '瀏覽器的新分頁將顯示這個搜尋主頁。', 'consent.historyTitle': '讀取瀏覽器瀏覽記錄', 'consent.historyCopy': '只用於搜尋框建議，不上傳、不修改、不刪除記錄。', 'consent.decline': '暫不同意', 'consent.accept': '繼續使用主頁', 'consent.note': '你可以稍後在設定中開啟或關閉瀏覽記錄建議。', 'consent.declineHelp': '你可以在擴充功能管理頁停用此主頁擴充功能。', 'consent.newTabCheck': '新分頁：此擴充功能正在接管目前頁面', 'consent.homeCheck': '瀏覽器首頁：Firefox/Chrome 不開放網頁讀取此設定，請在瀏覽器設定中確認',
       'dialog.addTitle': '新增捷徑', 'dialog.editTitle': '編輯捷徑',
@@ -213,21 +214,21 @@
       'toast.micUnsupported': '目前的瀏覽器不支援語音搜尋', 'toast.micError': '無法使用麥克風',
       'toast.noImage': '%s 尚未支援以圖搜圖', 'toast.reordered': '已調整順序',
       'toast.bgSet': '已設為背景', 'toast.bgCleared': '已清除背景',
-       'toast.bgTooBig': '圖片太大存不下，換一張小一點的', 'toast.bgFailed': '讀不到這張圖片，換一張試試', 'toast.historyUnsupported': '目前的瀏覽器不支援讀取瀏覽記錄', 'toast.historyDeclined': '未取得瀏覽記錄權限'
+       'toast.bgTooBig': '圖片太大存不下，換一張小一點的', 'toast.bgFailed': '讀不到這張圖片，換一張試試', 'toast.historyUnsupported': '目前的瀏覽器不支援讀取瀏覽記錄', 'toast.historyDeclined': '未取得瀏覽記錄權限', 'toast.customEngineInvalid': '請填寫名稱和包含 %s 的搜尋網址', 'toast.customEngineSaved': '自訂搜尋引擎已儲存', 'toast.settingsInvalid': '設定檔格式不正確'
     },
     en: {
       'top.theme': 'Toggle dark / light',
       'lang.label': 'Language',
       'search.engine': 'Choose a search engine', 'search.placeholder': 'Search or type a URL',
       'search.placeholderImage': 'Search images', 'search.go': 'Search', 'search.image': 'Search by image',
-      'search.mic': 'Search by voice',
+       'search.mic': 'Search by voice', 'search.imageTitle': 'Google Image Search', 'search.imageUrl': 'Paste image URL', 'search.imageUrlPlaceholder': 'https://example.com/image.jpg', 'search.imageChoose': 'Choose image', 'search.imageGo': 'Search image', 'search.imageHint': 'Google accepts an image URL; local images open the Google Lens upload page.',
        'search.history': 'Page history', 'search.browserHistory': 'Browser history', 'search.openUrl': 'Open this URL',
        'search.inEngine': 'Search %s for this', 'search.recommended': '%s suggestion',
       'links.title': 'Shortcuts', 'links.edit': 'Edit', 'links.done': 'Done',
       'links.add': 'Add shortcut', 'links.remove': 'Remove %s', 'links.empty': 'No shortcuts yet',
-      'settings.title': 'Settings', 'settings.theme': 'Theme', 'settings.themeDark': 'Dark',
+       'settings.title': 'Settings', 'settings.tabGeneral': 'General', 'settings.tabSearch': 'Search', 'settings.tabAppearance': 'Appearance', 'settings.tabPrivacy': 'Privacy', 'settings.theme': 'Theme', 'settings.themeDark': 'Dark',
       'settings.themeLight': 'Light', 'settings.themeSystem': 'System',
-      'settings.engine': 'Default search engine',
+       'settings.engine': 'Default search engine', 'settings.customEngine': 'Custom search engine', 'settings.customEngineName': 'Name, e.g. My Search', 'settings.customEngineSearch': 'Search URL, must include %s', 'settings.customEngineSuggest': 'Suggestion URL, optional, must include %s', 'settings.customEngineSave': 'Save and use', 'settings.customEngineHint': '%s is replaced with the query.',
       'settings.font': 'Font', 'font.default': 'Default', 'font.rounded': 'Rounded',
       'font.serif': 'Serif', 'font.mono': 'Mono',
       'settings.display': 'Display', 'settings.showLinks': 'Shortcuts bar',
@@ -237,7 +238,7 @@
       'settings.opacity': 'Panel opacity', 'settings.opacitySearch': 'Search panel',
       'settings.opacityLinks': 'Shortcuts panel', 'settings.opacitySync': 'Link both',
        'settings.searchPos': 'Search bar position', 'settings.searchPosCenter': 'center', 'settings.searchPosReset': 'Reset center',
-      'settings.resetLinks': 'Restore default shortcuts',
+       'settings.resetLinks': 'Restore default shortcuts', 'settings.syncTitle': 'Cross-browser sync', 'settings.syncHint': 'Preferences sync within one browser account; export/import JSON across Firefox, Edge, and Chrome.', 'settings.exportSettings': 'Export settings', 'settings.importSettings': 'Import settings',
        'settings.clearHistory': 'Clear search history', 'settings.browserHistoryEnable': 'Allow browsing history', 'settings.browserHistoryDisable': 'Disable history suggestions', 'settings.browserHistoryOn': 'Enabled: browser history suggestions are on', 'settings.browserHistoryOff': 'Off: only this page history is used', 'settings.browserChecksTitle': 'Browser status', 'settings.newTabCheck': 'New tab: this page is active', 'settings.homeCheck': 'Browser home page: web pages cannot read it; verify it in browser settings',
        'consent.title': 'Confirm two settings', 'consent.copy': 'This extension will appear as your new tab. It does not connect in the background or upload data; search, suggestions, and site icons connect only when those features are used. Background images stay on this device.', 'consent.newTabTitle': 'Use this page as the new tab', 'consent.newTabCopy': 'Your browser new tab will show this search homepage.', 'consent.historyTitle': 'Read browser history', 'consent.historyCopy': 'Used only for search suggestions. Nothing is uploaded, changed, or deleted.', 'consent.decline': 'Not now', 'consent.accept': 'Continue to homepage', 'consent.note': 'You can enable or disable history suggestions later in Settings.', 'consent.declineHelp': 'You can disable this homepage extension from the extensions manager.', 'consent.newTabCheck': 'New tab: this extension is controlling the current page', 'consent.homeCheck': 'Browser home page: Firefox/Chrome do not let web pages read this setting; verify it in browser settings',
       'dialog.addTitle': 'Add shortcut', 'dialog.editTitle': 'Edit shortcut',
@@ -258,7 +259,7 @@
       'toast.reordered': 'Order updated',
       'toast.bgSet': 'Background image set', 'toast.bgCleared': 'Background cleared',
       'toast.bgTooBig': 'That image is too large to store — try a smaller one',
-       'toast.bgFailed': 'Could not read that image', 'toast.historyUnsupported': 'Browser history is not supported here', 'toast.historyDeclined': 'Browser history permission was not granted'
+       'toast.bgFailed': 'Could not read that image', 'toast.historyUnsupported': 'Browser history is not supported here', 'toast.historyDeclined': 'Browser history permission was not granted', 'toast.customEngineInvalid': 'Enter a name and a search URL containing %s', 'toast.customEngineSaved': 'Custom search engine saved', 'toast.settingsInvalid': 'Invalid settings file'
     }
   };
 
@@ -272,7 +273,7 @@
     lang: 'hp.lang', showLinks: 'hp.showLinks', bg: 'hp.bg', bgDim: 'hp.bgDim',
     footerMode: 'hp.footerMode', font: 'hp.font',
     opacitySearch: 'hp.opacitySearch', opacityLinks: 'hp.opacityLinks', opacitySync: 'hp.opacitySync',
-    searchPos: 'hp.searchPos', consent: 'hp.consent', consentBackup: 'hp.consentBackup', browserHistory: 'hp.browserHistory'
+    searchPos: 'hp.searchPos', consent: 'hp.consent', consentBackup: 'hp.consentBackup', browserHistory: 'hp.browserHistory', customEngine: 'hp.customEngine'
   };
 
   const store = {
@@ -283,10 +284,48 @@
       } catch { return fallback; }
     },
     set(key, value) {
-      try { localStorage.setItem(key, JSON.stringify(value)); return true; }
+      try {
+        localStorage.setItem(key, JSON.stringify(value));
+        syncValue(key, value);
+        return true;
+      }
       catch { return false; }
     }
   };
+
+  const SYNC_KEYS = new Set(['hp.theme', 'hp.engine', 'hp.lang', 'hp.showLinks', 'hp.footerMode', 'hp.font', 'hp.opacitySearch', 'hp.opacityLinks', 'hp.opacitySync', 'hp.searchPos', 'hp.customEngine']);
+  function syncValue(key, value) {
+    if (!SYNC_KEYS.has(key)) return;
+    const storage = browserApi && browserApi.storage && browserApi.storage.sync;
+    if (!storage) return;
+    try {
+      const result = storage.set({ [key]: value });
+      if (result && typeof result.catch === 'function') result.catch(() => {});
+    } catch { /* 浏览器未登录或同步配额不足时保留本地设置 */ }
+  }
+
+  async function hydrateSyncedSettings() {
+    const storage = browserApi && browserApi.storage && browserApi.storage.sync;
+    if (!storage || typeof storage.get !== 'function') return;
+    try {
+      const values = await new Promise((resolve, reject) => {
+        let settled = false;
+        const done = (value) => { if (!settled) { settled = true; resolve(value); } };
+        try {
+          const result = storage.get([...SYNC_KEYS], done);
+          if (result && typeof result.then === 'function') result.then(done, reject);
+        } catch (error) { reject(error); }
+      });
+      let changed = false;
+      Object.entries(values || {}).forEach(([key, value]) => {
+        if (localStorage.getItem(key) === null && value !== undefined) {
+          localStorage.setItem(key, JSON.stringify(value));
+          changed = true;
+        }
+      });
+      if (changed) window.location.reload();
+    } catch { /* 同步不可用时使用本地设置 */ }
+  }
 
   /** 读一个 0–100 的百分比设置；没设过返回 null（表示跟随默认值） */
   function readPercent(key) {
@@ -343,7 +382,12 @@
     return out;
   };
 
-  const engine = () => ENGINES.find((e) => e.id === state.engineId) || ENGINES[0];
+  function customEngine() {
+    const value = store.get(KEY.customEngine, null);
+    return value && value.search ? { ...value, id: CUSTOM_ENGINE_ID } : null;
+  }
+  const engine = () => customEngine() && state.engineId === CUSTOM_ENGINE_ID
+    ? customEngine() : ENGINES.find((e) => e.id === state.engineId) || ENGINES[0];
 
   /* ---------------------------------------------------------
      5. DOM 引用
@@ -369,6 +413,10 @@
      resetLinksBtn: $('resetLinksBtn'), clearHistoryBtn: $('clearHistoryBtn'),
      browserHistoryBtn: $('browserHistoryBtn'), browserHistoryStatus: $('browserHistoryStatus'),
      newTabCheckStatus: $('newTabCheckStatus'), homeCheckStatus: $('homeCheckStatus'),
+     customEngineName: $('customEngineName'), customEngineSearch: $('customEngineSearch'), customEngineSuggest: $('customEngineSuggest'), saveCustomEngineBtn: $('saveCustomEngineBtn'),
+     exportSettingsBtn: $('exportSettingsBtn'), importSettingsBtn: $('importSettingsBtn'), settingsFile: $('settingsFile'),
+     settingsTabs: document.querySelectorAll('[data-settings-tab]'), settingsSections: document.querySelectorAll('[data-settings-section]'),
+     imagePopover: $('imageSearchPopover'), closeImageSearchBtn: $('closeImageSearchBtn'), imageUrlInput: $('imageUrlInput'), imageUrlBtn: $('imageUrlBtn'), imageFileBtn: $('imageFileBtn'), imageFileInput: $('imageFileInput'),
      consentDialog: $('consentDialog'), acceptConsentBtn: $('acceptConsentBtn'), declineConsentBtn: $('declineConsentBtn'),
     toast: $('toast'),
     modal: $('linkModal'), linkForm: $('linkForm'), linkName: $('linkName'), linkUrl: $('linkUrl'),
@@ -949,10 +997,43 @@
 
   el.imageBtn.addEventListener('click', () => {
     const current = engine();
-    if (!current.images) { toast(t('toast.noImage', current.name)); return; }
-    state.images = !state.images;
-    updateImageMode();
-    el.input.focus();
+    if (current.id !== 'google') { toast(t('toast.noImage', current.name)); return; }
+    el.imagePopover.hidden = false;
+    el.imageUrlInput.focus();
+  });
+
+  function closeImageSearch() { el.imagePopover.hidden = true; }
+  function openGoogleImageSearch(url) {
+    if (!url) return;
+    openUrl('https://lens.google.com/uploadbyurl?url=' + encodeURIComponent(url), false);
+  }
+  el.closeImageSearchBtn.addEventListener('click', closeImageSearch);
+  el.imageUrlBtn.addEventListener('click', () => {
+    const url = normalizeUrl(el.imageUrlInput.value);
+    if (!url) { toast(t('toast.urlInvalid')); return; }
+    closeImageSearch();
+    openGoogleImageSearch(url);
+  });
+  el.imageFileBtn.addEventListener('click', () => el.imageFileInput.click());
+  el.imageFileInput.addEventListener('change', () => {
+    const file = el.imageFileInput.files && el.imageFileInput.files[0];
+    if (file) {
+      const form = document.createElement('form');
+      form.method = 'post';
+      form.action = 'https://lens.google.com/v3/upload?hl=' + encodeURIComponent(state.lang);
+      form.enctype = 'multipart/form-data';
+      form.target = '_blank';
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.name = 'encoded_image';
+      input.files = el.imageFileInput.files;
+      form.appendChild(input);
+      document.body.appendChild(form);
+      form.submit();
+      form.remove();
+    }
+    el.imageFileInput.value = '';
+    closeImageSearch();
   });
 
   /* ---------- 语音搜索 ---------- */
@@ -1379,12 +1460,19 @@
      15. 设置面板
      --------------------------------------------------------- */
   function renderEngineSelect() {
+    el.engineSelect.textContent = '';
     ENGINES.forEach((item) => {
       const option = document.createElement('option');
       option.value = item.id;
       option.textContent = item.name;
       el.engineSelect.appendChild(option);
     });
+    if (customEngine()) {
+      const option = document.createElement('option');
+      option.value = CUSTOM_ENGINE_ID;
+      option.textContent = customEngine().name;
+      el.engineSelect.appendChild(option);
+    }
     el.engineSelect.value = state.engineId;
   }
 
@@ -1432,6 +1520,72 @@
     toast(t('toast.cleared'));
   });
 
+  el.settingsTabs.forEach((tab) => tab.addEventListener('click', () => {
+    const selected = tab.dataset.settingsTab;
+    el.settingsTabs.forEach((item) => {
+      const active = item === tab;
+      item.classList.toggle('is-active', active);
+      item.setAttribute('aria-selected', String(active));
+    });
+    el.settingsSections.forEach((section) => {
+      section.hidden = section.dataset.settingsSection !== selected;
+    });
+  }));
+
+  function showSettingsTab(selected) {
+    const tab = [...el.settingsTabs].find((item) => item.dataset.settingsTab === selected) || el.settingsTabs[0];
+    if (tab) tab.click();
+  }
+
+  el.saveCustomEngineBtn.addEventListener('click', () => {
+    const name = el.customEngineName.value.trim();
+    const search = el.customEngineSearch.value.trim();
+    const suggest = el.customEngineSuggest.value.trim();
+    if (!name || !search.includes('%s')) { toast(t('toast.customEngineInvalid')); return; }
+    const custom = { name, host: 'custom', hint: 'custom', search, suggest: suggest.includes('%s') ? suggest : null, images: null };
+    store.set(KEY.customEngine, custom);
+    state.engineId = CUSTOM_ENGINE_ID;
+    store.set(KEY.engine, CUSTOM_ENGINE_ID);
+    renderEngineSelect();
+    renderEngine();
+    toast(t('toast.customEngineSaved'));
+  });
+
+  function settingsSnapshot() {
+    const values = {};
+    Object.values(KEY).filter((key) => key !== KEY.consentBackup).forEach((key) => {
+      const raw = localStorage.getItem(key);
+      if (raw !== null) values[key] = JSON.parse(raw);
+    });
+    return { format: 'homepage-settings', version: 1, exportedAt: new Date().toISOString(), values };
+  }
+  el.exportSettingsBtn.addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify(settingsSnapshot(), null, 2)], { type: 'application/json' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'homepage-settings.json';
+    link.click();
+    URL.revokeObjectURL(link.href);
+  });
+  el.importSettingsBtn.addEventListener('click', () => el.settingsFile.click());
+  el.settingsFile.addEventListener('change', () => {
+    const file = el.settingsFile.files && el.settingsFile.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      try {
+        const data = JSON.parse(String(reader.result));
+        if (data.format !== 'homepage-settings' || !data.values) throw new Error('invalid settings');
+        Object.entries(data.values).forEach(([key, value]) => {
+          if (Object.values(KEY).includes(key) && key !== KEY.consentBackup) store.set(key, value);
+        });
+        window.location.reload();
+      } catch { toast(t('toast.settingsInvalid')); }
+    });
+    reader.readAsText(file);
+    el.settingsFile.value = '';
+  });
+
   el.browserHistoryBtn.addEventListener('click', () => {
     if (state.browserHistoryEnabled) disableBrowserHistory();
     else requestBrowserHistoryPermission();
@@ -1472,8 +1626,17 @@
     applyBackground();
     applyOpacity();
     updateBrowserHistoryUi();
+    updateBrowserChecks();
+    const custom = customEngine();
+    if (custom) {
+      el.customEngineName.value = custom.name || '';
+      el.customEngineSearch.value = custom.search || '';
+      el.customEngineSuggest.value = custom.suggest || '';
+    }
+    showSettingsTab('general');
     if (state.browserHistoryEnabled) refreshBrowserHistory('');
     el.consentDialog.hidden = ['accepted', 'declined'].includes(store.get(KEY.consent, null));
+    hydrateSyncedSettings();
   }
 
   init();

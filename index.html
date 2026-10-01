@@ -17,8 +17,14 @@
 <!-- 设置面板 -->
 <div class="popover" id="settingsPanel" role="dialog" aria-modal="false" hidden>
   <h2 class="popover__title" data-i18n="settings.title">设置</h2>
+  <div class="settings-tabs" role="tablist">
+    <button type="button" class="settings-tab is-active" data-settings-tab="general" role="tab" aria-selected="true" data-i18n="settings.tabGeneral">常规</button>
+    <button type="button" class="settings-tab" data-settings-tab="search" role="tab" aria-selected="false" data-i18n="settings.tabSearch">搜索</button>
+    <button type="button" class="settings-tab" data-settings-tab="appearance" role="tab" aria-selected="false" data-i18n="settings.tabAppearance">外观</button>
+    <button type="button" class="settings-tab" data-settings-tab="privacy" role="tab" aria-selected="false" data-i18n="settings.tabPrivacy">隐私</button>
+  </div>
 
-  <section class="setting">
+  <section class="setting" data-settings-section="general">
     <p class="setting__label" data-i18n="settings.theme">主题</p>
     <div class="segmented" id="themeSeg" role="radiogroup" data-i18n-aria="settings.theme">
       <button type="button" role="radio" data-theme-value="light" data-i18n="settings.themeLight">浅色</button>
@@ -26,8 +32,16 @@
       <button type="button" role="radio" data-theme-value="system" data-i18n="settings.themeSystem">跟随系统</button>
     </div>
   </section>
+  <section class="setting" data-settings-section="search">
+    <p class="setting__label" data-i18n="settings.customEngine">自定义搜索引擎</p>
+    <input class="input input--compact" id="customEngineName" type="text" maxlength="32" data-i18n-placeholder="settings.customEngineName">
+    <input class="input input--compact" id="customEngineSearch" type="url" data-i18n-placeholder="settings.customEngineSearch">
+    <input class="input input--compact" id="customEngineSuggest" type="url" data-i18n-placeholder="settings.customEngineSuggest">
+    <button type="button" class="text-btn text-btn--sm" id="saveCustomEngineBtn" data-i18n="settings.customEngineSave">保存并使用</button>
+    <p class="setting__hint" data-i18n="settings.customEngineHint">地址中的 %s 会替换为关键词。</p>
+  </section>
 
-  <section class="setting">
+  <section class="setting" data-settings-section="general">
     <p class="setting__label" data-i18n="lang.label">界面语言</p>
     <div class="segmented" id="langSeg" role="radiogroup" data-i18n-aria="lang.label">
       <button type="button" role="radio" data-lang="zh-CN" aria-checked="true">简</button>
@@ -36,7 +50,7 @@
     </div>
   </section>
 
-  <section class="setting">
+  <section class="setting" data-settings-section="general">
     <p class="setting__label" data-i18n="settings.font">字体</p>
     <select class="select" id="fontSelect">
       <option value="default" data-i18n="font.default">默认</option>
@@ -46,12 +60,12 @@
     </select>
   </section>
 
-  <section class="setting">
+  <section class="setting" data-settings-section="search">
     <p class="setting__label" data-i18n="settings.engine">默认搜索引擎</p>
     <select class="select" id="engineSelect"></select>
   </section>
 
-  <section class="setting">
+  <section class="setting" data-settings-section="general">
     <p class="setting__label" data-i18n="settings.display">显示</p>
     <div class="switch-row">
       <span data-i18n="settings.showLinks">快捷网址栏</span>
@@ -75,7 +89,7 @@
      </label>
   </section>
 
-  <section class="setting">
+  <section class="setting" data-settings-section="appearance">
     <p class="setting__label" data-i18n="settings.background">背景</p>
     <div class="bg-row">
       <button type="button" class="text-btn text-btn--sm" id="bgPickBtn">
@@ -93,7 +107,7 @@
     <p class="setting__hint" data-i18n="settings.bgLocalOnly">图片只保存在本机，不会上传。</p>
   </section>
 
-  <section class="setting">
+  <section class="setting" data-settings-section="appearance">
     <div class="setting__head">
       <p class="setting__label" data-i18n="settings.opacity">面板透明度</p>
       <div class="setting__toggle">
@@ -115,18 +129,27 @@
     </label>
   </section>
 
-  <section class="setting setting--actions">
+  <section class="setting setting--actions" data-settings-section="general">
     <button type="button" class="text-btn" id="resetLinksBtn" data-i18n="settings.resetLinks">恢复默认快捷网址</button>
     <button type="button" class="text-btn" id="clearHistoryBtn" data-i18n="settings.clearHistory">清空搜索历史</button>
   </section>
-  <section class="setting setting--actions">
+  <section class="setting setting--actions" data-settings-section="privacy">
     <button type="button" class="text-btn" id="browserHistoryBtn" data-i18n="settings.browserHistoryEnable">允许读取浏览记录</button>
     <p class="setting__hint" id="browserHistoryStatus" data-i18n="settings.browserHistoryOff">未启用：只使用本页搜索记录</p>
   </section>
-  <section class="setting setting--actions">
+  <section class="setting setting--actions" data-settings-section="privacy">
     <p class="setting__label" data-i18n="settings.browserChecksTitle">浏览器状态</p>
     <p class="setting__hint" id="newTabCheckStatus"></p>
     <p class="setting__hint" id="homeCheckStatus"></p>
+  </section>
+  <section class="setting setting--actions" data-settings-section="privacy">
+    <p class="setting__label" data-i18n="settings.syncTitle">跨浏览器同步</p>
+    <p class="setting__hint" data-i18n="settings.syncHint">同一浏览器账户可同步偏好；跨 Firefox、Edge、Chrome 请导出后导入。</p>
+    <div class="bg-row">
+      <button type="button" class="text-btn text-btn--sm" id="exportSettingsBtn" data-i18n="settings.exportSettings">导出设置</button>
+      <button type="button" class="text-btn text-btn--sm" id="importSettingsBtn" data-i18n="settings.importSettings">导入设置</button>
+    </div>
+    <input type="file" id="settingsFile" accept="application/json" hidden>
   </section>
 </div>
 
@@ -200,6 +223,7 @@
 <footer class="site-footer shell">
   <div class="footer-top">
     <button type="button" class="footer-note" id="footerNote">安静地做一个网络入口。</button>
+    <span class="footer-credit">Homepage · Jurina · <a href="https://github.com/xiaotian7196/MyNewTab" target="_blank" rel="noopener">开源于 GitHub</a></span>
   </div>
   <div class="footer-bottom">
     <div class="footer-controls">
@@ -240,6 +264,23 @@
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<div class="image-search-popover" id="imageSearchPopover" hidden>
+  <div class="image-search-popover__head">
+    <strong data-i18n="search.imageTitle">Google 图片搜索</strong>
+    <button type="button" class="text-btn text-btn--sm" id="closeImageSearchBtn" data-i18n="dialog.cancel">关闭</button>
+  </div>
+  <label class="field">
+    <span data-i18n="search.imageUrl">粘贴图片链接</span>
+    <input id="imageUrlInput" type="url" data-i18n-placeholder="search.imageUrlPlaceholder">
+  </label>
+  <div class="image-search-popover__actions">
+    <button type="button" class="button button-secondary" id="imageFileBtn" data-i18n="search.imageChoose">选择图片</button>
+    <button type="button" class="button button-primary" id="imageUrlBtn" data-i18n="search.imageGo">搜索图片</button>
+  </div>
+  <input type="file" id="imageFileInput" accept="image/*" hidden>
+  <p class="setting__hint" data-i18n="search.imageHint">Google 支持粘贴图片链接；本地图片会打开 Google Lens 的上传页。</p>
+</div>
 
 <!-- 首次使用说明：新标签页覆盖和浏览记录都不在用户不知情时启用。 -->
 <div class="consent" id="consentDialog" hidden>
