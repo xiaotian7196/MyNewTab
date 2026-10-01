@@ -12,6 +12,8 @@
     radial-gradient(circle at 85% 5%, rgba(131, 182, 255, 0.22), transparent 25rem),
     radial-gradient(circle at 8% 92%, rgba(190, 160, 255, 0.14), transparent 22rem);
   --bg-veil: rgba(255, 255, 255, 0.45);
+  /* 页脚小字：浅色下用偏实的深灰，--muted 在这个背景下只有 4.6:1，太淡 */
+  --note: #48484a;
 
   /* 面板底色：颜色在主题里定，不透明度由设置里的滑块给（--card-a1 / --panel-a1） */
   --tint-card: #ffffff;
@@ -69,6 +71,7 @@
     radial-gradient(circle at 85% 5%, rgba(41, 151, 255, 0.16), transparent 25rem),
     radial-gradient(circle at 8% 92%, rgba(120, 80, 255, 0.12), transparent 22rem);
   --bg-veil: rgba(0, 0, 0, 0.45);
+  --note: #a1a1a6;
 
   --tint-card: #2e2e34;
   --tint-card-2: #141418;
@@ -903,11 +906,11 @@ main {
   padding: 0;
   border: 0;
   background: none;
-  color: var(--muted);
+  color: var(--note);
   font-size: 12.5px;
   text-align: left;
 }
-.footer-note:disabled { color: var(--muted); cursor: default; }
+.footer-note:disabled { color: var(--note); cursor: default; }
 .footer-note:not(:disabled) { cursor: pointer; border-bottom: 1px dashed var(--line); }
 .footer-note:not(:disabled):hover { color: var(--ink); }
 
