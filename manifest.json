@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "Homepage Liquid Glass",
+  "version": "1.0.0",
+  "description": "Liquid Glass customizable new tab homepage with multi-engine search suggestions.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "homepage-liquid-glass@example.local",
+      "strict_min_version": "109.0"
+    }
+  },
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "optional_permissions": [
+    "history"
+  ],
+  "host_permissions": [
+    "https://www.google.com/*",
+    "https://suggestqueries.google.com/*",
+    "https://www.baidu.com/*",
+    "https://suggestion.baidu.com/*",
+    "https://www.bing.com/*",
+    "https://duckduckgo.com/*",
+    "https://www.sogou.com/*",
+    "https://www.so.com/*",
+    "https://icons.duckduckgo.com/*"
+  ],
+  "icons": {}
+}

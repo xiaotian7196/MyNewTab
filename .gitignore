@@ -1,0 +1,8 @@
+# 临时文件 / 编辑器产物
+_*.html
+_*.png
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
