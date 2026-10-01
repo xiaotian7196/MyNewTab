@@ -89,16 +89,34 @@ app.js            引擎切换、搜索、快捷网址、设置、背景、多�
 
 ## 入场动画
 
-搜索卡片和快捷网址栏共用同一套 `rise`（淡入 + 上浮 16px）：
+搜索卡片和快捷网址栏共用同一套 `rise`（淡入 + 上浮 16px），**但动画只加在面板内部的内容上**：
 
 ```css
-.reveal { animation: rise 1100ms cubic-bezier(.2, .8, .2, 1) both; }          /* 搜索卡片，加载即播 */
-html.js .shortcuts { opacity: 0; }                                             /* 先藏起来 */
-html.js .shortcuts.is-ready { animation: rise 1100ms cubic-bezier(.2, .8, .2, 1) both; }  /* 图标就位后播 */
+/* 首屏先藏起来。注意用 visibility 而不是 opacity —— 原因见下 */
+html.js .shortcuts { visibility: hidden; }
+html.js .shortcuts.is-ready { visibility: visible; }
+
+/* 玻璃面板本身（底色 / 边框 / 磨砂）直接到位，只有内容做入场动画 */
+.search-card .search-row,
+html.js .shortcuts.is-ready .panel-head,
+html.js .shortcuts.is-ready .shortcut-list {
+  animation: rise 1100ms cubic-bezier(.2, .8, .2, 1) both;
+}
 ```
 
-区别只在触发时机：搜索卡片立刻播，快捷网址栏等图标有结果（或 1.8 秒超时）再播，
-所以视觉上是"搜索框先出现、网址栏随后跟上"。想整体更快/更慢就改这两个 `1100ms`。
+### 为什么不能用 opacity 隐藏/淡入面板
+
+`opacity < 1` 会让元素成为 **backdrop root**，面板里的 `backdrop-filter` 就采不到背后的画面。
+表现是：整个淡入过程中磨砂是"关着"的，等动画跑完 opacity 回到 1，磨砂才"啪"地出现 —— 很突兀。
+`filter` / `mask` / `clip-path` 也有同样效果，所以这些属性一律不要加在带 `backdrop-filter`
+的元素或其祖先上，除非你就是要它失效。
+
+不用 `opacity` 之后，面板的磨砂从第一帧就是就位的，动画只是让里面的内容浮上来。
+
+### 触发时机
+
+搜索卡片的内容在加载时立即播；快捷网址栏的内容等图标有结果（或 1.8 秒超时）再播，
+所以视觉上是"搜索框先出现、网址栏随后跟上"。想整体更快/更慢就改这两处的 `1100ms`。
 
 `app.js` 数着 favicon 的加载进度 —— 每个图标成功加载、或回退到备用服务、或最终退成首字母色块，
 都算"有结果了"，全部有结果就加上 `.is-ready`。

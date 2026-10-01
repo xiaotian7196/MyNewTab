@@ -719,12 +719,21 @@ main {
    ========================================================= */
 .shortcuts { position: relative; z-index: 1; width: 100%; }
 
-/* 首屏先藏起来，等图标加载完（或超时）由 app.js 加上 .is-ready 动画放出来。
-   只在 JS 可用时隐藏：没脚本时保持原样可见。
-   用的是和搜索卡片同一个 rise 动画，只是触发时机晚一点（等图标）。
-   用 animation 而不是 transition，是为了确保"藏起来"那一帧即使没画出来也能从 0 开始播。 */
-html.js .shortcuts { opacity: 0; }
-html.js .shortcuts.is-ready { animation: rise 1100ms cubic-bezier(.2, .8, .2, 1) both; }
+/* 首屏先藏起来，等图标有结果（或超时）由 app.js 加上 .is-ready 放出来。
+   这里刻意用 visibility 而不是 opacity：opacity < 1 会让元素成为 backdrop root，
+   面板里的 backdrop-filter 就采不到背后的画面 —— 表现是磨砂要等动画结束才"啪"地出现，
+   很突兀。visibility 不触发这个，所以一放出来磨砂就已经就位。
+   只在 JS 可用时隐藏：没脚本时保持原样可见。 */
+html.js .shortcuts { visibility: hidden; }
+html.js .shortcuts.is-ready { visibility: visible; }
+
+/* 入场动画只作用在面板里的内容上（和搜索卡片同一套 rise）：
+   玻璃面板本身（底色 / 边框 / 磨砂）直接到位，不参与动画。 */
+.search-card .search-row,
+html.js .shortcuts.is-ready .panel-head,
+html.js .shortcuts.is-ready .shortcut-list {
+  animation: rise 1100ms cubic-bezier(.2, .8, .2, 1) both;
+}
 
 .shortcuts-panel {
   padding: 18px 20px 20px;
@@ -944,10 +953,9 @@ html.js .shortcuts.is-ready { animation: rise 1100ms cubic-bezier(.2, .8, .2, 1)
 }
 
 /* ---------- 入场动画 ----------
-   搜索卡片和快捷网址栏共用这一套；快捷网址栏由 .is-ready 在图标加载完之后触发。
-   to 必须显式写出来：.shortcuts 的常态是 opacity: 0（首屏藏起来），
-   如果只写 from，缺省的 to 会取元素自身的计算值 = 0，动画就从 0 动到 0，永远不出来。 */
-.reveal { animation: rise 1100ms cubic-bezier(.2, .8, .2, 1) both; }
+   两个面板共用这一套 rise。注意：动画只加在"内容"上（.search-row / .panel-head / .shortcut-list），
+   不要加在带 backdrop-filter 的玻璃面板本身或其祖先上 —— opacity < 1 会让它们成为 backdrop root，
+   磨砂会在动画期间消失、结束时突然出现。 */
 @keyframes rise {
   from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: none; }
@@ -982,6 +990,6 @@ html.js .shortcuts.is-ready { animation: rise 1100ms cubic-bezier(.2, .8, .2, 1)
 
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
-  html.js .shortcuts { opacity: 1; } /* 关掉动画后要保证它还是看得见的 */
+  html.js .shortcuts { visibility: visible; } /* 关掉动画后要保证它还是看得见的 */
   html { scroll-behavior: auto; }
 }
