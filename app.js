@@ -865,12 +865,9 @@
       btn.setAttribute('role', 'option');
 
       const icon = document.createElement('span');
-      icon.innerHTML = item.type === 'url'
-        ? '<svg viewBox="0 0 24 24" width="18" height="18"><path d="M3.9 12a3.1 3.1 0 0 1 3.1-3.1h4V7H7a5 5 0 0 0 0 10h4v-1.9H7A3.1 3.1 0 0 1 3.9 12ZM8 13h8v-2H8v2Zm9-6h-4v1.9h4a3.1 3.1 0 0 1 0 6.2h-4V17h4a5 5 0 0 0 0-10Z" fill="currentColor"/></svg>'
-         : item.type === 'search' || item.type === 'remote'
-           ? '<svg viewBox="0 0 24 24" width="18" height="18"><path d="M10.5 4a6.5 6.5 0 1 0 4 11.6l4.4 4.4 1.4-1.4-4.4-4.4A6.5 6.5 0 0 0 10.5 4Zm0 2a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9Z" fill="currentColor"/></svg>'
-          : '<svg viewBox="0 0 24 24" width="18" height="18"><path d="M13 3a9 9 0 0 0-9 9H1l4 4 4-4H6a7 7 0 1 1 2 4.9l-1.4 1.4A9 9 0 1 0 13 3Zm-1 5v5l4 2 .8-1.4-3.3-1.6V8Z" fill="currentColor"/></svg>';
-      btn.appendChild(icon.firstChild);
+      icon.textContent = item.type === 'url' ? '↗' : item.type === 'search' || item.type === 'remote' ? '⌕' : '◷';
+      icon.setAttribute('aria-hidden', 'true');
+      btn.appendChild(icon);
 
       const text = document.createElement('span');
       text.className = 'text';
