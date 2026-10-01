@@ -287,10 +287,11 @@ svg { display: block; }
 .popover {
   position: fixed;
   z-index: 60;
-  top: 18px;
+  top: auto;
+  bottom: max(76px, calc(env(safe-area-inset-bottom) + 72px));
   right: max(20px, calc((100% - 920px) / 2));
   width: min(360px, calc(100vw - 32px));
-  max-height: min(720px, calc(100dvh - 36px));
+  max-height: min(720px, calc(100dvh - 108px));
   overflow-y: auto;
   overscroll-behavior: contain;
   padding: 20px;
@@ -300,7 +301,8 @@ svg { display: block; }
   box-shadow: var(--shadow);
   backdrop-filter: blur(30px) saturate(180%);
   -webkit-backdrop-filter: blur(30px) saturate(180%);
-  animation: pop 220ms cubic-bezier(.2, .8, .2, 1);
+  transform-origin: bottom right;
+  animation: pop-from-bottom 300ms cubic-bezier(.2, .8, .2, 1);
   display: flex;
   flex-direction: column;
 }
@@ -323,6 +325,10 @@ svg { display: block; }
 
 @keyframes pop {
   from { opacity: 0; transform: translateY(-8px) scale(.98); }
+}
+@keyframes pop-from-bottom {
+  from { opacity: 0; transform: translateY(18px) scale(.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .popover__title {
@@ -1098,7 +1104,7 @@ main {
    响应式
    ========================================================= */
 @media (max-width: 900px) {
-  .popover { right: 16px; left: 16px; width: auto; max-height: calc(100dvh - 32px); }
+  .popover { right: 16px; left: 16px; bottom: max(72px, calc(env(safe-area-inset-bottom) + 68px)); width: auto; max-height: calc(100dvh - 104px); transform-origin: bottom center; }
 }
 
 @media (max-width: 720px) {
