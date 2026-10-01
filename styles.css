@@ -381,6 +381,10 @@ main {
   flex-direction: column;
   align-items: center;
   gap: 22px;
+  /* 隐藏快捷网址栏后，可以用设置里的「搜索栏位置」上下挪动整块内容。
+     transform 不是 backdrop root 的触发条件，所以面板磨砂不受影响。
+     不加 transition：拖滑块时要即时跟手（加了反而有延迟感）。 */
+  transform: translateY(var(--stage-shift, 0px));
 }
 
 /* ---------- 搜索面板 ---------- */

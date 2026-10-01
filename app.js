@@ -147,6 +147,7 @@
       'settings.bgClear': '清除背景', 'settings.bgDim': '淡化',
       'settings.opacity': '面板透明度', 'settings.opacitySearch': '搜索面板',
       'settings.opacityLinks': '快捷网址栏', 'settings.opacitySync': '两栏同步',
+      'settings.searchPos': '搜索栏位置', 'settings.searchPosCenter': '居中',
       'settings.resetLinks': '恢复默认快捷网址',
       'settings.clearHistory': '清空搜索历史',
       'dialog.addTitle': '添加快捷网址', 'dialog.editTitle': '编辑快捷网址',
@@ -188,6 +189,7 @@
       'settings.bgClear': '清除背景', 'settings.bgDim': '淡化',
       'settings.opacity': '面板透明度', 'settings.opacitySearch': '搜尋面板',
       'settings.opacityLinks': '捷徑列', 'settings.opacitySync': '兩欄同步',
+      'settings.searchPos': '搜尋欄位置', 'settings.searchPosCenter': '居中',
       'settings.resetLinks': '還原預設捷徑',
       'settings.clearHistory': '清除搜尋記錄',
       'dialog.addTitle': '新增捷徑', 'dialog.editTitle': '編輯捷徑',
@@ -229,6 +231,7 @@
       'settings.bgClear': 'Clear background', 'settings.bgDim': 'Dim',
       'settings.opacity': 'Panel opacity', 'settings.opacitySearch': 'Search panel',
       'settings.opacityLinks': 'Shortcuts panel', 'settings.opacitySync': 'Link both',
+      'settings.searchPos': 'Search bar position', 'settings.searchPosCenter': 'center',
       'settings.resetLinks': 'Restore default shortcuts',
       'settings.clearHistory': 'Clear search history',
       'dialog.addTitle': 'Add shortcut', 'dialog.editTitle': 'Edit shortcut',
@@ -263,7 +266,8 @@
     theme: 'hp.theme', engine: 'hp.engine', links: 'hp.links', history: 'hp.history',
     lang: 'hp.lang', showLinks: 'hp.showLinks', bg: 'hp.bg', bgDim: 'hp.bgDim',
     footerMode: 'hp.footerMode', font: 'hp.font',
-    opacitySearch: 'hp.opacitySearch', opacityLinks: 'hp.opacityLinks', opacitySync: 'hp.opacitySync'
+    opacitySearch: 'hp.opacitySearch', opacityLinks: 'hp.opacityLinks', opacitySync: 'hp.opacitySync',
+    searchPos: 'hp.searchPos'
   };
 
   const store = {
@@ -305,6 +309,7 @@
     opacitySearch: readPercent(KEY.opacitySearch),
     opacityLinks: readPercent(KEY.opacityLinks),
     opacitySync: store.get(KEY.opacitySync, false) === true,
+    searchPos: readPercent(KEY.searchPos) === null ? 50 : readPercent(KEY.searchPos),
     foodRoll: 0,
     editing: false,
     images: false,
@@ -344,6 +349,7 @@
     langSeg: $('langSeg'), fontSelect: $('fontSelect'),
     themeSeg: $('themeSeg'), engineSelect: $('engineSelect'),
     showLinksSwitch: $('showLinksSwitch'), footerMode: $('footerMode'), footerNote: $('footerNote'),
+    searchPosRow: $('searchPosRow'), searchPos: $('searchPos'), searchPosOut: $('searchPosOut'),
     bgPickBtn: $('bgPickBtn'), bgClearBtn: $('bgClearBtn'), bgFile: $('bgFile'),
     bgDimRow: $('bgDimRow'), bgDim: $('bgDim'), bgDimOut: $('bgDimOut'),
     opacitySearch: $('opacitySearch'), opacityLinks: $('opacityLinks'),
@@ -513,6 +519,7 @@
 
     el.editLinksBtn.textContent = state.editing ? t('links.done') : t('links.edit');
     renderFooterNote();
+    applySearchPos(); // 「居中 / ↑ ↓」这段文案跟语言相关
   }
 
   function setLang(lang) {
@@ -968,7 +975,28 @@
   function applyLinksVisibility() {
     el.linksBar.hidden = !state.showLinks;
     el.showLinksSwitch.setAttribute('aria-checked', String(state.showLinks));
+    applySearchPos();
   }
+
+  /** 搜索栏位置：只在隐藏快捷网址栏时可用，滑块 0–100 映射到上下 ±22vh */
+  function applySearchPos() {
+    const active = !state.showLinks;
+    el.searchPosRow.hidden = !active;
+
+    const offset = Math.round((state.searchPos - 50) / 50 * 22);
+    el.root.style.setProperty('--stage-shift', active && offset ? offset + 'vh' : '0px');
+
+    el.searchPos.value = String(state.searchPos);
+    el.searchPosOut.textContent = offset === 0
+      ? t('settings.searchPosCenter')
+      : (offset < 0 ? '↑ ' : '↓ ') + Math.abs(offset) + 'vh';
+  }
+
+  el.searchPos.addEventListener('input', () => {
+    state.searchPos = Number(el.searchPos.value);
+    store.set(KEY.searchPos, state.searchPos);
+    applySearchPos();
+  });
 
   /** 一年中的第几天：让「每日一言 / 今天吃什么」每天自动换一次 */
   function dayOfYear() {
