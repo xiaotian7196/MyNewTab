@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light" data-theme-preference="system">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f5f5f7">
+<meta name="description" content="Homepage — 一个可以切换搜索引擎、带快捷网址栏的极简搜索主页。">
+<title>Homepage</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%2347a7ff'/%3E%3Cstop offset='1' stop-color='%230071e3'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='9' fill='url(%23g)'/%3E%3Ccircle cx='14.5' cy='14.5' r='6.4' fill='none' stroke='%23fff' stroke-width='2.4'/%3E%3Cpath d='M19.6 19.6 25 25' stroke='%23fff' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+<script src="preload.js"></script>
+<script src="liquid-glass.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+
+<!-- 设置面板 -->
+<div class="popover" id="settingsPanel" role="dialog" aria-modal="false" hidden>
+  <h2 class="popover__title" data-i18n="settings.title">设置</h2>
+
+  <section class="setting">
+    <p class="setting__label" data-i18n="settings.theme">主题</p>
+    <div class="segmented" id="themeSeg" role="radiogroup" data-i18n-aria="settings.theme">
+      <button type="button" role="radio" data-theme-value="light" data-i18n="settings.themeLight">浅色</button>
+      <button type="button" role="radio" data-theme-value="dark" data-i18n="settings.themeDark">深色</button>
+      <button type="button" role="radio" data-theme-value="system" data-i18n="settings.themeSystem">跟随系统</button>
+    </div>
+  </section>
+
+  <section class="setting">
+    <p class="setting__label" data-i18n="lang.label">界面语言</p>
+    <div class="segmented" id="langSeg" role="radiogroup" data-i18n-aria="lang.label">
+      <button type="button" role="radio" data-lang="zh-CN" aria-checked="true">简</button>
+      <button type="button" role="radio" data-lang="zh-TW" aria-checked="false">繁</button>
+      <button type="button" role="radio" data-lang="en" aria-checked="false">EN</button>
+    </div>
+  </section>
+
+  <section class="setting">
+    <p class="setting__label" data-i18n="settings.font">字体</p>
+    <select class="select" id="fontSelect">
+      <option value="default" data-i18n="font.default">默认</option>
+      <option value="rounded" data-i18n="font.rounded">圆润</option>
+      <option value="serif" data-i18n="font.serif">衬线</option>
+      <option value="mono" data-i18n="font.mono">等宽</option>
+    </select>
+  </section>
+
+  <section class="setting">
+    <p class="setting__label" data-i18n="settings.engine">默认搜索引擎</p>
+    <select class="select" id="engineSelect"></select>
+  </section>
+
+  <section class="setting">
+    <p class="setting__label" data-i18n="settings.display">显示</p>
+    <div class="switch-row">
+      <span data-i18n="settings.showLinks">快捷网址栏</span>
+      <button type="button" class="switch" id="showLinksSwitch" role="switch" aria-checked="true" data-i18n-aria="settings.showLinks">
+        <span class="switch__knob" aria-hidden="true"></span>
+      </button>
+    </div>
+    <div class="setting__row">
+      <label for="footerMode" data-i18n="settings.footer">左下角文字</label>
+      <select class="select select--sm" id="footerMode">
+        <option value="note" data-i18n="footer.modeNote">默认文案</option>
+        <option value="quote" data-i18n="footer.modeQuote">每日一言</option>
+        <option value="food" data-i18n="footer.modeFood">今天吃什么</option>
+      </select>
+    </div>
+  </section>
+
+  <section class="setting">
+    <p class="setting__label" data-i18n="settings.background">背景</p>
+    <div class="bg-row">
+      <button type="button" class="text-btn text-btn--sm" id="bgPickBtn">
+        <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M4 5.6A1.6 1.6 0 0 1 5.6 4h12.8A1.6 1.6 0 0 1 20 5.6v12.8a1.6 1.6 0 0 1-1.6 1.6H5.6A1.6 1.6 0 0 1 4 18.4Zm2 .4v9l3.6-3.6 2.6 2.6L16 10.4l2 2V6Zm3 3.4a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z" fill="currentColor"/></svg>
+        <span data-i18n="settings.bgPick">选择图片</span>
+      </button>
+      <button type="button" class="text-btn text-btn--sm" id="bgClearBtn" data-i18n="settings.bgClear" hidden>清除背景</button>
+    </div>
+    <label class="slider-row" id="bgDimRow" hidden>
+      <span data-i18n="settings.bgDim">淡化</span>
+      <input type="range" id="bgDim" min="0" max="85" step="5" value="45">
+      <output id="bgDimOut" for="bgDim">45%</output>
+    </label>
+    <input type="file" id="bgFile" accept="image/*" hidden>
+  </section>
+
+  <section class="setting">
+    <p class="setting__label" data-i18n="settings.opacity">面板透明度</p>
+    <label class="slider-row">
+      <span data-i18n="settings.opacitySearch">搜索面板</span>
+      <input type="range" id="opacitySearch" min="0" max="100" step="5" value="60">
+      <output id="opacitySearchOut" for="opacitySearch">60%</output>
+    </label>
+    <label class="slider-row">
+      <span data-i18n="settings.opacityLinks">快捷网址栏</span>
+      <input type="range" id="opacityLinks" min="0" max="100" step="5" value="60">
+      <output id="opacityLinksOut" for="opacityLinks">60%</output>
+    </label>
+  </section>
+
+  <section class="setting setting--actions">
+    <button type="button" class="text-btn" id="resetLinksBtn" data-i18n="settings.resetLinks">恢复默认快捷网址</button>
+    <button type="button" class="text-btn" id="clearHistoryBtn" data-i18n="settings.clearHistory">清空搜索历史</button>
+  </section>
+</div>
+
+<!-- ============ 主体 ============ -->
+<main>
+  <div class="shell stage">
+    <form class="search-card reveal" id="searchForm" role="search" autocomplete="off">
+      <div class="search-row">
+        <!-- 搜索引擎切换框 -->
+        <div class="engine" id="engine">
+          <button type="button" class="engine__trigger" id="engineBtn" aria-haspopup="listbox" aria-expanded="false" data-i18n-aria="search.engine" data-i18n-title="search.engine">
+            <span class="engine__logo" id="engineLogo" aria-hidden="true"></span>
+            <span class="engine__name" id="engineName">Google</span>
+            <svg class="engine__caret" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <ul class="engine__menu" id="engineMenu" role="listbox" tabindex="-1" hidden></ul>
+        </div>
+
+        <!-- 搜索框 -->
+        <div class="search-field" id="searchField">
+          <button type="submit" class="field-button" id="goBtn" data-i18n-aria="search.go" data-i18n-title="search.go">
+            <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" class="stroke">
+              <circle cx="10.5" cy="10.5" r="6.2" fill="none" stroke-width="2"/>
+              <path d="M15.2 15.2 20.5 20.5" fill="none" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+
+          <input class="search-field__input" id="searchInput" type="text" name="q" data-i18n-placeholder="search.placeholder"
+                 spellcheck="false" aria-autocomplete="list" aria-expanded="false" aria-controls="suggestBox">
+
+          <button type="button" class="field-button" id="imageBtn" aria-pressed="false" data-i18n-aria="search.image" data-i18n-title="search.image">
+            <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" class="stroke">
+              <path d="M4 8V5.6A1.6 1.6 0 0 1 5.6 4H8M16 4h2.4A1.6 1.6 0 0 1 20 5.6V8M20 16v2.4a1.6 1.6 0 0 1-1.6 1.6H16M8 20H5.6A1.6 1.6 0 0 1 4 18.4V16" fill="none" stroke-width="1.9" stroke-linecap="round"/>
+              <circle cx="12" cy="12" r="3" fill="none" stroke-width="1.9"/>
+            </svg>
+          </button>
+
+          <button type="button" class="field-button" id="micBtn" data-i18n-aria="search.mic" data-i18n-title="search.mic">
+            <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true">
+              <path d="M12 14.5a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5.5a3 3 0 0 0 3 3Z"/>
+              <path d="M6.5 11.5a5.5 5.5 0 0 0 11 0M12 17v3.2M9 20.2h6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+            </svg>
+          </button>
+
+          <!-- 搜索建议 / 历史 -->
+          <div class="suggest" id="suggestBox" role="listbox" hidden></div>
+        </div>
+      </div>
+    </form>
+
+    <!-- 快捷网址栏 -->
+    <section class="shortcuts" id="linksBar" aria-label="快捷网址栏" data-i18n-aria="links.title">
+      <div class="shortcuts-panel">
+        <div class="panel-head">
+          <p class="panel-title" data-i18n="links.title">快捷网址</p>
+          <div class="panel-tools">
+            <button type="button" class="text-btn text-btn--sm" id="editLinksBtn" data-i18n="links.edit">编辑</button>
+            <button type="button" class="text-btn text-btn--sm" id="addLinkBtn">
+              <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <span data-i18n="links.add">添加快捷网址</span>
+            </button>
+          </div>
+        </div>
+        <div class="shortcut-list" id="linksList"></div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<!-- ============ 页脚 ============ -->
+<footer class="site-footer shell">
+  <div class="footer-top">
+    <button type="button" class="footer-note" id="footerNote">安静地做一个网络入口。</button>
+  </div>
+  <div class="footer-bottom">
+
+    <nav class="footer-links">
+      <button type="button" class="footer-button" id="settingsBtnBottom" aria-haspopup="dialog" aria-expanded="false" data-i18n="footer.settings">设置</button>
+    </nav>
+
+    <div class="footer-controls">
+      <button type="button" class="theme-button" id="themeBtn" data-i18n-aria="top.theme" data-i18n-title="top.theme">
+        <span aria-hidden="true">◐</span>
+      </button>
+    </div>
+  </div>
+</footer>
+
+<!-- 添加 / 编辑 快捷网址 对话框 -->
+<div class="modal" id="linkModal" hidden>
+  <div class="modal__backdrop" data-close></div>
+  <form class="modal__card" id="linkForm" role="dialog" aria-modal="true" aria-labelledby="linkModalTitle">
+    <h2 class="modal__title" id="linkModalTitle" data-i18n="dialog.addTitle">添加快捷网址</h2>
+    <label class="field">
+      <span data-i18n="dialog.name">名称</span>
+      <input id="linkName" type="text" maxlength="24" data-i18n-placeholder="dialog.namePlaceholder" required>
+    </label>
+    <label class="field">
+      <span data-i18n="dialog.url">网址</span>
+      <input id="linkUrl" type="text" data-i18n-placeholder="dialog.urlPlaceholder" required>
+    </label>
+    <p class="modal__error" id="linkError" hidden></p>
+    <div class="modal__actions">
+      <button type="button" class="text-btn" data-close data-i18n="dialog.cancel">取消</button>
+      <button type="submit" class="button button-primary" data-i18n="dialog.save">保存</button>
+    </div>
+  </form>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+</body>
+</html>
