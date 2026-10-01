@@ -1,4 +1,4 @@
-/* =========================================================
+﻿/* =========================================================
    Homepage — 类 Google 搜索页 · Liquid Glass 风格
    纯原生 HTML + CSS + JS，无任何依赖
    ========================================================= */
@@ -154,10 +154,9 @@
       'dialog.name': '名称', 'dialog.url': '网址',
       'dialog.namePlaceholder': '例如：知乎', 'dialog.urlPlaceholder': '例如：zhihu.com',
       'dialog.cancel': '取消', 'dialog.save': '保存',
-      'footer.note': '安静地做一个网络入口。', 'footer.credit': '风格参考',
+      'footer.note': '安静地做一个网络入口。',
       'footer.modeNote': '默认文案', 'footer.modeQuote': '每日一言', 'footer.modeFood': '今天吃什么',
-      'footer.foodPrefix': '今天吃：', 'footer.reroll': '换一个',
-      'footer.privacy': '隐私权', 'footer.terms': '条款', 'footer.settings': '设置',
+      'footer.foodPrefix': '今天吃：', 'footer.reroll': '换一个', 'footer.settings': '设置',
       'toast.added': '已添加快捷网址', 'toast.saved': '已保存', 'toast.removed': '已移除该快捷网址',
       'toast.resetLinks': '已恢复默认快捷网址', 'toast.cleared': '已清空搜索历史',
       'toast.theme': '主题已更新', 'toast.lang': '界面语言已切换',
@@ -196,10 +195,9 @@
       'dialog.name': '名稱', 'dialog.url': '網址',
       'dialog.namePlaceholder': '例如：PChome', 'dialog.urlPlaceholder': '例如：pchome.com.tw',
       'dialog.cancel': '取消', 'dialog.save': '儲存',
-      'footer.note': '安靜地做一個網路入口。', 'footer.credit': '風格參考',
+      'footer.note': '安靜地做一個網路入口。',
       'footer.modeNote': '預設文字', 'footer.modeQuote': '每日一句', 'footer.modeFood': '今天吃什麼',
-      'footer.foodPrefix': '今天吃：', 'footer.reroll': '換一個',
-      'footer.privacy': '隱私權', 'footer.terms': '條款', 'footer.settings': '設定',
+      'footer.foodPrefix': '今天吃：', 'footer.reroll': '換一個', 'footer.settings': '設定',
       'toast.added': '已新增捷徑', 'toast.saved': '已儲存', 'toast.removed': '已移除該捷徑',
       'toast.resetLinks': '已還原預設捷徑', 'toast.cleared': '已清除搜尋記錄',
       'toast.theme': '主題已更新', 'toast.lang': '介面語言已切換',
@@ -238,10 +236,9 @@
       'dialog.name': 'Name', 'dialog.url': 'URL',
       'dialog.namePlaceholder': 'e.g. Wikipedia', 'dialog.urlPlaceholder': 'e.g. wikipedia.org',
       'dialog.cancel': 'Cancel', 'dialog.save': 'Save',
-      'footer.note': 'A quiet doorway to the internet.', 'footer.credit': 'Style reference',
+      'footer.note': 'A quiet doorway to the internet.',
       'footer.modeNote': 'Default text', 'footer.modeQuote': 'Daily quote', 'footer.modeFood': 'What to eat',
-      'footer.foodPrefix': 'Today: ', 'footer.reroll': 'Pick another',
-      'footer.privacy': 'Privacy', 'footer.terms': 'Terms', 'footer.settings': 'Settings',
+      'footer.foodPrefix': 'Today: ', 'footer.reroll': 'Pick another', 'footer.settings': 'Settings',
       'toast.added': 'Shortcut added', 'toast.saved': 'Saved', 'toast.removed': 'Shortcut removed',
       'toast.resetLinks': 'Default shortcuts restored', 'toast.cleared': 'Search history cleared',
       'toast.theme': 'Theme updated', 'toast.lang': 'Language changed',
@@ -356,7 +353,7 @@
     opacitySearch: $('opacitySearch'), opacityLinks: $('opacityLinks'),
     opacitySearchOut: $('opacitySearchOut'), opacityLinksOut: $('opacityLinksOut'), opacitySync: $('opacitySync'),
     resetLinksBtn: $('resetLinksBtn'), clearHistoryBtn: $('clearHistoryBtn'),
-    toast: $('toast'), currentYear: $('currentYear'),
+    toast: $('toast'),
     modal: $('linkModal'), linkForm: $('linkForm'), linkName: $('linkName'), linkUrl: $('linkUrl'),
     linkError: $('linkError'), linkModalTitle: $('linkModalTitle')
   };
@@ -1266,7 +1263,6 @@
     applyLinksVisibility();
     applyBackground();
     applyOpacity();
-    if (el.currentYear) el.currentYear.textContent = String(new Date().getFullYear());
   }
 
   init();
