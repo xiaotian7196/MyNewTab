@@ -146,7 +146,7 @@
       'settings.background': '背景', 'settings.bgPick': '选择图片',
       'settings.bgClear': '清除背景', 'settings.bgDim': '淡化',
       'settings.opacity': '面板透明度', 'settings.opacitySearch': '搜索面板',
-      'settings.opacityLinks': '快捷网址栏',
+      'settings.opacityLinks': '快捷网址栏', 'settings.opacitySync': '两栏同步',
       'settings.resetLinks': '恢复默认快捷网址',
       'settings.clearHistory': '清空搜索历史',
       'dialog.addTitle': '添加快捷网址', 'dialog.editTitle': '编辑快捷网址',
@@ -187,7 +187,7 @@
       'settings.background': '背景', 'settings.bgPick': '選擇圖片',
       'settings.bgClear': '清除背景', 'settings.bgDim': '淡化',
       'settings.opacity': '面板透明度', 'settings.opacitySearch': '搜尋面板',
-      'settings.opacityLinks': '捷徑列',
+      'settings.opacityLinks': '捷徑列', 'settings.opacitySync': '兩欄同步',
       'settings.resetLinks': '還原預設捷徑',
       'settings.clearHistory': '清除搜尋記錄',
       'dialog.addTitle': '新增捷徑', 'dialog.editTitle': '編輯捷徑',
@@ -228,7 +228,7 @@
       'settings.background': 'Background', 'settings.bgPick': 'Choose image',
       'settings.bgClear': 'Clear background', 'settings.bgDim': 'Dim',
       'settings.opacity': 'Panel opacity', 'settings.opacitySearch': 'Search panel',
-      'settings.opacityLinks': 'Shortcuts panel',
+      'settings.opacityLinks': 'Shortcuts panel', 'settings.opacitySync': 'Link both',
       'settings.resetLinks': 'Restore default shortcuts',
       'settings.clearHistory': 'Clear search history',
       'dialog.addTitle': 'Add shortcut', 'dialog.editTitle': 'Edit shortcut',
@@ -263,7 +263,7 @@
     theme: 'hp.theme', engine: 'hp.engine', links: 'hp.links', history: 'hp.history',
     lang: 'hp.lang', showLinks: 'hp.showLinks', bg: 'hp.bg', bgDim: 'hp.bgDim',
     footerMode: 'hp.footerMode', font: 'hp.font',
-    opacitySearch: 'hp.opacitySearch', opacityLinks: 'hp.opacityLinks'
+    opacitySearch: 'hp.opacitySearch', opacityLinks: 'hp.opacityLinks', opacitySync: 'hp.opacitySync'
   };
 
   const store = {
@@ -304,6 +304,7 @@
       ? store.get(KEY.font, 'default') : 'default',
     opacitySearch: readPercent(KEY.opacitySearch),
     opacityLinks: readPercent(KEY.opacityLinks),
+    opacitySync: store.get(KEY.opacitySync, false) === true,
     foodRoll: 0,
     editing: false,
     images: false,
@@ -346,7 +347,7 @@
     bgPickBtn: $('bgPickBtn'), bgClearBtn: $('bgClearBtn'), bgFile: $('bgFile'),
     bgDimRow: $('bgDimRow'), bgDim: $('bgDim'), bgDimOut: $('bgDimOut'),
     opacitySearch: $('opacitySearch'), opacityLinks: $('opacityLinks'),
-    opacitySearchOut: $('opacitySearchOut'), opacityLinksOut: $('opacityLinksOut'),
+    opacitySearchOut: $('opacitySearchOut'), opacityLinksOut: $('opacityLinksOut'), opacitySync: $('opacitySync'),
     resetLinksBtn: $('resetLinksBtn'), clearHistoryBtn: $('clearHistoryBtn'),
     toast: $('toast'), currentYear: $('currentYear'),
     modal: $('linkModal'), linkForm: $('linkForm'), linkName: $('linkName'), linkUrl: $('linkUrl'),
@@ -1020,17 +1021,48 @@
     el.opacityLinks.value = String(panel);
     el.opacitySearchOut.textContent = card + '%';
     el.opacityLinksOut.textContent = panel + '%';
+    el.opacitySync.setAttribute('aria-checked', String(state.opacitySync));
+  }
+
+  /** 同步打开时，两个滑块始终保持同一个值 */
+  function setBothOpacity(value) {
+    state.opacitySearch = value;
+    store.set(KEY.opacitySearch, value);
+    if (state.opacitySync) {
+      state.opacityLinks = value;
+      store.set(KEY.opacityLinks, value);
+    }
+    applyOpacity();
   }
 
   el.opacitySearch.addEventListener('input', () => {
-    state.opacitySearch = Number(el.opacitySearch.value);
-    store.set(KEY.opacitySearch, state.opacitySearch);
-    applyOpacity();
+    setBothOpacity(Number(el.opacitySearch.value));
   });
 
   el.opacityLinks.addEventListener('input', () => {
-    state.opacityLinks = Number(el.opacityLinks.value);
-    store.set(KEY.opacityLinks, state.opacityLinks);
+    const value = Number(el.opacityLinks.value);
+    state.opacityLinks = value;
+    store.set(KEY.opacityLinks, value);
+    if (state.opacitySync) {
+      state.opacitySearch = value;
+      store.set(KEY.opacitySearch, value);
+    }
+    applyOpacity();
+  });
+
+  // 「两栏同步」开关：打开时以搜索面板当前的值作为基准，把两个滑块对齐
+  el.opacitySync.addEventListener('click', () => {
+    state.opacitySync = !state.opacitySync;
+    store.set(KEY.opacitySync, state.opacitySync);
+
+    if (state.opacitySync) {
+      const fallback = state.bg ? 75 : 60;
+      const base = state.opacitySearch === null ? fallback : state.opacitySearch;
+      state.opacitySearch = base;
+      state.opacityLinks = base;
+      store.set(KEY.opacitySearch, base);
+      store.set(KEY.opacityLinks, base);
+    }
     applyOpacity();
   });
 

@@ -87,7 +87,15 @@
   </section>
 
   <section class="setting">
-    <p class="setting__label" data-i18n="settings.opacity">面板透明度</p>
+    <div class="setting__head">
+      <p class="setting__label" data-i18n="settings.opacity">面板透明度</p>
+      <div class="setting__toggle">
+        <span data-i18n="settings.opacitySync">两栏同步</span>
+        <button type="button" class="switch" id="opacitySync" role="switch" aria-checked="false" data-i18n-aria="settings.opacitySync" data-i18n-title="settings.opacitySync">
+          <span class="switch__knob" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
     <label class="slider-row">
       <span data-i18n="settings.opacitySearch">搜索面板</span>
       <input type="range" id="opacitySearch" min="0" max="100" step="5" value="60">
