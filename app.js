@@ -743,7 +743,15 @@
   });
 
   document.addEventListener('click', (event) => {
+    // 点搜索框以外的地方：收起搜索建议
     if (!el.field.contains(event.target)) hideSuggestions();
+
+    // 点搜索引擎下拉以外的地方：收起那一栏（点触发器本身不处理，交给它自己的 toggle）
+    if (engineMenuOpen()
+      && !el.engineBtn.contains(event.target)
+      && !el.engineMenu.contains(event.target)) {
+      closeEngineMenu();
+    }
   });
 
   /* ---------- 以图搜图 ---------- */
