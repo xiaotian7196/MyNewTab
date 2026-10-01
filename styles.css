@@ -725,13 +725,13 @@ main {
    位移只放在框这一层，内容再叠一次位移就变成 32px 了，所以内容只做淡入。 */
 .search-card,
 .shortcuts-panel {
-  animation: panel-rise 1100ms cubic-bezier(.2, .8, .2, 1) both;
+  animation: panel-rise 1800ms cubic-bezier(.2, .8, .2, 1) both;
 }
 
 .search-card .search-row,
 .panel-head,
 .shortcut-list {
-  animation: content-fade 1100ms cubic-bezier(.2, .8, .2, 1) both;
+  animation: content-fade 1800ms cubic-bezier(.2, .8, .2, 1) both;
 }
 
 /* 图标自己到达时淡入，避免"先看到一排空方块、图标再突然蹦出来" */

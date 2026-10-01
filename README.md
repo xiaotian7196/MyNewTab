@@ -88,25 +88,25 @@ app.js            引擎切换、搜索、快捷网址、设置、背景、多�
 
 ## 入场动画
 
-上下两个框**同时开始、时长一致**（各 1100ms），分两层做：
+上下两个框**同时开始、时长一致**（各 1800ms），分两层做：
 
 ```css
 /* 玻璃框：只做位移。transform 不是 backdrop root 的触发条件，磨砂全程有效 */
 .search-card,
 .shortcuts-panel {
-  animation: panel-rise 1100ms cubic-bezier(.2, .8, .2, 1) both;    /* translateY(16px) → 0 */
+  animation: panel-rise 1800ms cubic-bezier(.2, .8, .2, 1) both;    /* translateY(16px) → 0 */
 }
 
 /* 框里的内容：只做淡入。位移已经在框那层做了，两层都加会叠成 32px */
 .search-card .search-row,
 .panel-head,
 .shortcut-list {
-  animation: content-fade 1100ms cubic-bezier(.2, .8, .2, 1) both;  /* opacity 0 → 1 */
+  animation: content-fade 1800ms cubic-bezier(.2, .8, .2, 1) both;  /* opacity 0 → 1 */
 }
 ```
 
 两个框都在加载时立即开始，所以时间线完全对齐（可以用 `document.getAnimations()` 核对
-`startTime` 是否相同）。想整体更快/更慢，改这两处的 `1100ms`。
+`startTime` 是否相同）。想更快/更慢，**两处的 `1800ms` 要一起改**，否则两个框就对不齐了。
 
 ### 为什么玻璃框不能"淡入"
 
