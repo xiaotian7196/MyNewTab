@@ -144,6 +144,7 @@
       'links.add': '添加快捷网址', 'links.remove': '移除 %s', 'links.empty': '还没有快捷网址',
       'links.newFolder': '新建文件夹', 'links.removeFolder': '移除文件夹 %s', 'links.removeItem': '移出 %s',
       'links.openAll': '全部打开', 'links.folderHint': '右键文件夹可以一次打开里面全部网页',
+      'links.folderHintWeb': '右键文件夹可以打开里面的网页；网页模式下浏览器一次只允许一个弹窗',
       'links.folderEmpty': '这个文件夹还是空的', 'links.addToFolder': '添加到此文件夹',
         'settings.title': '设置', 'settings.openSource': 'Homepage · 开源于 GitHub', 'settings.tabGeneral': '常规', 'settings.tabSearch': '搜索', 'settings.tabAppearance': '外观', 'settings.tabPrivacy': '隐私', 'settings.theme': '主题', 'settings.themeDark': '深色',
       'settings.themeLight': '浅色', 'settings.themeSystem': '跟随系统',
@@ -178,8 +179,8 @@
       'toast.folderAdded': '已新建文件夹', 'toast.folderSaved': '文件夹已重命名',
       'toast.folderRemoved': '已删除文件夹', 'toast.folderConfirm': '文件夹「%s」里还有 %s 个网址，一并删除？',
       'toast.movedToFolder': '已放入「%s」',
-      'toast.openedAll': '已打开 %s 个网页', 'toast.openedPartial': '打开了 %s/%s 个，其余被浏览器拦截',
-      'toast.popupBlocked': '浏览器拦截了弹出窗口，请在地址栏允许后重试',
+      'toast.openedAll': '已打开 %s 个网页', 'toast.openedPartial': '只打开了 %s/%s 个 —— 网页模式下一次只放行一个弹窗，允许弹出窗口后可全部打开',
+      'toast.popupBlocked': '浏览器拦截了弹出窗口：网页模式下一次只放行一个，请在地址栏允许弹出窗口后重试',
       'toast.bgSet': '已设为背景', 'toast.bgCleared': '已清除背景',
        'toast.bgTooBig': '图片太大存不下，换一张小一点的', 'toast.bgFailed': '读不到这张图片，换一张试试', 'toast.historyUnsupported': '当前浏览器不支持读取浏览记录', 'toast.historyDeclined': '未获得浏览记录权限', 'toast.customEngineInvalid': '请填写名称和包含 %s 的搜索地址', 'toast.customEngineSaved': '自定义搜索引擎已保存', 'toast.settingsInvalid': '设置文件格式不正确'
     },
@@ -195,6 +196,7 @@
       'links.add': '新增捷徑', 'links.remove': '移除 %s', 'links.empty': '還沒有捷徑',
       'links.newFolder': '新增資料夾', 'links.removeFolder': '移除資料夾 %s', 'links.removeItem': '移出 %s',
       'links.openAll': '全部開啟', 'links.folderHint': '在資料夾上按右鍵，可以一次開啟裡面全部網頁',
+      'links.folderHintWeb': '在資料夾上按右鍵可以開啟裡面的網頁；網頁模式下瀏覽器一次只允許一個彈出視窗',
       'links.folderEmpty': '這個資料夾還是空的', 'links.addToFolder': '新增到此資料夾',
         'settings.title': '設定', 'settings.openSource': 'Homepage · 開源於 GitHub', 'settings.tabGeneral': '一般', 'settings.tabSearch': '搜尋', 'settings.tabAppearance': '外觀', 'settings.tabPrivacy': '隱私', 'settings.theme': '主題', 'settings.themeDark': '深色',
       'settings.themeLight': '淺色', 'settings.themeSystem': '跟隨系統',
@@ -229,8 +231,8 @@
       'toast.folderAdded': '已新增資料夾', 'toast.folderSaved': '資料夾已重新命名',
       'toast.folderRemoved': '已刪除資料夾', 'toast.folderConfirm': '資料夾「%s」裡還有 %s 個網址，要一併刪除嗎？',
       'toast.movedToFolder': '已放入「%s」',
-      'toast.openedAll': '已開啟 %s 個網頁', 'toast.openedPartial': '開啟了 %s/%s 個，其餘被瀏覽器阻擋',
-      'toast.popupBlocked': '瀏覽器阻擋了彈出視窗，請在網址列允許後再試',
+      'toast.openedAll': '已開啟 %s 個網頁', 'toast.openedPartial': '只開啟了 %s/%s 個 —— 網頁模式一次只放行一個彈出視窗，允許後可全部開啟',
+      'toast.popupBlocked': '瀏覽器阻擋了彈出視窗：網頁模式一次只放行一個，請在網址列允許後再試',
       'toast.bgSet': '已設為背景', 'toast.bgCleared': '已清除背景',
        'toast.bgTooBig': '圖片太大存不下，換一張小一點的', 'toast.bgFailed': '讀不到這張圖片，換一張試試', 'toast.historyUnsupported': '目前的瀏覽器不支援讀取瀏覽記錄', 'toast.historyDeclined': '未取得瀏覽記錄權限', 'toast.customEngineInvalid': '請填寫名稱和包含 %s 的搜尋網址', 'toast.customEngineSaved': '自訂搜尋引擎已儲存', 'toast.settingsInvalid': '設定檔格式不正確'
     },
@@ -246,6 +248,7 @@
       'links.add': 'Add shortcut', 'links.remove': 'Remove %s', 'links.empty': 'No shortcuts yet',
       'links.newFolder': 'New folder', 'links.removeFolder': 'Remove folder %s', 'links.removeItem': 'Remove %s',
       'links.openAll': 'Open all', 'links.folderHint': 'Right-click a folder to open every page inside at once',
+      'links.folderHintWeb': 'Right-click a folder to open its pages; in plain web mode the browser allows one pop-up at a time',
       'links.folderEmpty': 'This folder is empty', 'links.addToFolder': 'Add to this folder',
         'settings.title': 'Settings', 'settings.openSource': 'Homepage · Open source on GitHub', 'settings.tabGeneral': 'General', 'settings.tabSearch': 'Search', 'settings.tabAppearance': 'Appearance', 'settings.tabPrivacy': 'Privacy', 'settings.theme': 'Theme', 'settings.themeDark': 'Dark',
       'settings.themeLight': 'Light', 'settings.themeSystem': 'System',
@@ -280,8 +283,8 @@
       'toast.folderAdded': 'Folder created', 'toast.folderSaved': 'Folder renamed',
       'toast.folderRemoved': 'Folder removed', 'toast.folderConfirm': '“%s” still holds %s links. Delete them too?',
       'toast.movedToFolder': 'Moved into “%s”',
-      'toast.openedAll': 'Opened %s pages', 'toast.openedPartial': 'Opened %s of %s — the rest were blocked',
-      'toast.popupBlocked': 'The browser blocked the pop-ups — allow them for this page and try again',
+      'toast.openedAll': 'Opened %s pages', 'toast.openedPartial': 'Opened only %s of %s — plain web mode allows one pop-up per click; allow pop-ups to open them all',
+      'toast.popupBlocked': 'The browser blocked the pop-ups: plain web mode allows one per click — allow pop-ups for this page and try again',
       'toast.reordered': 'Order updated',
       'toast.bgSet': 'Background image set', 'toast.bgCleared': 'Background cleared',
       'toast.bgTooBig': 'That image is too large to store — try a smaller one',
@@ -1258,7 +1261,8 @@
 
     el.folderPanelList.textContent = '';
     el.folderPanelTitle.textContent = folder.name;
-    el.folderPanelHint.textContent = t('links.folderHint');
+    // 纯网页模式下浏览器一次只放行一个弹窗，这里如实说明
+    el.folderPanelHint.textContent = tabsApi() ? t('links.folderHint') : t('links.folderHintWeb');
     el.folderOpenAll.textContent = t('links.openAll');
     el.folderAddLink.textContent = t('links.addToFolder');
     el.folderAddLink.hidden = !state.editing;
@@ -1309,14 +1313,20 @@
     openLinkModal('add', -1, openFolderIndex);
   });
 
+  /** 扩展环境下的标签页接口：有它才能一次打开多个页面而不被弹窗拦截 */
+  function tabsApi() {
+    const tabs = browserApi && browserApi.tabs;
+    return tabs && typeof tabs.create === 'function' ? tabs : null;
+  }
+
   /** 一键打开文件夹里的全部网页 */
   function openAllInFolder(folder) {
     const urls = folder.items.map((item) => item.url).filter(Boolean).slice(0, 20);
     if (!urls.length) { toast(t('links.folderEmpty')); return; }
 
-    // 扩展环境下用 tabs.create：不受弹窗拦截限制
-    const tabs = browserApi && browserApi.tabs;
-    if (tabs && typeof tabs.create === 'function') {
+    // 扩展环境：逐个新建后台标签页，不受弹窗拦截限制
+    const tabs = tabsApi();
+    if (tabs) {
       urls.forEach((url) => {
         try {
           const result = tabs.create({ url, active: false });
@@ -1327,7 +1337,8 @@
       return;
     }
 
-    // 直接打开 index.html（非扩展环境）时退回 window.open，会被浏览器限制
+    // 纯网页环境（直接打开 index.html）：浏览器一次手势只放行一个弹窗，
+    // 后面的会被拦截，所以这里如实回报打开了几个。
     let opened = 0;
     urls.forEach((url) => {
       const win = window.open(url, '_blank');
