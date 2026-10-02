@@ -697,7 +697,7 @@
 
       const check = document.createElement('span');
       check.className = 'check';
-      check.innerHTML = '<svg viewBox="0 0 24 24" width="17" height="17"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4Z" fill="currentColor"/></svg>';
+      check.appendChild(svgIcon(17, ['M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4Z']));
       btn.appendChild(check);
 
       btn.addEventListener('click', () => { setEngine(item.id); closeEngineMenu(); });
@@ -1133,7 +1133,7 @@
     }
 
     if (state.editing) {
-      el.linksList.appendChild(addChip(t('links.newFolder'), 'M3 7.5h6l1.6 2H21v8.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18Z', () => openLinkModal('folderNew')));
+    el.linksList.appendChild(addChip(t('links.newFolder'), ['M3 7.5h6l1.6 2H21v8.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18Z'], () => openLinkModal('folderNew')));
     }
 
     syncExpansionPad();
@@ -1179,7 +1179,7 @@
     });
 
     if (state.editing) {
-      el.linksList.appendChild(addChip(t('links.addToFolder'), 'M12 5v14M5 12h14', () => openLinkModal('add', -1, folderIndex)));
+      el.linksList.appendChild(addChip(t('links.addToFolder'), ['M12 5v14M5 12h14'], () => openLinkModal('add', -1, folderIndex)));
     }
     if (folder.items.length) {
       const openAll = document.createElement('button');
@@ -1209,7 +1209,10 @@
 
     const icon = document.createElement('span');
     icon.className = 'chip__icon chip__icon--folder';
-    icon.innerHTML = '<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M3 7.5h6l1.7 2H21v8.2a1.3 1.3 0 0 1-1.3 1.3H4.3A1.3 1.3 0 0 1 3 17.7Z"/><path d="M3 7.5V6.3A1.3 1.3 0 0 1 4.3 5h4.2l1.7 2.5"/></svg>';
+    icon.appendChild(svgIcon(17, [
+      'M3 7.5h6l1.7 2H21v8.2a1.3 1.3 0 0 1-1.3 1.3H4.3A1.3 1.3 0 0 1 3 17.7Z',
+      'M3 7.5V6.3A1.3 1.3 0 0 1 4.3 5h4.2l1.7 2.5'
+    ], { stroke: true, strokeWidth: '1.9' }));
     chip.appendChild(icon);
 
     const name = document.createElement('span');
@@ -1220,8 +1223,7 @@
     // 展开时向右指，收起时朝下
     const caret = document.createElement('span');
     caret.className = 'chip__caret';
-    caret.setAttribute('aria-hidden', 'true');
-    caret.innerHTML = '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9.5 6 6 6-6"/></svg>';
+    caret.appendChild(svgIcon(13, ['m6 9.5 6 6 6-6'], { stroke: true, strokeWidth: '2.2' }));
     chip.appendChild(caret);
 
     chip.addEventListener('click', (event) => {
@@ -1249,13 +1251,38 @@
     return chip;
   }
 
+  /** 用 DOM API 生成图标，避免 innerHTML ——
+      扩展商店的校验器会把「动态 innerHTML 赋值」判为不安全（UNSAFE_VAR_ASSIGNMENT）。 */
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  function svgIcon(size, paths, options = {}) {
+    const svg = document.createElementNS(SVG_NS, 'svg');
+    svg.setAttribute('viewBox', options.viewBox || '0 0 24 24');
+    svg.setAttribute('width', String(size));
+    svg.setAttribute('height', String(size));
+    svg.setAttribute('aria-hidden', 'true');
+    if (options.stroke) {
+      svg.setAttribute('fill', 'none');
+      svg.setAttribute('stroke', 'currentColor');
+      svg.setAttribute('stroke-width', options.strokeWidth || '2');
+      svg.setAttribute('stroke-linecap', 'round');
+      svg.setAttribute('stroke-linejoin', 'round');
+    }
+    paths.forEach((d) => {
+      const path = document.createElementNS(SVG_NS, 'path');
+      path.setAttribute('d', d);
+      if (!options.stroke) path.setAttribute('fill', 'currentColor');
+      svg.appendChild(path);
+    });
+    return svg;
+  }
+
   function removeButton(label, onClick) {
     const remove = document.createElement('button');
     remove.type = 'button';
     remove.className = 'chip__remove';
     remove.setAttribute('aria-label', label);
     remove.title = label;
-    remove.innerHTML = '<svg viewBox="0 0 24 24" width="13" height="13"><path d="M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3l6.3 6.3 6.3-6.3Z" fill="currentColor"/></svg>';
+    remove.appendChild(svgIcon(13, ['M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3l6.3 6.3 6.3-6.3Z']));
     remove.addEventListener('click', (event) => {
       event.preventDefault();
       event.stopPropagation();
@@ -1264,11 +1291,11 @@
     return remove;
   }
 
-  function addChip(label, path, onClick) {
+  function addChip(label, paths, onClick) {
     const add = document.createElement('button');
     add.type = 'button';
     add.className = 'chip chip--add';
-    add.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16"><path d="' + path + '" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    add.appendChild(svgIcon(16, paths, { stroke: true }));
     const text = document.createElement('span');
     text.textContent = label;
     add.appendChild(text);
