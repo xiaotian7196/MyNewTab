@@ -177,6 +177,7 @@
       'toast.noImage': '%s 暂不支持以图搜图', 'toast.reordered': '已调整顺序',
       'toast.folderAdded': '已新建文件夹', 'toast.folderSaved': '文件夹已重命名',
       'toast.folderRemoved': '已删除文件夹', 'toast.folderConfirm': '文件夹「%s」里还有 %s 个网址，一并删除？',
+      'toast.movedToFolder': '已放入「%s」',
       'toast.openedAll': '已打开 %s 个网页', 'toast.openedPartial': '打开了 %s/%s 个，其余被浏览器拦截',
       'toast.popupBlocked': '浏览器拦截了弹出窗口，请在地址栏允许后重试',
       'toast.bgSet': '已设为背景', 'toast.bgCleared': '已清除背景',
@@ -227,6 +228,7 @@
       'toast.noImage': '%s 尚未支援以圖搜圖', 'toast.reordered': '已調整順序',
       'toast.folderAdded': '已新增資料夾', 'toast.folderSaved': '資料夾已重新命名',
       'toast.folderRemoved': '已刪除資料夾', 'toast.folderConfirm': '資料夾「%s」裡還有 %s 個網址，要一併刪除嗎？',
+      'toast.movedToFolder': '已放入「%s」',
       'toast.openedAll': '已開啟 %s 個網頁', 'toast.openedPartial': '開啟了 %s/%s 個，其餘被瀏覽器阻擋',
       'toast.popupBlocked': '瀏覽器阻擋了彈出視窗，請在網址列允許後再試',
       'toast.bgSet': '已設為背景', 'toast.bgCleared': '已清除背景',
@@ -277,6 +279,7 @@
       'toast.noImage': '%s does not support image search',
       'toast.folderAdded': 'Folder created', 'toast.folderSaved': 'Folder renamed',
       'toast.folderRemoved': 'Folder removed', 'toast.folderConfirm': '“%s” still holds %s links. Delete them too?',
+      'toast.movedToFolder': 'Moved into “%s”',
       'toast.openedAll': 'Opened %s pages', 'toast.openedPartial': 'Opened %s of %s — the rest were blocked',
       'toast.popupBlocked': 'The browser blocked the pop-ups — allow them for this page and try again',
       'toast.reordered': 'Order updated',
@@ -1154,11 +1157,6 @@
     name.textContent = folder.name;
     chip.appendChild(name);
 
-    const count = document.createElement('span');
-    count.className = 'chip__count';
-    count.textContent = String(folder.items.length);
-    chip.appendChild(count);
-
     chip.addEventListener('click', (event) => {
       event.preventDefault();
       event.stopPropagation();
@@ -1179,7 +1177,7 @@
         event.preventDefault();
         openLinkModal('folderEdit', index);
       });
-      attachDrag(chip, index);
+      attachDrag(chip, index, folder);
     }
     return chip;
   }
@@ -1364,7 +1362,13 @@
     toast(t('toast.folderRemoved'));
   }
 
-  function attachDrag(chip, index) {
+  /** 拖动排序；目标是文件夹且拖的是网址时，松开就放进该文件夹。
+      folder 参数只在 chip 本身是文件夹时传入。 */
+  function attachDrag(chip, index, folder = null) {
+    const clearMarks = () => {
+      chip.classList.remove('is-over', 'is-drop-into');
+    };
+
     chip.addEventListener('dragstart', (event) => {
       state.dragIndex = index;
       chip.classList.add('is-dragging');
@@ -1373,18 +1377,40 @@
     });
     chip.addEventListener('dragend', () => {
       chip.classList.remove('is-dragging');
-      el.linksList.querySelectorAll('.chip').forEach((node) => node.classList.remove('is-over'));
+      el.linksList.querySelectorAll('.chip').forEach((node) => node.classList.remove('is-over', 'is-drop-into'));
     });
     chip.addEventListener('dragover', (event) => {
-      event.preventDefault();
-      chip.classList.add('is-over');
-    });
-    chip.addEventListener('dragleave', () => chip.classList.remove('is-over'));
-    chip.addEventListener('drop', (event) => {
-      event.preventDefault();
-      chip.classList.remove('is-over');
       const from = state.dragIndex;
       if (from < 0 || from === index) return;
+      event.preventDefault();
+      const dragged = state.links[from];
+      // 拖网址到文件夹上 = 放进文件夹；其余情况是排序
+      if (folder && !isFolder(dragged)) {
+        chip.classList.remove('is-over');
+        chip.classList.add('is-drop-into');
+      } else {
+        chip.classList.remove('is-drop-into');
+        chip.classList.add('is-over');
+      }
+      if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
+    });
+    chip.addEventListener('dragleave', clearMarks);
+    chip.addEventListener('drop', (event) => {
+      event.preventDefault();
+      clearMarks();
+      const from = state.dragIndex;
+      if (from < 0 || from === index) return;
+      const dragged = state.links[from];
+
+      if (folder && !isFolder(dragged)) {
+        state.links.splice(from, 1);
+        folder.items.push(dragged);   // folder 是引用，上面的 splice 不影响它
+        persistLinks();
+        renderLinks();
+        toast(t('toast.movedToFolder', folder.name));
+        return;
+      }
+
       const [moved] = state.links.splice(from, 1);
       state.links.splice(index, 0, moved);
       persistLinks();

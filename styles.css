@@ -922,18 +922,6 @@ main {
 /* ---------- 文件夹 chip ---------- */
 .chip--folder { cursor: pointer; }
 .chip__icon--folder { color: var(--blue); }
-.chip__count {
-  flex: 0 0 auto;
-  min-width: 18px;
-  padding: 1px 5px;
-  border-radius: 999px;
-  background: var(--blue-soft);
-  color: var(--blue);
-  font-size: 11px;
-  line-height: 1.5;
-  text-align: center;
-}
-[data-theme="dark"] .chip__count { background: rgba(10, 132, 255, .22); }
 
 /* ---------- 文件夹展开面板 ---------- */
 .folder-pop {
@@ -998,6 +986,15 @@ main {
 }
 .chip.is-dragging { opacity: .45; }
 .chip.is-over { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-soft); }
+/* 拖着网址停在文件夹上：明确表示"松手就放进去" */
+.chip.is-drop-into {
+  border-color: var(--blue);
+  border-style: dashed;
+  background: var(--blue-soft);
+  box-shadow: 0 0 0 3px var(--blue-soft);
+  transform: translateY(-3px) scale(1.03);
+}
+.chip.is-drop-into .chip__name { color: var(--blue); }
 .chip__remove {
   position: absolute;
   top: 50%;
