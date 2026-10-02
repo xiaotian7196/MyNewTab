@@ -1162,6 +1162,11 @@
       name.textContent = item.name;
       chip.appendChild(name);
 
+      // 网址始终可以拖动（拖到别的文件夹上就移过去），编辑模式下还能组内排序
+      chip.draggable = true;
+      chip.style.setProperty('--i', String(itemIndex));
+      attachLinkDrag(chip, folderIndex, itemIndex);
+
       if (state.editing) {
         chip.appendChild(removeButton(t('links.removeItem', item.name), () => removeFolderItem(folderIndex, itemIndex)));
         chip.addEventListener('click', (event) => event.preventDefault());
@@ -1169,7 +1174,6 @@
           event.preventDefault();
           openLinkModal('edit', itemIndex, folderIndex);
         });
-        attachLinkDrag(chip, folderIndex, itemIndex);
       }
       el.linksList.appendChild(chip);
     });
@@ -1239,8 +1243,9 @@
         event.preventDefault();
         openLinkModal('folderEdit', index);
       });
-      attachDrag(chip, index, folder);
     }
+    // 网址随时可以拖进来；文件夹自己能否被拖走只在编辑模式开
+    attachDrag(chip, index, folder, state.editing);
     return chip;
   }
 
@@ -1420,13 +1425,18 @@
     clearDropMarks();
   }
 
-  /** 文件夹 chip 作为放置目标 */
-  function attachDrag(chip, index, folder) {
-    chip.addEventListener('dragstart', (event) => beginDrag(event, chip, { kind: 'folder', index }));
-    chip.addEventListener('dragend', () => endDrag(chip));
+  /** 文件夹 chip 作为放置目标。
+      canReorder：这个 folder chip 自己能不能被拖走排序（只在编辑模式开）。
+      接受"网址拖进来"始终可用 —— 平时打开文件夹就能把网址拖到别的文件夹。 */
+  function attachDrag(chip, index, folder, canReorder) {
+    if (canReorder) {
+      chip.addEventListener('dragstart', (event) => beginDrag(event, chip, { kind: 'folder', index }));
+      chip.addEventListener('dragend', () => endDrag(chip));
+    }
     chip.addEventListener('dragover', (event) => {
       const source = state.dragSource;
-      if (!source || (source.kind === 'folder' && source.index === index)) return;
+      if (!source) return;
+      if (source.kind === 'folder' && (!canReorder || source.index === index)) return;
       event.preventDefault();
       clearDropMarks();
       // 拖网址过来 = 放进文件夹；拖文件夹过来 = 排序
@@ -1446,13 +1456,19 @@
         const [moved] = fromFolder.items.splice(source.item, 1);
         if (!moved) return;
         folder.items.push(moved);
+        if (source.folder !== index) {
+          // 换文件夹了：把目标展开，能直接看到结果
+          openFolderIndex = index;
+          closedStageHeight = el.stage.offsetHeight;
+          closedPanelHeight = linksPanel.offsetHeight;
+        }
         persistLinks();
         renderLinks();
         toast(t('toast.movedToFolder', folder.name));
         return;
       }
 
-      if (source.index === index) return;
+      if (!canReorder || source.index === index) return;
       const [moved] = state.links.splice(source.index, 1);
       state.links.splice(index, 0, moved);
       openFolderIndex = -1;

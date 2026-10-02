@@ -940,13 +940,16 @@ main {
 /* ---------- 文件夹里的网址：横向接在文件夹后面 ---------- */
 .chip--inner {
   background: rgba(255, 255, 255, .34);
-  animation: chip-in 260ms cubic-bezier(.2, .8, .2, 1) both;
+  /* 逐个淡淡地"弹"出来：慢一点 + 依次延迟，看得出是一个接一个铺开 */
+  animation: chip-in 520ms cubic-bezier(.2, .8, .2, 1) both;
+  animation-delay: calc(var(--i, 0) * 70ms);
 }
 [data-theme="dark"] .chip--inner { background: rgba(255, 255, 255, .05); }
 .chip--inner:hover { background: rgba(255, 255, 255, .62); }
 [data-theme="dark"] .chip--inner:hover { background: rgba(255, 255, 255, .11); }
 @keyframes chip-in {
-  from { opacity: 0; transform: translateX(-8px) scale(.94); }
+  from { opacity: 0; transform: translateX(-14px) scale(.9); }
+  60% { opacity: 1; }
   to { opacity: 1; transform: none; }
 }
 .links-empty { align-self: center; color: var(--muted); font-size: 12.5px; }
