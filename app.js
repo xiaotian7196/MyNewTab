@@ -1,4 +1,4 @@
-﻿/* =========================================================
+/* =========================================================
    Homepage — 类 Google 搜索页 · Liquid Glass 风格
    纯原生 HTML + CSS + JS，无任何依赖
    ========================================================= */
@@ -137,11 +137,14 @@
       'lang.label': '界面语言',
       'search.engine': '选择搜索引擎', 'search.placeholder': '搜索或输入网址',
       'search.placeholderImage': '搜索图片', 'search.go': '搜索', 'search.image': '以图搜图',
-       'search.mic': '语音搜索', 'search.imageTitle': 'Google 图片搜索', 'search.imageUrl': '粘贴图片链接', 'search.imageUrlPlaceholder': 'https://example.com/image.jpg', 'search.imageChoose': '选择图片', 'search.imageGo': '搜索图片', 'search.imageHint': 'Google 支持粘贴图片链接；本地图片会打开 Google Lens 的上传页。',
+       'search.imageTitle': 'Google 图片搜索', 'search.imageUrl': '粘贴图片链接', 'search.imageUrlPlaceholder': 'https://example.com/image.jpg', 'search.imageChoose': '选择图片', 'search.imageGo': '搜索图片', 'search.imageHint': 'Google 支持粘贴图片链接；本地图片会打开 Google Lens 的上传页。',
        'search.history': '本页记录', 'search.browserHistory': '浏览器记录', 'search.openUrl': '打开该网址',
        'search.inEngine': '在 %s 中搜索', 'search.recommended': '%s 推荐',
       'links.title': '快捷网址', 'links.edit': '编辑', 'links.done': '完成',
       'links.add': '添加快捷网址', 'links.remove': '移除 %s', 'links.empty': '还没有快捷网址',
+      'links.newFolder': '新建文件夹', 'links.removeFolder': '移除文件夹 %s', 'links.removeItem': '移出 %s',
+      'links.openAll': '全部打开', 'links.folderHint': '右键文件夹可以一次打开里面全部网页',
+      'links.folderEmpty': '这个文件夹还是空的', 'links.addToFolder': '添加到此文件夹',
         'settings.title': '设置', 'settings.openSource': 'Homepage · 开源于 GitHub', 'settings.tabGeneral': '常规', 'settings.tabSearch': '搜索', 'settings.tabAppearance': '外观', 'settings.tabPrivacy': '隐私', 'settings.theme': '主题', 'settings.themeDark': '深色',
       'settings.themeLight': '浅色', 'settings.themeSystem': '跟随系统',
        'settings.engine': '默认搜索引擎', 'settings.customEngine': '自定义搜索引擎', 'settings.customEngineName': '名称，例如：我的搜索', 'settings.customEngineSearch': '搜索地址，必须包含 %s', 'settings.customEngineSuggest': '推荐地址，可选，必须包含 %s', 'settings.customEngineSave': '保存并使用', 'settings.customEngineHint': '地址中的 %s 会替换为关键词。',
@@ -161,6 +164,8 @@
       'dialog.name': '名称', 'dialog.url': '网址',
       'dialog.namePlaceholder': '例如：知乎', 'dialog.urlPlaceholder': '例如：zhihu.com',
       'dialog.cancel': '取消', 'dialog.save': '保存',
+      'dialog.folder': '文件夹', 'dialog.noFolder': '不放入文件夹',
+      'dialog.folderNewTitle': '新建文件夹', 'dialog.folderEditTitle': '重命名文件夹',
       'footer.note': '安静地做一个网络入口。',
       'footer.modeNote': '默认文案', 'footer.modeQuote': '每日一言', 'footer.modeFood': '今天吃什么',
       'footer.foodPrefix': '今天吃：', 'footer.reroll': '换一个', 'footer.settings': '设置',
@@ -169,8 +174,11 @@
       'toast.theme': '主题已更新', 'toast.lang': '界面语言已切换',
       'toast.engine': '已切换到 %s', 'toast.nameRequired': '请输入名称',
       'toast.urlRequired': '请输入网址', 'toast.urlInvalid': '网址格式不正确，请检查后重试',
-      'toast.micUnsupported': '当前浏览器不支持语音搜索', 'toast.micError': '无法使用麦克风',
       'toast.noImage': '%s 暂不支持以图搜图', 'toast.reordered': '已调整顺序',
+      'toast.folderAdded': '已新建文件夹', 'toast.folderSaved': '文件夹已重命名',
+      'toast.folderRemoved': '已删除文件夹', 'toast.folderConfirm': '文件夹「%s」里还有 %s 个网址，一并删除？',
+      'toast.openedAll': '已打开 %s 个网页', 'toast.openedPartial': '打开了 %s/%s 个，其余被浏览器拦截',
+      'toast.popupBlocked': '浏览器拦截了弹出窗口，请在地址栏允许后重试',
       'toast.bgSet': '已设为背景', 'toast.bgCleared': '已清除背景',
        'toast.bgTooBig': '图片太大存不下，换一张小一点的', 'toast.bgFailed': '读不到这张图片，换一张试试', 'toast.historyUnsupported': '当前浏览器不支持读取浏览记录', 'toast.historyDeclined': '未获得浏览记录权限', 'toast.customEngineInvalid': '请填写名称和包含 %s 的搜索地址', 'toast.customEngineSaved': '自定义搜索引擎已保存', 'toast.settingsInvalid': '设置文件格式不正确'
     },
@@ -179,11 +187,14 @@
       'lang.label': '介面語言',
       'search.engine': '選擇搜尋引擎', 'search.placeholder': '搜尋或輸入網址',
       'search.placeholderImage': '搜尋圖片', 'search.go': '搜尋', 'search.image': '以圖搜圖',
-       'search.mic': '語音搜尋', 'search.imageTitle': 'Google 圖片搜尋', 'search.imageUrl': '貼上圖片連結', 'search.imageUrlPlaceholder': 'https://example.com/image.jpg', 'search.imageChoose': '選擇圖片', 'search.imageGo': '搜尋圖片', 'search.imageHint': 'Google 支援貼上圖片連結；本地圖片會開啟 Google Lens 上傳頁。',
+       'search.imageTitle': 'Google 圖片搜尋', 'search.imageUrl': '貼上圖片連結', 'search.imageUrlPlaceholder': 'https://example.com/image.jpg', 'search.imageChoose': '選擇圖片', 'search.imageGo': '搜尋圖片', 'search.imageHint': 'Google 支援貼上圖片連結；本地圖片會開啟 Google Lens 上傳頁。',
        'search.history': '本頁記錄', 'search.browserHistory': '瀏覽器記錄', 'search.openUrl': '開啟這個網址',
        'search.inEngine': '在 %s 中搜尋', 'search.recommended': '%s 推薦',
       'links.title': '捷徑', 'links.edit': '編輯', 'links.done': '完成',
       'links.add': '新增捷徑', 'links.remove': '移除 %s', 'links.empty': '還沒有捷徑',
+      'links.newFolder': '新增資料夾', 'links.removeFolder': '移除資料夾 %s', 'links.removeItem': '移出 %s',
+      'links.openAll': '全部開啟', 'links.folderHint': '在資料夾上按右鍵，可以一次開啟裡面全部網頁',
+      'links.folderEmpty': '這個資料夾還是空的', 'links.addToFolder': '新增到此資料夾',
         'settings.title': '設定', 'settings.openSource': 'Homepage · 開源於 GitHub', 'settings.tabGeneral': '一般', 'settings.tabSearch': '搜尋', 'settings.tabAppearance': '外觀', 'settings.tabPrivacy': '隱私', 'settings.theme': '主題', 'settings.themeDark': '深色',
       'settings.themeLight': '淺色', 'settings.themeSystem': '跟隨系統',
        'settings.engine': '預設搜尋引擎', 'settings.customEngine': '自訂搜尋引擎', 'settings.customEngineName': '名稱，例如：我的搜尋', 'settings.customEngineSearch': '搜尋網址，必須包含 %s', 'settings.customEngineSuggest': '推薦網址，可選，必須包含 %s', 'settings.customEngineSave': '儲存並使用', 'settings.customEngineHint': '網址中的 %s 會替換為關鍵字。',
@@ -203,6 +214,8 @@
       'dialog.name': '名稱', 'dialog.url': '網址',
       'dialog.namePlaceholder': '例如：PChome', 'dialog.urlPlaceholder': '例如：pchome.com.tw',
       'dialog.cancel': '取消', 'dialog.save': '儲存',
+      'dialog.folder': '資料夾', 'dialog.noFolder': '不放入資料夾',
+      'dialog.folderNewTitle': '新增資料夾', 'dialog.folderEditTitle': '重新命名資料夾',
       'footer.note': '安靜地做一個網路入口。',
       'footer.modeNote': '預設文字', 'footer.modeQuote': '每日一句', 'footer.modeFood': '今天吃什麼',
       'footer.foodPrefix': '今天吃：', 'footer.reroll': '換一個', 'footer.settings': '設定',
@@ -211,8 +224,11 @@
       'toast.theme': '主題已更新', 'toast.lang': '介面語言已切換',
       'toast.engine': '已切換至 %s', 'toast.nameRequired': '請輸入名稱',
       'toast.urlRequired': '請輸入網址', 'toast.urlInvalid': '網址格式不正確，請檢查後再試',
-      'toast.micUnsupported': '目前的瀏覽器不支援語音搜尋', 'toast.micError': '無法使用麥克風',
       'toast.noImage': '%s 尚未支援以圖搜圖', 'toast.reordered': '已調整順序',
+      'toast.folderAdded': '已新增資料夾', 'toast.folderSaved': '資料夾已重新命名',
+      'toast.folderRemoved': '已刪除資料夾', 'toast.folderConfirm': '資料夾「%s」裡還有 %s 個網址，要一併刪除嗎？',
+      'toast.openedAll': '已開啟 %s 個網頁', 'toast.openedPartial': '開啟了 %s/%s 個，其餘被瀏覽器阻擋',
+      'toast.popupBlocked': '瀏覽器阻擋了彈出視窗，請在網址列允許後再試',
       'toast.bgSet': '已設為背景', 'toast.bgCleared': '已清除背景',
        'toast.bgTooBig': '圖片太大存不下，換一張小一點的', 'toast.bgFailed': '讀不到這張圖片，換一張試試', 'toast.historyUnsupported': '目前的瀏覽器不支援讀取瀏覽記錄', 'toast.historyDeclined': '未取得瀏覽記錄權限', 'toast.customEngineInvalid': '請填寫名稱和包含 %s 的搜尋網址', 'toast.customEngineSaved': '自訂搜尋引擎已儲存', 'toast.settingsInvalid': '設定檔格式不正確'
     },
@@ -221,11 +237,14 @@
       'lang.label': 'Language',
       'search.engine': 'Choose a search engine', 'search.placeholder': 'Search or type a URL',
       'search.placeholderImage': 'Search images', 'search.go': 'Search', 'search.image': 'Search by image',
-       'search.mic': 'Search by voice', 'search.imageTitle': 'Google Image Search', 'search.imageUrl': 'Paste image URL', 'search.imageUrlPlaceholder': 'https://example.com/image.jpg', 'search.imageChoose': 'Choose image', 'search.imageGo': 'Search image', 'search.imageHint': 'Google accepts an image URL; local images open the Google Lens upload page.',
+       'search.imageTitle': 'Google Image Search', 'search.imageUrl': 'Paste image URL', 'search.imageUrlPlaceholder': 'https://example.com/image.jpg', 'search.imageChoose': 'Choose image', 'search.imageGo': 'Search image', 'search.imageHint': 'Google accepts an image URL; local images open the Google Lens upload page.',
        'search.history': 'Page history', 'search.browserHistory': 'Browser history', 'search.openUrl': 'Open this URL',
        'search.inEngine': 'Search %s for this', 'search.recommended': '%s suggestion',
       'links.title': 'Shortcuts', 'links.edit': 'Edit', 'links.done': 'Done',
       'links.add': 'Add shortcut', 'links.remove': 'Remove %s', 'links.empty': 'No shortcuts yet',
+      'links.newFolder': 'New folder', 'links.removeFolder': 'Remove folder %s', 'links.removeItem': 'Remove %s',
+      'links.openAll': 'Open all', 'links.folderHint': 'Right-click a folder to open every page inside at once',
+      'links.folderEmpty': 'This folder is empty', 'links.addToFolder': 'Add to this folder',
         'settings.title': 'Settings', 'settings.openSource': 'Homepage · Open source on GitHub', 'settings.tabGeneral': 'General', 'settings.tabSearch': 'Search', 'settings.tabAppearance': 'Appearance', 'settings.tabPrivacy': 'Privacy', 'settings.theme': 'Theme', 'settings.themeDark': 'Dark',
       'settings.themeLight': 'Light', 'settings.themeSystem': 'System',
        'settings.engine': 'Default search engine', 'settings.customEngine': 'Custom search engine', 'settings.customEngineName': 'Name, e.g. My Search', 'settings.customEngineSearch': 'Search URL, must include %s', 'settings.customEngineSuggest': 'Suggestion URL, optional, must include %s', 'settings.customEngineSave': 'Save and use', 'settings.customEngineHint': '%s is replaced with the query.',
@@ -245,6 +264,8 @@
       'dialog.name': 'Name', 'dialog.url': 'URL',
       'dialog.namePlaceholder': 'e.g. Wikipedia', 'dialog.urlPlaceholder': 'e.g. wikipedia.org',
       'dialog.cancel': 'Cancel', 'dialog.save': 'Save',
+      'dialog.folder': 'Folder', 'dialog.noFolder': 'No folder',
+      'dialog.folderNewTitle': 'New folder', 'dialog.folderEditTitle': 'Rename folder',
       'footer.note': 'A quiet doorway to the internet.',
       'footer.modeNote': 'Default text', 'footer.modeQuote': 'Daily quote', 'footer.modeFood': 'What to eat',
       'footer.foodPrefix': 'Today: ', 'footer.reroll': 'Pick another', 'footer.settings': 'Settings',
@@ -253,9 +274,11 @@
       'toast.theme': 'Theme updated', 'toast.lang': 'Language changed',
       'toast.engine': 'Switched to %s', 'toast.nameRequired': 'Please enter a name',
       'toast.urlRequired': 'Please enter a URL', 'toast.urlInvalid': 'That URL does not look right',
-      'toast.micUnsupported': 'Voice search is not supported in this browser',
-      'toast.micError': 'Microphone unavailable',
       'toast.noImage': '%s does not support image search',
+      'toast.folderAdded': 'Folder created', 'toast.folderSaved': 'Folder renamed',
+      'toast.folderRemoved': 'Folder removed', 'toast.folderConfirm': '“%s” still holds %s links. Delete them too?',
+      'toast.openedAll': 'Opened %s pages', 'toast.openedPartial': 'Opened %s of %s — the rest were blocked',
+      'toast.popupBlocked': 'The browser blocked the pop-ups — allow them for this page and try again',
       'toast.reordered': 'Order updated',
       'toast.bgSet': 'Background image set', 'toast.bgCleared': 'Background cleared',
       'toast.bgTooBig': 'That image is too large to store — try a smaller one',
@@ -361,6 +384,8 @@
     images: false,
     activeSuggest: -1,
     editingIndex: -1,
+    editingFolder: -1,
+    modalMode: 'add',
     dragIndex: -1
   };
   let remoteSuggestions = [];
@@ -399,8 +424,10 @@
     form: $('searchForm'), input: $('searchInput'), field: $('searchField'), suggest: $('suggestBox'),
     engineBtn: $('engineBtn'), engineMenu: $('engineMenu'),
     engineLogo: $('engineLogo'), engineName: $('engineName'),
-    imageBtn: $('imageBtn'), micBtn: $('micBtn'), goBtn: $('goBtn'),
+    imageBtn: $('imageBtn'), goBtn: $('goBtn'),
     linksBar: $('linksBar'), linksList: $('linksList'), editLinksBtn: $('editLinksBtn'), addLinkBtn: $('addLinkBtn'),
+    folderPanel: $('folderPanel'), folderPanelTitle: $('folderPanelTitle'), folderPanelList: $('folderPanelList'),
+    folderOpenAll: $('folderOpenAll'), folderAddLink: $('folderAddLink'), folderPanelHint: $('folderPanelHint'),
     themeBtn: $('themeBtn'), settingsBtnBottom: $('settingsBtnBottom'), settingsPanel: $('settingsPanel'),
     langSeg: $('langSeg'), fontSelect: $('fontSelect'),
     themeSeg: $('themeSeg'), engineSelect: $('engineSelect'),
@@ -420,7 +447,8 @@
      consentDialog: $('consentDialog'), acceptConsentBtn: $('acceptConsentBtn'), declineConsentBtn: $('declineConsentBtn'),
     toast: $('toast'),
     modal: $('linkModal'), linkForm: $('linkForm'), linkName: $('linkName'), linkUrl: $('linkUrl'),
-    linkError: $('linkError'), linkModalTitle: $('linkModalTitle')
+    linkError: $('linkError'), linkModalTitle: $('linkModalTitle'),
+    linkFolderField: $('linkFolderField'), linkFolder: $('linkFolder'), linkUrlField: $('linkUrlField')
   };
   const linksPanel = el.linksBar.querySelector('.shortcuts-panel');
 
@@ -429,12 +457,23 @@
      --------------------------------------------------------- */
   function sanitizeLinks(value) {
     if (!Array.isArray(value)) return null;
-    const out = value
-      .filter((item) => item && typeof item.name === 'string' && typeof item.url === 'string')
-      .map((item) => ({ name: item.name.slice(0, 24), url: item.url }))
-      .slice(0, 40);
+    const cleanLink = (item) => {
+      if (!item || typeof item.name !== 'string' || typeof item.url !== 'string') return null;
+      return { name: item.name.slice(0, 24), url: item.url };
+    };
+    const clean = (item) => {
+      if (!item || typeof item.name !== 'string') return null;
+      if (item.type === 'folder') {
+        const items = Array.isArray(item.items) ? item.items.map(cleanLink).filter(Boolean).slice(0, 30) : [];
+        return { type: 'folder', name: item.name.slice(0, 24), items };
+      }
+      return cleanLink(item);
+    };
+    const out = value.map(clean).filter(Boolean).slice(0, 40);
     return out.length ? out : null;
   }
+
+  const isFolder = (item) => item && item.type === 'folder';
 
   function hostOf(url) {
     try { return new URL(url).hostname.replace(/^www\./, ''); } catch { return ''; }
@@ -1033,26 +1072,6 @@
     closeImageSearch();
   });
 
-  /* ---------- 语音搜索 ---------- */
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-  el.micBtn.addEventListener('click', () => {
-    if (!SpeechRecognition) { toast(t('toast.micUnsupported')); return; }
-    const recognition = new SpeechRecognition();
-    recognition.lang = state.lang === 'en' ? 'en-US' : state.lang;
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-    el.micBtn.setAttribute('aria-pressed', 'true');
-    recognition.addEventListener('result', (event) => {
-      const transcript = event.results[0][0].transcript;
-      el.input.value = transcript;
-      runSearch(transcript, {});
-    });
-    recognition.addEventListener('error', () => toast(t('toast.micError')));
-    recognition.addEventListener('end', () => el.micBtn.setAttribute('aria-pressed', 'false'));
-    try { recognition.start(); } catch { el.micBtn.setAttribute('aria-pressed', 'false'); }
-  });
-
   /* ---------------------------------------------------------
      12. 快捷网址栏
      --------------------------------------------------------- */
@@ -1069,56 +1088,280 @@
     }
 
     state.links.forEach((link, index) => {
-      const chip = document.createElement('a');
-      chip.className = 'chip';
-      chip.href = link.url;
-      chip.dataset.index = String(index);
-      chip.draggable = state.editing;
-      chip.title = link.name + ' · ' + prettyUrl(link.url);
-
-      chip.appendChild(iconNode(hostOf(link.url), link.name, 'chip__icon'));
-
-      const name = document.createElement('span');
-      name.className = 'chip__name';
-      name.textContent = link.name;
-      chip.appendChild(name);
-
-      if (state.editing) {
-        const remove = document.createElement('button');
-        remove.type = 'button';
-        remove.className = 'chip__remove';
-        remove.setAttribute('aria-label', t('links.remove', link.name));
-        remove.title = t('links.remove', link.name);
-        remove.innerHTML = '<svg viewBox="0 0 24 24" width="13" height="13"><path d="M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3l6.3 6.3 6.3-6.3Z" fill="currentColor"/></svg>';
-        remove.addEventListener('click', (event) => {
-          event.preventDefault();
-          event.stopPropagation();
-          removeLink(index);
-        });
-        chip.appendChild(remove);
-
-        chip.addEventListener('click', (event) => { event.preventDefault(); });
-        chip.addEventListener('dblclick', (event) => {
-          event.preventDefault();
-          openLinkModal('edit', index);
-        });
-        attachDrag(chip, index);
-      }
-
+      const chip = isFolder(link) ? folderChip(link, index) : linkChip(link, index);
       el.linksList.appendChild(chip);
     });
 
     if (state.editing) {
-      const add = document.createElement('button');
-      add.type = 'button';
-      add.className = 'chip chip--add';
-      add.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
-      const addLabel = document.createElement('span');
-      addLabel.textContent = t('links.add');
-      add.appendChild(addLabel);
-      add.addEventListener('click', () => openLinkModal('add'));
-      el.linksList.appendChild(add);
+      el.linksList.appendChild(addChip(t('links.add'), 'M12 5v14M5 12h14', () => openLinkModal('add')));
+      el.linksList.appendChild(addChip(t('links.newFolder'), 'M3 7.5h6l1.6 2H21v8.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18Z', () => openLinkModal('folderNew')));
     }
+
+    // chip 是重建的，展开状态要重新标回去；面板内容也同步刷新
+    if (!el.folderPanel.hidden && openFolderIndex >= 0) {
+      const openChip = el.linksList.querySelector('.chip--folder[data-index="' + openFolderIndex + '"]');
+      if (openChip) openChip.setAttribute('aria-expanded', 'true');
+      renderFolderPanel();
+    }
+  }
+
+  /** 普通网址 chip */
+  function linkChip(link, index) {
+    const chip = document.createElement('a');
+    chip.className = 'chip';
+    chip.href = link.url;
+    chip.dataset.index = String(index);
+    chip.draggable = state.editing;
+    chip.title = link.name + ' · ' + prettyUrl(link.url);
+
+    chip.appendChild(iconNode(hostOf(link.url), link.name, 'chip__icon'));
+
+    const name = document.createElement('span');
+    name.className = 'chip__name';
+    name.textContent = link.name;
+    chip.appendChild(name);
+
+    if (state.editing) {
+      chip.appendChild(removeButton(t('links.remove', link.name), () => removeLink(index)));
+      chip.addEventListener('click', (event) => { event.preventDefault(); });
+      chip.addEventListener('dblclick', (event) => {
+        event.preventDefault();
+        openLinkModal('edit', index, -1);
+      });
+      attachDrag(chip, index);
+    }
+    return chip;
+  }
+
+  /** 文件夹 chip：左键展开、右键一次打开里面全部网页 */
+  function folderChip(folder, index) {
+    const chip = document.createElement('button');
+    chip.type = 'button';
+    chip.className = 'chip chip--folder';
+    chip.dataset.index = String(index);
+    chip.draggable = state.editing;
+    chip.setAttribute('aria-haspopup', 'true');
+    chip.setAttribute('aria-expanded', 'false');
+    chip.title = t('links.folderHint');
+
+    const icon = document.createElement('span');
+    icon.className = 'chip__icon chip__icon--folder';
+    icon.innerHTML = '<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M3 7.5h6l1.7 2H21v8.2a1.3 1.3 0 0 1-1.3 1.3H4.3A1.3 1.3 0 0 1 3 17.7Z"/><path d="M3 7.5V6.3A1.3 1.3 0 0 1 4.3 5h4.2l1.7 2.5"/></svg>';
+    chip.appendChild(icon);
+
+    const name = document.createElement('span');
+    name.className = 'chip__name';
+    name.textContent = folder.name;
+    chip.appendChild(name);
+
+    const count = document.createElement('span');
+    count.className = 'chip__count';
+    count.textContent = String(folder.items.length);
+    chip.appendChild(count);
+
+    chip.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      toggleFolderPanel(index, chip);
+    });
+
+    // 右键：一键打开这个文件夹里的全部网页
+    chip.addEventListener('contextmenu', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      closeFolderPanel();
+      openAllInFolder(folder);
+    });
+
+    if (state.editing) {
+      chip.appendChild(removeButton(t('links.removeFolder', folder.name), () => removeFolder(index)));
+      chip.addEventListener('dblclick', (event) => {
+        event.preventDefault();
+        openLinkModal('folderEdit', index);
+      });
+      attachDrag(chip, index);
+    }
+    return chip;
+  }
+
+  function removeButton(label, onClick) {
+    const remove = document.createElement('button');
+    remove.type = 'button';
+    remove.className = 'chip__remove';
+    remove.setAttribute('aria-label', label);
+    remove.title = label;
+    remove.innerHTML = '<svg viewBox="0 0 24 24" width="13" height="13"><path d="M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3l6.3 6.3 6.3-6.3Z" fill="currentColor"/></svg>';
+    remove.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      onClick();
+    });
+    return remove;
+  }
+
+  function addChip(label, path, onClick) {
+    const add = document.createElement('button');
+    add.type = 'button';
+    add.className = 'chip chip--add';
+    add.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16"><path d="' + path + '" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    const text = document.createElement('span');
+    text.textContent = label;
+    add.appendChild(text);
+    add.addEventListener('click', onClick);
+    return add;
+  }
+
+  /* ---------- 文件夹展开面板 ---------- */
+  let openFolderIndex = -1;
+
+  function closeFolderPanel() {
+    if (el.folderPanel.hidden) return;
+    el.folderPanel.hidden = true;
+    const chip = el.linksList.querySelector('.chip--folder[aria-expanded="true"]');
+    if (chip) chip.setAttribute('aria-expanded', 'false');
+    openFolderIndex = -1;
+  }
+
+  function toggleFolderPanel(index, chip) {
+    if (!el.folderPanel.hidden && openFolderIndex === index) { closeFolderPanel(); return; }
+    closeFolderPanel();
+    openFolderIndex = index;
+    chip.setAttribute('aria-expanded', 'true');
+    renderFolderPanel();
+    el.folderPanel.hidden = false;
+    positionFolderPanel(chip);
+    el.folderPanel.style.animation = 'none';
+    void el.folderPanel.offsetWidth;
+    el.folderPanel.style.animation = '';
+  }
+
+  function positionFolderPanel(chip) {
+    const rect = chip.getBoundingClientRect();
+    const panel = el.folderPanel;
+    const width = panel.offsetWidth;
+    const height = panel.offsetHeight;
+    const margin = 10;
+
+    let left = rect.left + rect.width / 2 - width / 2;
+    left = Math.min(Math.max(margin, left), window.innerWidth - width - margin);
+
+    let top = rect.bottom + margin;
+    if (top + height > window.innerHeight - margin) {
+      top = rect.top - height - margin;                 // 下方放不下就翻到上方
+      if (top < margin) top = Math.max(margin, window.innerHeight - height - margin);
+    }
+    panel.style.left = Math.round(left) + 'px';
+    panel.style.top = Math.round(top) + 'px';
+  }
+
+  function renderFolderPanel() {
+    const folder = state.links[openFolderIndex];
+    if (!isFolder(folder)) { closeFolderPanel(); return; }
+
+    el.folderPanelList.textContent = '';
+    el.folderPanelTitle.textContent = folder.name;
+    el.folderPanelHint.textContent = t('links.folderHint');
+    el.folderOpenAll.textContent = t('links.openAll');
+    el.folderAddLink.textContent = t('links.addToFolder');
+    el.folderAddLink.hidden = !state.editing;
+
+    if (!folder.items.length) {
+      const empty = document.createElement('p');
+      empty.className = 'suggest__empty';
+      empty.textContent = t('links.folderEmpty');
+      el.folderPanelList.appendChild(empty);
+      return;
+    }
+
+    folder.items.forEach((item, itemIndex) => {
+      const row = document.createElement('a');
+      row.className = 'folder-item';
+      row.href = item.url;
+      row.title = item.name + ' · ' + prettyUrl(item.url);
+      row.appendChild(iconNode(hostOf(item.url), item.name, 'folder-item__icon'));
+
+      const name = document.createElement('span');
+      name.className = 'folder-item__name';
+      name.textContent = item.name;
+      row.appendChild(name);
+
+      if (state.editing) {
+        row.appendChild(removeButton(t('links.removeItem', item.name), () => removeFolderItem(openFolderIndex, itemIndex)));
+        row.addEventListener('click', (event) => event.preventDefault());
+        row.addEventListener('dblclick', (event) => {
+          event.preventDefault();
+          openLinkModal('edit', itemIndex, openFolderIndex);
+        });
+      } else {
+        row.target = '_blank';
+        row.rel = 'noopener';
+        row.addEventListener('click', () => closeFolderPanel());
+      }
+      el.folderPanelList.appendChild(row);
+    });
+  }
+
+  el.folderOpenAll.addEventListener('click', () => {
+    const folder = state.links[openFolderIndex];
+    if (isFolder(folder)) openAllInFolder(folder);
+  });
+
+  el.folderAddLink.addEventListener('click', () => {
+    if (openFolderIndex < 0) return;
+    openLinkModal('add', -1, openFolderIndex);
+  });
+
+  /** 一键打开文件夹里的全部网页 */
+  function openAllInFolder(folder) {
+    const urls = folder.items.map((item) => item.url).filter(Boolean).slice(0, 20);
+    if (!urls.length) { toast(t('links.folderEmpty')); return; }
+
+    // 扩展环境下用 tabs.create：不受弹窗拦截限制
+    const tabs = browserApi && browserApi.tabs;
+    if (tabs && typeof tabs.create === 'function') {
+      urls.forEach((url) => {
+        try {
+          const result = tabs.create({ url, active: false });
+          if (result && typeof result.catch === 'function') result.catch(() => {});
+        } catch { /* 单个失败不影响其他 */ }
+      });
+      toast(t('toast.openedAll', urls.length));
+      return;
+    }
+
+    // 直接打开 index.html（非扩展环境）时退回 window.open，会被浏览器限制
+    let opened = 0;
+    urls.forEach((url) => {
+      const win = window.open(url, '_blank');
+      if (win) {
+        try { win.opener = null; } catch { /* 跨域时忽略 */ }
+        opened += 1;
+      }
+    });
+    if (!opened) toast(t('toast.popupBlocked'));
+    else if (opened < urls.length) toast(t('toast.openedPartial', opened, urls.length));
+    else toast(t('toast.openedAll', opened));
+  }
+
+  function removeFolderItem(folderIndex, itemIndex) {
+    const folder = state.links[folderIndex];
+    if (!isFolder(folder)) return;
+    folder.items.splice(itemIndex, 1);
+    persistLinks();
+    renderLinks();
+    renderFolderPanel();
+    toast(t('toast.removed'));
+  }
+
+  function removeFolder(index) {
+    const folder = state.links[index];
+    if (!isFolder(folder)) return;
+    if (folder.items.length && !window.confirm(t('toast.folderConfirm', folder.name, folder.items.length))) return;
+    state.links.splice(index, 1);
+    closeFolderPanel();
+    persistLinks();
+    renderLinks();
+    toast(t('toast.folderRemoved'));
   }
 
   function attachDrag(chip, index) {
@@ -1166,19 +1409,71 @@
   });
   el.addLinkBtn.addEventListener('click', () => openLinkModal('add'));
 
+  // 点文件夹面板以外的地方收起它
+  document.addEventListener('click', (event) => {
+    if (el.folderPanel.hidden) return;
+    if (el.folderPanel.contains(event.target)) return;
+    if (event.target.closest('.chip--folder')) return; // chip 自己会切换
+    closeFolderPanel();
+  });
+  window.addEventListener('resize', closeFolderPanel);
+
   /* ---------------------------------------------------------
      13. 添加 / 编辑 对话框
      --------------------------------------------------------- */
-  function openLinkModal(mode, index) {
-    state.editingIndex = mode === 'edit' ? index : -1;
-    el.linkModalTitle.textContent = mode === 'edit' ? t('dialog.editTitle') : t('dialog.addTitle');
+  /** folderIndex: -1 表示顶层，>=0 表示某个文件夹里面 */
+  function linkAt(folderIndex, index) {
+    const folder = state.links[folderIndex];
+    const container = folderIndex >= 0 ? (isFolder(folder) ? folder.items : null) : state.links;
+    return Array.isArray(container) ? container[index] : null;
+  }
+
+  function fillFolderOptions(selected) {
+    el.linkFolder.textContent = '';
+    const none = document.createElement('option');
+    none.value = '-1';
+    none.textContent = t('dialog.noFolder');
+    el.linkFolder.appendChild(none);
+
+    state.links.forEach((item, index) => {
+      if (!isFolder(item)) return;
+      const option = document.createElement('option');
+      option.value = String(index);
+      option.textContent = item.name;
+      el.linkFolder.appendChild(option);
+    });
+    el.linkFolder.value = String(selected);
+  }
+
+  function openLinkModal(mode, index = -1, folderIndex = -1) {
+    const folderMode = mode === 'folderNew' || mode === 'folderEdit';
+    state.modalMode = mode;
+    state.editingIndex = folderMode || mode === 'edit' ? index : -1;
+    state.editingFolder = folderMode ? -1 : folderIndex;
     el.linkError.hidden = true;
-    if (mode === 'edit' && state.links[index]) {
+    el.linkForm.reset();
+
+    el.linkUrlField.hidden = folderMode;
+    el.linkFolderField.hidden = folderMode;
+    el.linkUrl.required = !folderMode;
+
+    el.linkModalTitle.textContent = folderMode
+      ? (mode === 'folderNew' ? t('dialog.folderNewTitle') : t('dialog.folderEditTitle'))
+      : (mode === 'edit' ? t('dialog.editTitle') : t('dialog.addTitle'));
+
+    fillFolderOptions(folderMode ? -1 : folderIndex);
+
+    if (mode === 'folderEdit' && isFolder(state.links[index])) {
       el.linkName.value = state.links[index].name;
-      el.linkUrl.value = prettyUrl(state.links[index].url);
-    } else {
-      el.linkForm.reset();
+    } else if (mode === 'edit') {
+      const item = linkAt(folderIndex, index);
+      if (item) {
+        el.linkName.value = item.name;
+        el.linkUrl.value = prettyUrl(item.url);
+      }
     }
+
+    closeFolderPanel();
     el.modal.hidden = false;
     el.linkName.focus();
   }
@@ -1186,6 +1481,8 @@
   function closeLinkModal() {
     el.modal.hidden = true;
     state.editingIndex = -1;
+    state.editingFolder = -1;
+    state.modalMode = 'add';
   }
 
   el.modal.addEventListener('click', (event) => {
@@ -1193,6 +1490,7 @@
   });
 
   document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && !el.folderPanel.hidden) closeFolderPanel();
     if (event.key === 'Escape' && !el.modal.hidden) closeLinkModal();
     if (event.key === '/' && document.activeElement !== el.input &&
         !/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName) && el.modal.hidden) {
@@ -1204,19 +1502,54 @@
   el.linkForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const name = el.linkName.value.trim();
-    const url = normalizeUrl(el.linkUrl.value);
-
     if (!name) { showLinkError(t('toast.nameRequired')); return; }
+
+    if (state.modalMode === 'folderNew') {
+      state.links.push({ type: 'folder', name, items: [] });
+      persistLinks();
+      closeLinkModal();
+      renderLinks();
+      toast(t('toast.folderAdded'));
+      return;
+    }
+
+    if (state.modalMode === 'folderEdit') {
+      const folder = state.links[state.editingIndex];
+      if (isFolder(folder)) folder.name = name;
+      persistLinks();
+      closeLinkModal();
+      renderLinks();
+      toast(t('toast.folderSaved'));
+      return;
+    }
+
     if (!el.linkUrl.value.trim()) { showLinkError(t('toast.urlRequired')); return; }
+    const url = normalizeUrl(el.linkUrl.value);
     if (!url) { showLinkError(t('toast.urlInvalid')); return; }
 
-    if (state.editingIndex >= 0) {
-      state.links[state.editingIndex] = { name, url };
+    // 先按引用取出目标文件夹：下面 splice 之后下标可能已经变了
+    const targetIndex = Number(el.linkFolder.value);
+    const targetFolder = isFolder(state.links[targetIndex]) ? state.links[targetIndex] : null;
+    const entry = { name, url };
+
+    if (state.modalMode === 'edit') {
+      const container = state.editingFolder >= 0
+        ? (isFolder(state.links[state.editingFolder]) ? state.links[state.editingFolder].items : null)
+        : state.links;
+      if (!Array.isArray(container)) { closeLinkModal(); return; }
+
+      if (targetIndex === state.editingFolder) {
+        container[state.editingIndex] = entry;          // 原地更新，顺序不变
+      } else {
+        container.splice(state.editingIndex, 1);
+        if (targetFolder) targetFolder.items.push(entry); else state.links.push(entry);
+      }
       toast(t('toast.saved'));
     } else {
-      state.links.push({ name, url });
+      if (targetFolder) targetFolder.items.push(entry); else state.links.push(entry);
       toast(t('toast.added'));
     }
+
     persistLinks();
     closeLinkModal();
     renderLinks();
@@ -1233,6 +1566,7 @@
   function applyLinksVisibility() {
     el.linksBar.hidden = !state.showLinks;
     el.showLinksSwitch.setAttribute('aria-checked', String(state.showLinks));
+    if (!state.showLinks) closeFolderPanel();
     applySearchPos();
   }
 

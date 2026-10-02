@@ -193,13 +193,6 @@
             </svg>
           </button>
 
-          <button type="button" class="field-button" id="micBtn" data-i18n-aria="search.mic" data-i18n-title="search.mic">
-            <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true">
-              <path d="M12 14.5a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5.5a3 3 0 0 0 3 3Z"/>
-              <path d="M6.5 11.5a5.5 5.5 0 0 0 11 0M12 17v3.2M9 20.2h6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
-            </svg>
-          </button>
-
           <!-- 搜索建议 / 历史 -->
           <div class="suggest" id="suggestBox" role="listbox" hidden></div>
         </div>
@@ -256,9 +249,13 @@
       <span data-i18n="dialog.name">名称</span>
       <input id="linkName" type="text" maxlength="24" data-i18n-placeholder="dialog.namePlaceholder" required>
     </label>
-    <label class="field">
+    <label class="field" id="linkUrlField">
       <span data-i18n="dialog.url">网址</span>
       <input id="linkUrl" type="text" data-i18n-placeholder="dialog.urlPlaceholder" required>
+    </label>
+    <label class="field" id="linkFolderField">
+      <span data-i18n="dialog.folder">文件夹</span>
+      <select class="select" id="linkFolder"></select>
     </label>
     <p class="modal__error" id="linkError" hidden></p>
     <div class="modal__actions">
@@ -269,6 +266,19 @@
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<!-- 文件夹展开面板：左键展开，右键一键打开全部 -->
+<div class="folder-pop" id="folderPanel" hidden>
+  <div class="folder-pop__head">
+    <p class="folder-pop__title" id="folderPanelTitle"></p>
+    <button type="button" class="text-btn text-btn--sm" id="folderOpenAll" data-i18n="links.openAll">全部打开</button>
+  </div>
+  <div class="folder-pop__list" id="folderPanelList"></div>
+  <div class="folder-pop__foot">
+    <button type="button" class="text-btn text-btn--sm" id="folderAddLink" hidden></button>
+    <p class="folder-pop__hint" id="folderPanelHint"></p>
+  </div>
+</div>
 
 <div class="image-search-popover" id="imageSearchPopover" hidden>
   <div class="image-search-popover__head">
