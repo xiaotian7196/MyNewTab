@@ -16,12 +16,6 @@
        suggest: 'https://suggestqueries.google.com/complete/search?client=firefox&q=%s'
     },
     {
-      id: 'baidu', name: '百度', host: 'baidu.com', hint: 'baidu.com',
-       search: 'https://www.baidu.com/s?wd=%s',
-       images: 'https://image.baidu.com/search/index?tn=baiduimage&word=%s',
-       suggest: 'https://suggestion.baidu.com/su?json=1&wd=%s'
-    },
-    {
       id: 'bing', name: '必应', host: 'bing.com', hint: 'bing.com',
        search: 'https://www.bing.com/search?q=%s',
        images: 'https://www.bing.com/images/search?q=%s',
@@ -32,22 +26,6 @@
        search: 'https://duckduckgo.com/?q=%s',
        images: 'https://duckduckgo.com/?iax=images&ia=images&q=%s',
        suggest: 'https://duckduckgo.com/ac/?q=%s&type=list'
-    },
-    {
-      id: 'sogou', name: '搜狗', host: 'sogou.com', hint: 'sogou.com',
-       search: 'https://www.sogou.com/web?query=%s',
-       images: 'https://pic.sogou.com/pics?query=%s',
-       suggest: 'https://www.sogou.com/suggnew/ajajjson?key=%s'
-    },
-    {
-      id: 'so360', name: '360 搜索', host: 'so.com', hint: 'so.com',
-       search: 'https://www.so.com/s?q=%s',
-       images: 'https://image.so.com/i?q=%s'
-    },
-    {
-      id: 'zhihu', name: '知乎', host: 'zhihu.com', hint: 'zhihu.com',
-      search: 'https://www.zhihu.com/search?type=content&q=%s',
-      images: null
     },
     {
       id: 'github', name: 'GitHub', host: 'github.com', hint: 'github.com',
@@ -1068,14 +1046,23 @@
     el.input.placeholder = state.images ? t('search.placeholderImage') : t('search.placeholder');
   }
 
-  el.imageBtn.addEventListener('click', () => {
+  el.imageBtn.addEventListener('click', (event) => {
     const current = engine();
     if (current.id !== 'google') { toast(t('toast.noImage', current.name)); return; }
+    event.stopPropagation();                 // 别让下面"点外面关闭"立刻又把它收起来
     el.imagePopover.hidden = false;
     el.imageUrlInput.focus();
   });
 
   function closeImageSearch() { el.imagePopover.hidden = true; }
+
+  // 点击弹层以外的地方就收起来（点输入框内部、按钮内部不算）
+  document.addEventListener('click', (event) => {
+    if (el.imagePopover.hidden) return;
+    if (el.imagePopover.contains(event.target)) return;
+    if (el.imageBtn.contains(event.target)) return;
+    closeImageSearch();
+  });
   function openGoogleImageSearch(url) {
     if (!url) return;
     openUrl('https://lens.google.com/uploadbyurl?url=' + encodeURIComponent(url), false);
@@ -1629,6 +1616,7 @@
 
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && openFolderIndex >= 0) closeFolder();
+    if (event.key === 'Escape' && !el.imagePopover.hidden) closeImageSearch();
     if (event.key === 'Escape' && !el.modal.hidden) closeLinkModal();
     if (event.key === '/' && document.activeElement !== el.input &&
         !/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName) && el.modal.hidden) {
@@ -2100,6 +2088,11 @@
     if (folded.length !== state.links.length || !folded.every(isFolder)) {
       state.links = folded;
       persistLinks();
+    }
+    // 被移除过的引擎（百度 / 搜狗 / 360 / 知乎）在设置里还留着的话，退回第一个
+    if (state.engineId !== CUSTOM_ENGINE_ID && !ENGINES.some((e) => e.id === state.engineId)) {
+      state.engineId = ENGINES[0].id;
+      store.set(KEY.engine, state.engineId);
     }
     renderEngine();
     renderEngineSelect();

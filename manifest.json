@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Homepage",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "A private customizable new tab homepage with multi-engine search suggestions.",
   "browser_specific_settings": {
     "gecko": {
@@ -24,12 +24,8 @@
   "host_permissions": [
     "https://www.google.com/*",
     "https://suggestqueries.google.com/*",
-    "https://www.baidu.com/*",
-    "https://suggestion.baidu.com/*",
     "https://www.bing.com/*",
     "https://duckduckgo.com/*",
-    "https://www.sogou.com/*",
-    "https://www.so.com/*",
     "https://icons.duckduckgo.com/*"
   ],
   "icons": {
