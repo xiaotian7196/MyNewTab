@@ -179,7 +179,8 @@
       'toast.folderAdded': '已新建文件夹', 'toast.folderSaved': '文件夹已重命名',
       'toast.folderRemoved': '已删除文件夹', 'toast.folderConfirm': '文件夹「%s」里还有 %s 个网址，一并删除？',
       'toast.movedToFolder': '已放入「%s」',
-      'toast.openedAll': '已打开 %s 个网页', 'toast.openedPartial': '只打开了 %s/%s 个 —— 网页模式下一次只放行一个弹窗，允许弹出窗口后可全部打开',
+      'toast.openedAll': '已打开 %s 个网页', 'toast.openedWindow': '已在新窗口打开 %s 个网页',
+      'toast.openedPartial': '只打开了 %s/%s 个 —— 网页模式下一次只放行一个弹窗，允许弹出窗口后可全部打开',
       'toast.popupBlocked': '浏览器拦截了弹出窗口：网页模式下一次只放行一个，请在地址栏允许弹出窗口后重试',
       'toast.bgSet': '已设为背景', 'toast.bgCleared': '已清除背景',
        'toast.bgTooBig': '图片太大存不下，换一张小一点的', 'toast.bgFailed': '读不到这张图片，换一张试试', 'toast.historyUnsupported': '当前浏览器不支持读取浏览记录', 'toast.historyDeclined': '未获得浏览记录权限', 'toast.customEngineInvalid': '请填写名称和包含 %s 的搜索地址', 'toast.customEngineSaved': '自定义搜索引擎已保存', 'toast.settingsInvalid': '设置文件格式不正确'
@@ -231,7 +232,8 @@
       'toast.folderAdded': '已新增資料夾', 'toast.folderSaved': '資料夾已重新命名',
       'toast.folderRemoved': '已刪除資料夾', 'toast.folderConfirm': '資料夾「%s」裡還有 %s 個網址，要一併刪除嗎？',
       'toast.movedToFolder': '已放入「%s」',
-      'toast.openedAll': '已開啟 %s 個網頁', 'toast.openedPartial': '只開啟了 %s/%s 個 —— 網頁模式一次只放行一個彈出視窗，允許後可全部開啟',
+      'toast.openedAll': '已開啟 %s 個網頁', 'toast.openedWindow': '已在新視窗開啟 %s 個網頁',
+      'toast.openedPartial': '只開啟了 %s/%s 個 —— 網頁模式一次只放行一個彈出視窗，允許後可全部開啟',
       'toast.popupBlocked': '瀏覽器阻擋了彈出視窗：網頁模式一次只放行一個，請在網址列允許後再試',
       'toast.bgSet': '已設為背景', 'toast.bgCleared': '已清除背景',
        'toast.bgTooBig': '圖片太大存不下，換一張小一點的', 'toast.bgFailed': '讀不到這張圖片，換一張試試', 'toast.historyUnsupported': '目前的瀏覽器不支援讀取瀏覽記錄', 'toast.historyDeclined': '未取得瀏覽記錄權限', 'toast.customEngineInvalid': '請填寫名稱和包含 %s 的搜尋網址', 'toast.customEngineSaved': '自訂搜尋引擎已儲存', 'toast.settingsInvalid': '設定檔格式不正確'
@@ -283,7 +285,8 @@
       'toast.folderAdded': 'Folder created', 'toast.folderSaved': 'Folder renamed',
       'toast.folderRemoved': 'Folder removed', 'toast.folderConfirm': '“%s” still holds %s links. Delete them too?',
       'toast.movedToFolder': 'Moved into “%s”',
-      'toast.openedAll': 'Opened %s pages', 'toast.openedPartial': 'Opened only %s of %s — plain web mode allows one pop-up per click; allow pop-ups to open them all',
+      'toast.openedAll': 'Opened %s pages', 'toast.openedWindow': 'Opened %s pages in a new window',
+      'toast.openedPartial': 'Opened only %s of %s — plain web mode allows one pop-up per click; allow pop-ups to open them all',
       'toast.popupBlocked': 'The browser blocked the pop-ups: plain web mode allows one per click — allow pop-ups for this page and try again',
       'toast.reordered': 'Order updated',
       'toast.bgSet': 'Background image set', 'toast.bgCleared': 'Background cleared',
@@ -1319,22 +1322,43 @@
     return tabs && typeof tabs.create === 'function' ? tabs : null;
   }
 
-  /** 一键打开文件夹里的全部网页 */
+  /** 一键打开文件夹里的全部网页。
+      依次尝试：tabs.create（后台标签页）→ windows.create（新窗口多标签）→ window.open。
+      每条路径都会如实回报结果，方便判断当前环境支持到哪一步。 */
   function openAllInFolder(folder) {
     const urls = folder.items.map((item) => item.url).filter(Boolean).slice(0, 20);
     if (!urls.length) { toast(t('links.folderEmpty')); return; }
 
-    // 扩展环境：逐个新建后台标签页，不受弹窗拦截限制
     const tabs = tabsApi();
     if (tabs) {
+      const promises = [];
+      let thrown = 0;
       urls.forEach((url) => {
         try {
           const result = tabs.create({ url, active: false });
-          if (result && typeof result.catch === 'function') result.catch(() => {});
-        } catch { /* 单个失败不影响其他 */ }
+          if (result && typeof result.then === 'function') {
+            promises.push(result.then(() => true, () => false));
+          }
+        } catch { thrown += 1; }
       });
       toast(t('toast.openedAll', urls.length));
+      if (promises.length) {
+        Promise.all(promises).then((results) => {
+          const ok = results.filter(Boolean).length + (urls.length - promises.length - thrown);
+          if (ok < urls.length) toast(t('toast.openedPartial', Math.max(0, ok), urls.length));
+        });
+      }
       return;
+    }
+
+    // 没有 tabs API：试试 windows.create —— 一次调用开一个新窗口，里面全是这些标签页
+    const windows = browserApi && browserApi.windows;
+    if (windows && typeof windows.create === 'function') {
+      try {
+        windows.create({ url: urls, focused: true });
+        toast(t('toast.openedWindow', urls.length));
+        return;
+      } catch { /* 落到最下面的 window.open */ }
     }
 
     // 纯网页环境（直接打开 index.html）：浏览器一次手势只放行一个弹窗，
