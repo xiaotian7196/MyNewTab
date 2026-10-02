@@ -435,8 +435,9 @@
     engineLogo: $('engineLogo'), engineName: $('engineName'),
     imageBtn: $('imageBtn'), goBtn: $('goBtn'),
     linksBar: $('linksBar'), linksList: $('linksList'), editLinksBtn: $('editLinksBtn'), addLinkBtn: $('addLinkBtn'),
-    folderPanel: $('folderPanel'), folderPanelTitle: $('folderPanelTitle'), folderPanelList: $('folderPanelList'),
-    folderOpenAll: $('folderOpenAll'), folderAddLink: $('folderAddLink'), folderPanelHint: $('folderPanelHint'),
+    folderDrawer: $('folderDrawer'), folderDrawerTitle: $('folderDrawerTitle'),
+    folderDrawerList: $('folderDrawerList'), folderDrawerHint: $('folderDrawerHint'),
+    folderOpenAll: $('folderOpenAll'), folderAddLink: $('folderAddLink'),
     themeBtn: $('themeBtn'), settingsBtnBottom: $('settingsBtnBottom'), settingsPanel: $('settingsPanel'),
     langSeg: $('langSeg'), fontSelect: $('fontSelect'),
     themeSeg: $('themeSeg'), engineSelect: $('engineSelect'),
@@ -781,6 +782,12 @@
     });
   }
 
+  /** 候选框现在是不是"用户在用"的状态：聚焦、已展开、或有输入。
+      首屏预取浏览器记录时用它兜底，避免打开新标签页就自己弹出候选框。 */
+  function suggestionsActive() {
+    return document.activeElement === el.input || !el.suggest.hidden || el.input.value.trim() !== '';
+  }
+
   async function refreshBrowserHistory(query) {
     if (!state.browserHistoryEnabled || !historyApi()) return;
     try {
@@ -789,7 +796,8 @@
         .map((item) => item && item.url)
         .filter((item) => /^https?:\/\//i.test(item || ''))
       .slice(0, 4);
-      renderSuggestions();
+      // 只有用户确实在搜索时才重绘；init() 里那次预取不能把候选框弹出来
+      if (suggestionsActive()) renderSuggestions();
     } catch {
       browserHistorySuggestions = [];
     }
@@ -861,7 +869,7 @@
     store.set(KEY.browserHistory, false);
     updateBrowserHistoryUi();
     updateBrowserChecks();
-    renderSuggestions();
+    if (suggestionsActive()) renderSuggestions(); else hideSuggestions();
   }
 
   function parseSuggestions(data) {
@@ -1106,11 +1114,15 @@
       el.linksList.appendChild(addChip(t('links.newFolder'), 'M3 7.5h6l1.6 2H21v8.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18Z', () => openLinkModal('folderNew')));
     }
 
-    // chip 是重建的，展开状态要重新标回去；面板内容也同步刷新
-    if (!el.folderPanel.hidden && openFolderIndex >= 0) {
+    // chip 是重建的，展开状态要重新标回去；展开区内容也同步刷新
+    if (openFolderIndex >= 0) {
       const openChip = el.linksList.querySelector('.chip--folder[data-index="' + openFolderIndex + '"]');
-      if (openChip) openChip.setAttribute('aria-expanded', 'true');
-      renderFolderPanel();
+      if (openChip) {
+        openChip.classList.add('is-open');
+        openChip.setAttribute('aria-expanded', 'true');
+      }
+      renderFolderDrawer();
+      syncDrawerHeight();
     }
   }
 
@@ -1163,17 +1175,23 @@
     name.textContent = folder.name;
     chip.appendChild(name);
 
+    // 手风琴的小箭头：展开时翻转
+    const caret = document.createElement('span');
+    caret.className = 'chip__caret';
+    caret.setAttribute('aria-hidden', 'true');
+    caret.innerHTML = '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9.5 6 6 6-6"/></svg>';
+    chip.appendChild(caret);
+
     chip.addEventListener('click', (event) => {
       event.preventDefault();
       event.stopPropagation();
-      toggleFolderPanel(index, chip);
+      toggleFolderDrawer(index, chip);
     });
 
     // 右键：一键打开这个文件夹里的全部网页
     chip.addEventListener('contextmenu', (event) => {
       event.preventDefault();
       event.stopPropagation();
-      closeFolderPanel();
       openAllInFolder(folder);
     });
 
@@ -1215,96 +1233,124 @@
     return add;
   }
 
-  /* ---------- 文件夹展开面板 ---------- */
+  /* ---------- 文件夹展开区（手风琴，长在快捷网址框内部） ---------- */
   let openFolderIndex = -1;
+  let drawerTimer = 0;
 
-  function closeFolderPanel() {
-    if (el.folderPanel.hidden) return;
-    el.folderPanel.hidden = true;
-    const chip = el.linksList.querySelector('.chip--folder[aria-expanded="true"]');
-    if (chip) chip.setAttribute('aria-expanded', 'false');
+  const drawerInner = () => el.folderDrawer.querySelector('.folder-drawer__inner');
+
+  /** 展开多少就补多少 margin-top，抵消 .stage 被重新居中造成的整体上移。
+      但空间不够时 main 会被内容撑高，补满 D 反而把整块推下去，
+      所以补偿最多只给到"原来剩余空间的一半" —— 两种情况顶边都能保持不动。 */
+  function drawerPadFor(height) {
+    const cs = getComputedStyle(el.main);
+    const padTop = parseFloat(cs.paddingTop) || 0;
+    const padBottom = parseFloat(cs.paddingBottom) || 0;
+    const openHeight = el.folderDrawer.getBoundingClientRect().height;
+    const closedStage = el.stage.offsetHeight - openHeight;
+    const free = el.main.clientHeight - padTop - padBottom - closedStage;
+    return Math.round(Math.max(0, Math.min(height, free / 2)));
+  }
+
+  /** 测量并写回展开区高度与补偿值 */
+  function syncDrawerHeight() {
+    if (openFolderIndex < 0) return;
+    const height = drawerInner().offsetHeight;
+    el.folderDrawer.style.height = height + 'px';
+    el.root.style.setProperty('--drawer-pad', drawerPadFor(height) + 'px');
+  }
+
+  function closeFolderDrawer() {
+    if (openFolderIndex < 0) return;
     openFolderIndex = -1;
+    clearTimeout(drawerTimer);
+    el.folderDrawer.classList.remove('is-open');
+    el.folderDrawer.style.height = '0px';
+    el.root.style.setProperty('--drawer-pad', '0px');
+    // 等收起动画结束再彻底隐藏，避免键盘还能 Tab 进去
+    drawerTimer = setTimeout(() => {
+      if (openFolderIndex < 0) el.folderDrawer.style.height = '';
+    }, 320);
+    el.linksList.querySelectorAll('.chip--folder').forEach((chip) => {
+      chip.classList.remove('is-open');
+      chip.setAttribute('aria-expanded', 'false');
+    });
   }
 
-  function toggleFolderPanel(index, chip) {
-    if (!el.folderPanel.hidden && openFolderIndex === index) { closeFolderPanel(); return; }
-    closeFolderPanel();
+  function toggleFolderDrawer(index, chip) {
+    if (openFolderIndex === index) { closeFolderDrawer(); return; }
+    const switching = openFolderIndex >= 0;
+    if (switching) closeFolderDrawer();
+
     openFolderIndex = index;
+    renderFolderDrawer();
+    chip.classList.add('is-open');
     chip.setAttribute('aria-expanded', 'true');
-    renderFolderPanel();
-    el.folderPanel.hidden = false;
-    positionFolderPanel(chip);
-    el.folderPanel.style.animation = 'none';
-    void el.folderPanel.offsetWidth;
-    el.folderPanel.style.animation = '';
+
+    // 切换文件夹时先把高度归零，再量新高度，动画才正常
+    el.folderDrawer.style.height = '0px';
+    void el.folderDrawer.offsetHeight;
+    el.folderDrawer.classList.add('is-open');
+    syncDrawerHeight();
   }
 
-  function positionFolderPanel(chip) {
-    const rect = chip.getBoundingClientRect();
-    const panel = el.folderPanel;
-    const width = panel.offsetWidth;
-    const height = panel.offsetHeight;
-    const margin = 10;
-
-    let left = rect.left + rect.width / 2 - width / 2;
-    left = Math.min(Math.max(margin, left), window.innerWidth - width - margin);
-
-    let top = rect.bottom + margin;
-    if (top + height > window.innerHeight - margin) {
-      top = rect.top - height - margin;                 // 下方放不下就翻到上方
-      if (top < margin) top = Math.max(margin, window.innerHeight - height - margin);
-    }
-    panel.style.left = Math.round(left) + 'px';
-    panel.style.top = Math.round(top) + 'px';
-  }
-
-  function renderFolderPanel() {
+  function renderFolderDrawer() {
     const folder = state.links[openFolderIndex];
-    if (!isFolder(folder)) { closeFolderPanel(); return; }
+    if (!isFolder(folder)) { closeFolderDrawer(); return; }
 
-    el.folderPanelList.textContent = '';
-    el.folderPanelTitle.textContent = folder.name;
+    el.folderDrawerTitle.textContent = folder.name;
     // 纯网页模式下浏览器一次只放行一个弹窗，这里如实说明
-    el.folderPanelHint.textContent = tabsApi() ? t('links.folderHint') : t('links.folderHintWeb');
+    el.folderDrawerHint.textContent = tabsApi() ? t('links.folderHint') : t('links.folderHintWeb');
     el.folderOpenAll.textContent = t('links.openAll');
     el.folderAddLink.textContent = t('links.addToFolder');
     el.folderAddLink.hidden = !state.editing;
+
+    const list = el.folderDrawerList;
+    list.textContent = '';
 
     if (!folder.items.length) {
       const empty = document.createElement('p');
       empty.className = 'suggest__empty';
       empty.textContent = t('links.folderEmpty');
-      el.folderPanelList.appendChild(empty);
+      list.appendChild(empty);
       return;
     }
 
     folder.items.forEach((item, itemIndex) => {
-      const row = document.createElement('a');
-      row.className = 'folder-item';
-      row.href = item.url;
-      row.title = item.name + ' · ' + prettyUrl(item.url);
-      row.appendChild(iconNode(hostOf(item.url), item.name, 'folder-item__icon'));
+      const chip = document.createElement('a');
+      chip.className = 'chip chip--inner';
+      chip.href = item.url;
+      chip.title = item.name + ' · ' + prettyUrl(item.url);
+      chip.appendChild(iconNode(hostOf(item.url), item.name, 'chip__icon'));
 
       const name = document.createElement('span');
-      name.className = 'folder-item__name';
+      name.className = 'chip__name';
       name.textContent = item.name;
-      row.appendChild(name);
+      chip.appendChild(name);
 
       if (state.editing) {
-        row.appendChild(removeButton(t('links.removeItem', item.name), () => removeFolderItem(openFolderIndex, itemIndex)));
-        row.addEventListener('click', (event) => event.preventDefault());
-        row.addEventListener('dblclick', (event) => {
+        chip.appendChild(removeButton(t('links.removeItem', item.name), () => removeFolderItem(openFolderIndex, itemIndex)));
+        chip.addEventListener('click', (event) => event.preventDefault());
+        chip.addEventListener('dblclick', (event) => {
           event.preventDefault();
           openLinkModal('edit', itemIndex, openFolderIndex);
         });
-      } else {
-        row.target = '_blank';
-        row.rel = 'noopener';
-        row.addEventListener('click', () => closeFolderPanel());
       }
-      el.folderPanelList.appendChild(row);
+      list.appendChild(chip);
     });
+
+    if (state.editing) {
+      const add = addChip(t('links.addToFolder'), 'M12 5v14M5 12h14', () => {
+        if (openFolderIndex >= 0) openLinkModal('add', -1, openFolderIndex);
+      });
+      list.appendChild(add);
+    }
   }
+
+  // 窗口变化时 chip 会重新换行，展开高度跟着重算
+  window.addEventListener('resize', () => {
+    if (openFolderIndex >= 0) syncDrawerHeight();
+  });
 
   el.folderOpenAll.addEventListener('click', () => {
     const folder = state.links[openFolderIndex];
@@ -1382,7 +1428,6 @@
     folder.items.splice(itemIndex, 1);
     persistLinks();
     renderLinks();
-    renderFolderPanel();
     toast(t('toast.removed'));
   }
 
@@ -1391,7 +1436,7 @@
     if (!isFolder(folder)) return;
     if (folder.items.length && !window.confirm(t('toast.folderConfirm', folder.name, folder.items.length))) return;
     state.links.splice(index, 1);
-    closeFolderPanel();
+    closeFolderDrawer();
     persistLinks();
     renderLinks();
     toast(t('toast.folderRemoved'));
@@ -1470,15 +1515,6 @@
   });
   el.addLinkBtn.addEventListener('click', () => openLinkModal('add'));
 
-  // 点文件夹面板以外的地方收起它
-  document.addEventListener('click', (event) => {
-    if (el.folderPanel.hidden) return;
-    if (el.folderPanel.contains(event.target)) return;
-    if (event.target.closest('.chip--folder')) return; // chip 自己会切换
-    closeFolderPanel();
-  });
-  window.addEventListener('resize', closeFolderPanel);
-
   /* ---------------------------------------------------------
      13. 添加 / 编辑 对话框
      --------------------------------------------------------- */
@@ -1534,7 +1570,7 @@
       }
     }
 
-    closeFolderPanel();
+    // 展开区保持打开：从文件夹里点「添加到此文件夹」时，保存后能立刻看到新条目
     el.modal.hidden = false;
     el.linkName.focus();
   }
@@ -1551,7 +1587,7 @@
   });
 
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && !el.folderPanel.hidden) closeFolderPanel();
+    if (event.key === 'Escape' && openFolderIndex >= 0) closeFolderDrawer();
     if (event.key === 'Escape' && !el.modal.hidden) closeLinkModal();
     if (event.key === '/' && document.activeElement !== el.input &&
         !/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName) && el.modal.hidden) {
@@ -1627,7 +1663,7 @@
   function applyLinksVisibility() {
     el.linksBar.hidden = !state.showLinks;
     el.showLinksSwitch.setAttribute('aria-checked', String(state.showLinks));
-    if (!state.showLinks) closeFolderPanel();
+    if (!state.showLinks) closeFolderDrawer();
     applySearchPos();
   }
 
