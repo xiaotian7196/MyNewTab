@@ -442,7 +442,7 @@ main {
      margin-top 用来抵消「展开文件夹后整块被重新居中导致整体上移」：
      展开多少就补多少，视觉上只有快捷网址框往下延伸。 */
   transform: translateY(var(--stage-shift, 0px));
-  margin-top: var(--drawer-pad, 0px);
+  margin-top: var(--expand-pad, 0px);
   transition: margin-top 300ms cubic-bezier(.2, .8, .2, 1);
 }
 
@@ -934,51 +934,25 @@ main {
 .chip--folder.is-open { border-color: var(--blue); }
 .chip--folder.is-open .chip__icon--folder,
 .chip--folder.is-open .chip__name { color: var(--blue); }
-.chip--folder.is-open .chip__caret { transform: rotate(180deg); color: var(--blue); }
+/* 展开时箭头指向右（内容在右边铺开），收起时朝下 */
+.chip--folder.is-open .chip__caret { transform: rotate(-90deg); color: var(--blue); }
 
-/* ---------- 文件夹展开区（手风琴，长在快捷网址框里） ---------- */
-.folder-drawer {
-  height: 0;
-  overflow: hidden;
-  visibility: hidden;
-  /* 收起时等高度动画走完再隐藏，展开时立即可见 */
-  transition: height 300ms cubic-bezier(.2, .8, .2, 1), visibility 0s linear 300ms;
+/* ---------- 文件夹里的网址：横向接在文件夹后面 ---------- */
+.chip--inner {
+  background: rgba(255, 255, 255, .34);
+  animation: chip-in 260ms cubic-bezier(.2, .8, .2, 1) both;
 }
-.folder-drawer.is-open {
-  visibility: visible;
-  transition: height 300ms cubic-bezier(.2, .8, .2, 1), visibility 0s;
-}
-.folder-drawer__inner {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding-top: 14px;
-  border-top: 1px solid var(--line);
-}
-.folder-drawer__head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.folder-drawer__title {
-  margin: 0;
-  color: var(--blue);
-  font-size: 12.5px;
-  font-weight: 600;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.folder-drawer__tools { display: flex; align-items: center; gap: 4px; }
-.folder-drawer__list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  max-height: min(210px, 30vh);
-  overflow-y: auto;
-  overscroll-behavior: contain;
-}
-.folder-drawer__hint { margin: 0; color: var(--muted); font-size: 11.5px; line-height: 1.5; }
-.chip--inner { background: rgba(255, 255, 255, .34); }
 [data-theme="dark"] .chip--inner { background: rgba(255, 255, 255, .05); }
 .chip--inner:hover { background: rgba(255, 255, 255, .62); }
 [data-theme="dark"] .chip--inner:hover { background: rgba(255, 255, 255, .11); }
+@keyframes chip-in {
+  from { opacity: 0; transform: translateX(-8px) scale(.94); }
+  to { opacity: 1; transform: none; }
+}
+.links-empty { align-self: center; color: var(--muted); font-size: 12.5px; }
+
+/* 展开组里的「全部打开」小按钮 */
+.text-btn--inline { flex: 0 0 auto; align-self: center; }
 
 /* 编辑模式 */
 .shortcuts-panel.is-editing .chip {

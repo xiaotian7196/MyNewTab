@@ -213,20 +213,6 @@
           </div>
         </div>
         <div class="shortcut-list" id="linksList"></div>
-        <!-- 文件夹展开区：手风琴式，展开时整个快捷网址框往下延伸 -->
-        <div class="folder-drawer" id="folderDrawer">
-          <div class="folder-drawer__inner">
-            <div class="folder-drawer__head">
-              <p class="folder-drawer__title" id="folderDrawerTitle"></p>
-              <div class="folder-drawer__tools">
-                <button type="button" class="text-btn text-btn--sm" id="folderAddLink" hidden></button>
-                <button type="button" class="text-btn text-btn--sm" id="folderOpenAll" data-i18n="links.openAll">全部打开</button>
-              </div>
-            </div>
-            <div class="folder-drawer__list" id="folderDrawerList"></div>
-            <p class="folder-drawer__hint" id="folderDrawerHint"></p>
-          </div>
-        </div>
       </div>
     </section>
   </div>
@@ -281,7 +267,7 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
-<!-- 文件夹内容现在展开在快捷网址框内部（见 .folder-drawer），不再使用浮层 -->
+<!-- 网址都放在文件夹里，文件夹展开后就地横向铺开（见 .chip--inner） -->
 
 
 <div class="image-search-popover" id="imageSearchPopover" hidden>

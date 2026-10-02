@@ -58,17 +58,29 @@
   const CUSTOM_ENGINE_ID = 'custom';
 
   /* ---------------------------------------------------------
-     2. 默认快捷网址 / 应用面板
+     2. 默认快捷网址（顶层只有文件夹，网址都放在文件夹里）
      --------------------------------------------------------- */
   const DEFAULT_LINKS = [
-    { name: '知乎', url: 'https://www.zhihu.com' },
-    { name: '哔哩哔哩', url: 'https://www.bilibili.com' },
-    { name: 'GitHub', url: 'https://github.com' },
-    { name: '微博', url: 'https://weibo.com' },
-    { name: '淘宝', url: 'https://www.taobao.com' },
-    { name: '豆瓣', url: 'https://www.douban.com' },
-    { name: '百度网盘', url: 'https://pan.baidu.com' },
-    { name: '小红书', url: 'https://www.xiaohongshu.com' }
+    {
+      type: 'folder', name: '常用', items: [
+        { name: '知乎', url: 'https://www.zhihu.com' },
+        { name: '哔哩哔哩', url: 'https://www.bilibili.com' },
+        { name: '微博', url: 'https://weibo.com' },
+        { name: '小红书', url: 'https://www.xiaohongshu.com' }
+      ]
+    },
+    {
+      type: 'folder', name: '工具', items: [
+        { name: 'GitHub', url: 'https://github.com' },
+        { name: '百度网盘', url: 'https://pan.baidu.com' }
+      ]
+    },
+    {
+      type: 'folder', name: '生活', items: [
+        { name: '淘宝', url: 'https://www.taobao.com' },
+        { name: '豆瓣', url: 'https://www.douban.com' }
+      ]
+    }
   ];
 
   /* ---------------------------------------------------------
@@ -141,11 +153,12 @@
        'search.history': '本页记录', 'search.browserHistory': '浏览器记录', 'search.openUrl': '打开该网址',
        'search.inEngine': '在 %s 中搜索', 'search.recommended': '%s 推荐',
       'links.title': '快捷网址', 'links.edit': '编辑', 'links.done': '完成',
-      'links.add': '添加快捷网址', 'links.remove': '移除 %s', 'links.empty': '还没有快捷网址',
+      'links.add': '添加快捷网址', 'links.empty': '还没有快捷网址',
       'links.newFolder': '新建文件夹', 'links.removeFolder': '移除文件夹 %s', 'links.removeItem': '移出 %s',
       'links.openAll': '全部打开', 'links.folderHint': '右键文件夹可以一次打开里面全部网页',
       'links.folderHintWeb': '右键文件夹可以打开里面的网页；网页模式下浏览器一次只允许一个弹窗',
       'links.folderEmpty': '这个文件夹还是空的', 'links.addToFolder': '添加到此文件夹',
+      'links.looseFolder': '未分类',
         'settings.title': '设置', 'settings.openSource': 'Homepage · 开源于 GitHub', 'settings.tabGeneral': '常规', 'settings.tabSearch': '搜索', 'settings.tabAppearance': '外观', 'settings.tabPrivacy': '隐私', 'settings.theme': '主题', 'settings.themeDark': '深色',
       'settings.themeLight': '浅色', 'settings.themeSystem': '跟随系统',
        'settings.engine': '默认搜索引擎', 'settings.customEngine': '自定义搜索引擎', 'settings.customEngineName': '名称，例如：我的搜索', 'settings.customEngineSearch': '搜索地址，必须包含 %s', 'settings.customEngineSuggest': '推荐地址，可选，必须包含 %s', 'settings.customEngineSave': '保存并使用', 'settings.customEngineHint': '地址中的 %s 会替换为关键词。',
@@ -165,8 +178,7 @@
       'dialog.name': '名称', 'dialog.url': '网址',
       'dialog.namePlaceholder': '例如：知乎', 'dialog.urlPlaceholder': '例如：zhihu.com',
       'dialog.cancel': '取消', 'dialog.save': '保存',
-      'dialog.folder': '文件夹', 'dialog.noFolder': '不放入文件夹',
-      'dialog.folderNewTitle': '新建文件夹', 'dialog.folderEditTitle': '重命名文件夹',
+      'dialog.folder': '文件夹', 'dialog.folderNewTitle': '新建文件夹', 'dialog.folderEditTitle': '重命名文件夹',
       'footer.note': '安静地做一个网络入口。',
       'footer.modeNote': '默认文案', 'footer.modeQuote': '每日一言', 'footer.modeFood': '今天吃什么',
       'footer.foodPrefix': '今天吃：', 'footer.reroll': '换一个', 'footer.settings': '设置',
@@ -178,6 +190,7 @@
       'toast.noImage': '%s 暂不支持以图搜图', 'toast.reordered': '已调整顺序',
       'toast.folderAdded': '已新建文件夹', 'toast.folderSaved': '文件夹已重命名',
       'toast.folderRemoved': '已删除文件夹', 'toast.folderConfirm': '文件夹「%s」里还有 %s 个网址，一并删除？',
+      'toast.needFolder': '请先新建一个文件夹，网址放在文件夹里',
       'toast.movedToFolder': '已放入「%s」',
       'toast.openedAll': '已打开 %s 个网页', 'toast.openedWindow': '已在新窗口打开 %s 个网页',
       'toast.openedPartial': '只打开了 %s/%s 个 —— 网页模式下一次只放行一个弹窗，允许弹出窗口后可全部打开',
@@ -194,11 +207,12 @@
        'search.history': '本頁記錄', 'search.browserHistory': '瀏覽器記錄', 'search.openUrl': '開啟這個網址',
        'search.inEngine': '在 %s 中搜尋', 'search.recommended': '%s 推薦',
       'links.title': '捷徑', 'links.edit': '編輯', 'links.done': '完成',
-      'links.add': '新增捷徑', 'links.remove': '移除 %s', 'links.empty': '還沒有捷徑',
+      'links.add': '新增捷徑', 'links.empty': '還沒有捷徑',
       'links.newFolder': '新增資料夾', 'links.removeFolder': '移除資料夾 %s', 'links.removeItem': '移出 %s',
       'links.openAll': '全部開啟', 'links.folderHint': '在資料夾上按右鍵，可以一次開啟裡面全部網頁',
       'links.folderHintWeb': '在資料夾上按右鍵可以開啟裡面的網頁；網頁模式下瀏覽器一次只允許一個彈出視窗',
       'links.folderEmpty': '這個資料夾還是空的', 'links.addToFolder': '新增到此資料夾',
+      'links.looseFolder': '未分類',
         'settings.title': '設定', 'settings.openSource': 'Homepage · 開源於 GitHub', 'settings.tabGeneral': '一般', 'settings.tabSearch': '搜尋', 'settings.tabAppearance': '外觀', 'settings.tabPrivacy': '隱私', 'settings.theme': '主題', 'settings.themeDark': '深色',
       'settings.themeLight': '淺色', 'settings.themeSystem': '跟隨系統',
        'settings.engine': '預設搜尋引擎', 'settings.customEngine': '自訂搜尋引擎', 'settings.customEngineName': '名稱，例如：我的搜尋', 'settings.customEngineSearch': '搜尋網址，必須包含 %s', 'settings.customEngineSuggest': '推薦網址，可選，必須包含 %s', 'settings.customEngineSave': '儲存並使用', 'settings.customEngineHint': '網址中的 %s 會替換為關鍵字。',
@@ -218,8 +232,7 @@
       'dialog.name': '名稱', 'dialog.url': '網址',
       'dialog.namePlaceholder': '例如：PChome', 'dialog.urlPlaceholder': '例如：pchome.com.tw',
       'dialog.cancel': '取消', 'dialog.save': '儲存',
-      'dialog.folder': '資料夾', 'dialog.noFolder': '不放入資料夾',
-      'dialog.folderNewTitle': '新增資料夾', 'dialog.folderEditTitle': '重新命名資料夾',
+      'dialog.folder': '資料夾', 'dialog.folderNewTitle': '新增資料夾', 'dialog.folderEditTitle': '重新命名資料夾',
       'footer.note': '安靜地做一個網路入口。',
       'footer.modeNote': '預設文字', 'footer.modeQuote': '每日一句', 'footer.modeFood': '今天吃什麼',
       'footer.foodPrefix': '今天吃：', 'footer.reroll': '換一個', 'footer.settings': '設定',
@@ -231,6 +244,7 @@
       'toast.noImage': '%s 尚未支援以圖搜圖', 'toast.reordered': '已調整順序',
       'toast.folderAdded': '已新增資料夾', 'toast.folderSaved': '資料夾已重新命名',
       'toast.folderRemoved': '已刪除資料夾', 'toast.folderConfirm': '資料夾「%s」裡還有 %s 個網址，要一併刪除嗎？',
+      'toast.needFolder': '請先新增一個資料夾，網址放在資料夾裡',
       'toast.movedToFolder': '已放入「%s」',
       'toast.openedAll': '已開啟 %s 個網頁', 'toast.openedWindow': '已在新視窗開啟 %s 個網頁',
       'toast.openedPartial': '只開啟了 %s/%s 個 —— 網頁模式一次只放行一個彈出視窗，允許後可全部開啟',
@@ -247,11 +261,12 @@
        'search.history': 'Page history', 'search.browserHistory': 'Browser history', 'search.openUrl': 'Open this URL',
        'search.inEngine': 'Search %s for this', 'search.recommended': '%s suggestion',
       'links.title': 'Shortcuts', 'links.edit': 'Edit', 'links.done': 'Done',
-      'links.add': 'Add shortcut', 'links.remove': 'Remove %s', 'links.empty': 'No shortcuts yet',
+      'links.add': 'Add shortcut', 'links.empty': 'No shortcuts yet',
       'links.newFolder': 'New folder', 'links.removeFolder': 'Remove folder %s', 'links.removeItem': 'Remove %s',
       'links.openAll': 'Open all', 'links.folderHint': 'Right-click a folder to open every page inside at once',
       'links.folderHintWeb': 'Right-click a folder to open its pages; in plain web mode the browser allows one pop-up at a time',
       'links.folderEmpty': 'This folder is empty', 'links.addToFolder': 'Add to this folder',
+      'links.looseFolder': 'Unsorted',
         'settings.title': 'Settings', 'settings.openSource': 'Homepage · Open source on GitHub', 'settings.tabGeneral': 'General', 'settings.tabSearch': 'Search', 'settings.tabAppearance': 'Appearance', 'settings.tabPrivacy': 'Privacy', 'settings.theme': 'Theme', 'settings.themeDark': 'Dark',
       'settings.themeLight': 'Light', 'settings.themeSystem': 'System',
        'settings.engine': 'Default search engine', 'settings.customEngine': 'Custom search engine', 'settings.customEngineName': 'Name, e.g. My Search', 'settings.customEngineSearch': 'Search URL, must include %s', 'settings.customEngineSuggest': 'Suggestion URL, optional, must include %s', 'settings.customEngineSave': 'Save and use', 'settings.customEngineHint': '%s is replaced with the query.',
@@ -271,8 +286,7 @@
       'dialog.name': 'Name', 'dialog.url': 'URL',
       'dialog.namePlaceholder': 'e.g. Wikipedia', 'dialog.urlPlaceholder': 'e.g. wikipedia.org',
       'dialog.cancel': 'Cancel', 'dialog.save': 'Save',
-      'dialog.folder': 'Folder', 'dialog.noFolder': 'No folder',
-      'dialog.folderNewTitle': 'New folder', 'dialog.folderEditTitle': 'Rename folder',
+      'dialog.folder': 'Folder', 'dialog.folderNewTitle': 'New folder', 'dialog.folderEditTitle': 'Rename folder',
       'footer.note': 'A quiet doorway to the internet.',
       'footer.modeNote': 'Default text', 'footer.modeQuote': 'Daily quote', 'footer.modeFood': 'What to eat',
       'footer.foodPrefix': 'Today: ', 'footer.reroll': 'Pick another', 'footer.settings': 'Settings',
@@ -284,6 +298,7 @@
       'toast.noImage': '%s does not support image search',
       'toast.folderAdded': 'Folder created', 'toast.folderSaved': 'Folder renamed',
       'toast.folderRemoved': 'Folder removed', 'toast.folderConfirm': '“%s” still holds %s links. Delete them too?',
+      'toast.needFolder': 'Create a folder first — links live inside folders',
       'toast.movedToFolder': 'Moved into “%s”',
       'toast.openedAll': 'Opened %s pages', 'toast.openedWindow': 'Opened %s pages in a new window',
       'toast.openedPartial': 'Opened only %s of %s — plain web mode allows one pop-up per click; allow pop-ups to open them all',
@@ -395,7 +410,7 @@
     editingIndex: -1,
     editingFolder: -1,
     modalMode: 'add',
-    dragIndex: -1
+    dragSource: null
   };
   let remoteSuggestions = [];
   let browserHistorySuggestions = [];
@@ -435,9 +450,6 @@
     engineLogo: $('engineLogo'), engineName: $('engineName'),
     imageBtn: $('imageBtn'), goBtn: $('goBtn'),
     linksBar: $('linksBar'), linksList: $('linksList'), editLinksBtn: $('editLinksBtn'), addLinkBtn: $('addLinkBtn'),
-    folderDrawer: $('folderDrawer'), folderDrawerTitle: $('folderDrawerTitle'),
-    folderDrawerList: $('folderDrawerList'), folderDrawerHint: $('folderDrawerHint'),
-    folderOpenAll: $('folderOpenAll'), folderAddLink: $('folderAddLink'),
     themeBtn: $('themeBtn'), settingsBtnBottom: $('settingsBtnBottom'), settingsPanel: $('settingsPanel'),
     langSeg: $('langSeg'), fontSelect: $('fontSelect'),
     themeSeg: $('themeSeg'), engineSelect: $('engineSelect'),
@@ -484,6 +496,14 @@
   }
 
   const isFolder = (item) => item && item.type === 'folder';
+
+  /** 顶层只允许文件夹：老数据里散在外面的网址收进一个「未分类」文件夹，不丢数据 */
+  function ensureFolders(list) {
+    const folders = list.filter(isFolder);
+    const loose = list.filter((item) => !isFolder(item));
+    if (loose.length) folders.unshift({ type: 'folder', name: t('links.looseFolder'), items: loose });
+    return folders;
+  }
 
   function hostOf(url) {
     try { return new URL(url).hostname.replace(/^www\./, ''); } catch { return ''; }
@@ -1101,68 +1121,86 @@
       empty.className = 'suggest__empty';
       empty.textContent = t('links.empty');
       el.linksList.appendChild(empty);
-      return;
+    } else {
+      // 顶层只有文件夹；展开的那个把里面的网址横向铺在它后面
+      state.links.forEach((folder, index) => {
+        if (!isFolder(folder)) return;
+        const open = index === openFolderIndex;
+        el.linksList.appendChild(folderChip(folder, index, open));
+        if (open) renderExpandedLinks(folder, index);
+      });
+      if (openFolderIndex >= 0 && !state.links[openFolderIndex]) openFolderIndex = -1;
     }
 
-    state.links.forEach((link, index) => {
-      const chip = isFolder(link) ? folderChip(link, index) : linkChip(link, index);
+    if (state.editing) {
+      el.linksList.appendChild(addChip(t('links.newFolder'), 'M3 7.5h6l1.6 2H21v8.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18Z', () => openLinkModal('folderNew')));
+    }
+
+    syncExpansionPad();
+  }
+
+  /** 展开的文件夹：里面的网址 + 「添加到此文件夹」+「全部打开」，都排在同一行里 */
+  function renderExpandedLinks(folder, folderIndex) {
+    if (!folder.items.length) {
+      const empty = document.createElement('span');
+      empty.className = 'links-empty';
+      empty.textContent = t('links.folderEmpty');
+      el.linksList.appendChild(empty);
+    }
+
+    folder.items.forEach((item, itemIndex) => {
+      const chip = document.createElement('a');
+      chip.className = 'chip chip--inner';
+      chip.href = item.url;
+      chip.dataset.folder = String(folderIndex);
+      chip.dataset.item = String(itemIndex);
+      chip.title = item.name + ' · ' + prettyUrl(item.url);
+      chip.appendChild(iconNode(hostOf(item.url), item.name, 'chip__icon'));
+
+      const name = document.createElement('span');
+      name.className = 'chip__name';
+      name.textContent = item.name;
+      chip.appendChild(name);
+
+      if (state.editing) {
+        chip.appendChild(removeButton(t('links.removeItem', item.name), () => removeFolderItem(folderIndex, itemIndex)));
+        chip.addEventListener('click', (event) => event.preventDefault());
+        chip.addEventListener('dblclick', (event) => {
+          event.preventDefault();
+          openLinkModal('edit', itemIndex, folderIndex);
+        });
+        attachLinkDrag(chip, folderIndex, itemIndex);
+      }
       el.linksList.appendChild(chip);
     });
 
     if (state.editing) {
-      el.linksList.appendChild(addChip(t('links.add'), 'M12 5v14M5 12h14', () => openLinkModal('add')));
-      el.linksList.appendChild(addChip(t('links.newFolder'), 'M3 7.5h6l1.6 2H21v8.5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18Z', () => openLinkModal('folderNew')));
+      el.linksList.appendChild(addChip(t('links.addToFolder'), 'M12 5v14M5 12h14', () => openLinkModal('add', -1, folderIndex)));
     }
-
-    // chip 是重建的，展开状态要重新标回去；展开区内容也同步刷新
-    if (openFolderIndex >= 0) {
-      const openChip = el.linksList.querySelector('.chip--folder[data-index="' + openFolderIndex + '"]');
-      if (openChip) {
-        openChip.classList.add('is-open');
-        openChip.setAttribute('aria-expanded', 'true');
-      }
-      renderFolderDrawer();
-      syncDrawerHeight();
-    }
-  }
-
-  /** 普通网址 chip */
-  function linkChip(link, index) {
-    const chip = document.createElement('a');
-    chip.className = 'chip';
-    chip.href = link.url;
-    chip.dataset.index = String(index);
-    chip.draggable = state.editing;
-    chip.title = link.name + ' · ' + prettyUrl(link.url);
-
-    chip.appendChild(iconNode(hostOf(link.url), link.name, 'chip__icon'));
-
-    const name = document.createElement('span');
-    name.className = 'chip__name';
-    name.textContent = link.name;
-    chip.appendChild(name);
-
-    if (state.editing) {
-      chip.appendChild(removeButton(t('links.remove', link.name), () => removeLink(index)));
-      chip.addEventListener('click', (event) => { event.preventDefault(); });
-      chip.addEventListener('dblclick', (event) => {
+    if (folder.items.length) {
+      const openAll = document.createElement('button');
+      openAll.type = 'button';
+      openAll.className = 'text-btn text-btn--sm text-btn--inline';
+      openAll.textContent = t('links.openAll');
+      openAll.title = tabsApi() ? t('links.folderHint') : t('links.folderHintWeb');
+      openAll.addEventListener('click', (event) => {
         event.preventDefault();
-        openLinkModal('edit', index, -1);
+        event.stopPropagation();
+        openAllInFolder(folder);
       });
-      attachDrag(chip, index);
+      el.linksList.appendChild(openAll);
     }
-    return chip;
   }
 
-  /** 文件夹 chip：左键展开、右键一次打开里面全部网页 */
-  function folderChip(folder, index) {
+  /** 文件夹 chip：左键横向展开里面的网址、右键一次打开全部 */
+  function folderChip(folder, index, open) {
     const chip = document.createElement('button');
     chip.type = 'button';
     chip.className = 'chip chip--folder';
+    if (open) chip.classList.add('is-open');
     chip.dataset.index = String(index);
     chip.draggable = state.editing;
-    chip.setAttribute('aria-haspopup', 'true');
-    chip.setAttribute('aria-expanded', 'false');
+    chip.setAttribute('aria-expanded', String(Boolean(open)));
     chip.title = t('links.folderHint');
 
     const icon = document.createElement('span');
@@ -1175,7 +1213,7 @@
     name.textContent = folder.name;
     chip.appendChild(name);
 
-    // 手风琴的小箭头：展开时翻转
+    // 展开时向右指，收起时朝下
     const caret = document.createElement('span');
     caret.className = 'chip__caret';
     caret.setAttribute('aria-hidden', 'true');
@@ -1185,7 +1223,7 @@
     chip.addEventListener('click', (event) => {
       event.preventDefault();
       event.stopPropagation();
-      toggleFolderDrawer(index, chip);
+      toggleFolder(index);
     });
 
     // 右键：一键打开这个文件夹里的全部网页
@@ -1233,133 +1271,46 @@
     return add;
   }
 
-  /* ---------- 文件夹展开区（手风琴，长在快捷网址框内部） ---------- */
+  /* ---------- 文件夹展开（横向：网址就排在文件夹后面） ---------- */
   let openFolderIndex = -1;
-  let drawerTimer = 0;
+  let closedStageHeight = 0;
+  let closedPanelHeight = 0;
 
-  const drawerInner = () => el.folderDrawer.querySelector('.folder-drawer__inner');
-
-  /** 展开多少就补多少 margin-top，抵消 .stage 被重新居中造成的整体上移。
-      但空间不够时 main 会被内容撑高，补满 D 反而把整块推下去，
-      所以补偿最多只给到"原来剩余空间的一半" —— 两种情况顶边都能保持不动。 */
-  function drawerPadFor(height) {
+  /** 横向展开可能让 chip 换行、面板变高，于是 .stage 被重新居中、顶边上移。
+      补一段 margin-top 抵消：长高多少补多少，空间不够时最多补剩余空间的一半。 */
+  function syncExpansionPad() {
+    if (openFolderIndex < 0) {
+      el.root.style.setProperty('--expand-pad', '0px');
+      return;
+    }
+    const delta = Math.max(0, linksPanel.offsetHeight - closedPanelHeight);
     const cs = getComputedStyle(el.main);
     const padTop = parseFloat(cs.paddingTop) || 0;
     const padBottom = parseFloat(cs.paddingBottom) || 0;
-    const openHeight = el.folderDrawer.getBoundingClientRect().height;
-    const closedStage = el.stage.offsetHeight - openHeight;
-    const free = el.main.clientHeight - padTop - padBottom - closedStage;
-    return Math.round(Math.max(0, Math.min(height, free / 2)));
+    const free = el.main.clientHeight - padTop - padBottom - closedStageHeight;
+    el.root.style.setProperty('--expand-pad', Math.round(Math.max(0, Math.min(delta, free / 2))) + 'px');
   }
 
-  /** 测量并写回展开区高度与补偿值 */
-  function syncDrawerHeight() {
-    if (openFolderIndex < 0) return;
-    const height = drawerInner().offsetHeight;
-    el.folderDrawer.style.height = height + 'px';
-    el.root.style.setProperty('--drawer-pad', drawerPadFor(height) + 'px');
-  }
-
-  function closeFolderDrawer() {
+  function closeFolder() {
     if (openFolderIndex < 0) return;
     openFolderIndex = -1;
-    clearTimeout(drawerTimer);
-    el.folderDrawer.classList.remove('is-open');
-    el.folderDrawer.style.height = '0px';
-    el.root.style.setProperty('--drawer-pad', '0px');
-    // 等收起动画结束再彻底隐藏，避免键盘还能 Tab 进去
-    drawerTimer = setTimeout(() => {
-      if (openFolderIndex < 0) el.folderDrawer.style.height = '';
-    }, 320);
-    el.linksList.querySelectorAll('.chip--folder').forEach((chip) => {
-      chip.classList.remove('is-open');
-      chip.setAttribute('aria-expanded', 'false');
-    });
+    el.root.style.setProperty('--expand-pad', '0px');
+    renderLinks();
   }
 
-  function toggleFolderDrawer(index, chip) {
-    if (openFolderIndex === index) { closeFolderDrawer(); return; }
-    const switching = openFolderIndex >= 0;
-    if (switching) closeFolderDrawer();
-
+  function toggleFolder(index) {
+    if (openFolderIndex === index) { closeFolder(); return; }
+    if (openFolderIndex < 0) {
+      // 记下展开前的基准，切换文件夹时不重记
+      closedStageHeight = el.stage.offsetHeight;
+      closedPanelHeight = linksPanel.offsetHeight;
+    }
     openFolderIndex = index;
-    renderFolderDrawer();
-    chip.classList.add('is-open');
-    chip.setAttribute('aria-expanded', 'true');
-
-    // 切换文件夹时先把高度归零，再量新高度，动画才正常
-    el.folderDrawer.style.height = '0px';
-    void el.folderDrawer.offsetHeight;
-    el.folderDrawer.classList.add('is-open');
-    syncDrawerHeight();
+    renderLinks();
   }
 
-  function renderFolderDrawer() {
-    const folder = state.links[openFolderIndex];
-    if (!isFolder(folder)) { closeFolderDrawer(); return; }
-
-    el.folderDrawerTitle.textContent = folder.name;
-    // 纯网页模式下浏览器一次只放行一个弹窗，这里如实说明
-    el.folderDrawerHint.textContent = tabsApi() ? t('links.folderHint') : t('links.folderHintWeb');
-    el.folderOpenAll.textContent = t('links.openAll');
-    el.folderAddLink.textContent = t('links.addToFolder');
-    el.folderAddLink.hidden = !state.editing;
-
-    const list = el.folderDrawerList;
-    list.textContent = '';
-
-    if (!folder.items.length) {
-      const empty = document.createElement('p');
-      empty.className = 'suggest__empty';
-      empty.textContent = t('links.folderEmpty');
-      list.appendChild(empty);
-      return;
-    }
-
-    folder.items.forEach((item, itemIndex) => {
-      const chip = document.createElement('a');
-      chip.className = 'chip chip--inner';
-      chip.href = item.url;
-      chip.title = item.name + ' · ' + prettyUrl(item.url);
-      chip.appendChild(iconNode(hostOf(item.url), item.name, 'chip__icon'));
-
-      const name = document.createElement('span');
-      name.className = 'chip__name';
-      name.textContent = item.name;
-      chip.appendChild(name);
-
-      if (state.editing) {
-        chip.appendChild(removeButton(t('links.removeItem', item.name), () => removeFolderItem(openFolderIndex, itemIndex)));
-        chip.addEventListener('click', (event) => event.preventDefault());
-        chip.addEventListener('dblclick', (event) => {
-          event.preventDefault();
-          openLinkModal('edit', itemIndex, openFolderIndex);
-        });
-      }
-      list.appendChild(chip);
-    });
-
-    if (state.editing) {
-      const add = addChip(t('links.addToFolder'), 'M12 5v14M5 12h14', () => {
-        if (openFolderIndex >= 0) openLinkModal('add', -1, openFolderIndex);
-      });
-      list.appendChild(add);
-    }
-  }
-
-  // 窗口变化时 chip 会重新换行，展开高度跟着重算
   window.addEventListener('resize', () => {
-    if (openFolderIndex >= 0) syncDrawerHeight();
-  });
-
-  el.folderOpenAll.addEventListener('click', () => {
-    const folder = state.links[openFolderIndex];
-    if (isFolder(folder)) openAllInFolder(folder);
-  });
-
-  el.folderAddLink.addEventListener('click', () => {
-    if (openFolderIndex < 0) return;
-    openLinkModal('add', -1, openFolderIndex);
+    if (openFolderIndex >= 0) syncExpansionPad();
   });
 
   /** 扩展环境下的标签页接口：有它才能一次打开多个页面而不被弹窗拦截 */
@@ -1436,102 +1387,147 @@
     if (!isFolder(folder)) return;
     if (folder.items.length && !window.confirm(t('toast.folderConfirm', folder.name, folder.items.length))) return;
     state.links.splice(index, 1);
-    closeFolderDrawer();
+    if (openFolderIndex === index) openFolderIndex = -1;
+    else if (openFolderIndex > index) openFolderIndex -= 1;
+    closeFolder();
     persistLinks();
     renderLinks();
     toast(t('toast.folderRemoved'));
   }
 
-  /** 拖动排序；目标是文件夹且拖的是网址时，松开就放进该文件夹。
-      folder 参数只在 chip 本身是文件夹时传入。 */
-  function attachDrag(chip, index, folder = null) {
-    const clearMarks = () => {
-      chip.classList.remove('is-over', 'is-drop-into');
-    };
+  /* ---------- 拖动 ----------
+     state.dragSource: { kind:'folder', index } 或 { kind:'link', folder, item }
+     - 拖文件夹 -> 文件夹：调整文件夹顺序
+     - 拖网址 -> 文件夹：放进该文件夹
+     - 拖网址 -> 同一个文件夹里的网址：在这个文件夹内调整顺序
+     - 拖网址 -> 另一个已展开文件夹里的网址：移过去并插在该位置 */
+  const clearDropMarks = () => {
+    el.linksList.querySelectorAll('.chip').forEach((node) => node.classList.remove('is-over', 'is-drop-into'));
+  };
 
-    chip.addEventListener('dragstart', (event) => {
-      state.dragIndex = index;
-      chip.classList.add('is-dragging');
+  function beginDrag(event, chip, source) {
+    state.dragSource = source;
+    chip.classList.add('is-dragging');
+    if (event.dataTransfer) {
       event.dataTransfer.effectAllowed = 'move';
-      try { event.dataTransfer.setData('text/plain', String(index)); } catch { /* 忽略 */ }
-    });
-    chip.addEventListener('dragend', () => {
-      chip.classList.remove('is-dragging');
-      el.linksList.querySelectorAll('.chip').forEach((node) => node.classList.remove('is-over', 'is-drop-into'));
-    });
+      try { event.dataTransfer.setData('text/plain', ''); } catch { /* 忽略 */ }
+    }
+  }
+
+  function endDrag(chip) {
+    chip.classList.remove('is-dragging');
+    state.dragSource = null;
+    clearDropMarks();
+  }
+
+  /** 文件夹 chip 作为放置目标 */
+  function attachDrag(chip, index, folder) {
+    chip.addEventListener('dragstart', (event) => beginDrag(event, chip, { kind: 'folder', index }));
+    chip.addEventListener('dragend', () => endDrag(chip));
     chip.addEventListener('dragover', (event) => {
-      const from = state.dragIndex;
-      if (from < 0 || from === index) return;
+      const source = state.dragSource;
+      if (!source || (source.kind === 'folder' && source.index === index)) return;
       event.preventDefault();
-      const dragged = state.links[from];
-      // 拖网址到文件夹上 = 放进文件夹；其余情况是排序
-      if (folder && !isFolder(dragged)) {
-        chip.classList.remove('is-over');
-        chip.classList.add('is-drop-into');
-      } else {
-        chip.classList.remove('is-drop-into');
-        chip.classList.add('is-over');
-      }
+      clearDropMarks();
+      // 拖网址过来 = 放进文件夹；拖文件夹过来 = 排序
+      chip.classList.add(source.kind === 'link' ? 'is-drop-into' : 'is-over');
       if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
     });
-    chip.addEventListener('dragleave', clearMarks);
+    chip.addEventListener('dragleave', () => chip.classList.remove('is-over', 'is-drop-into'));
     chip.addEventListener('drop', (event) => {
       event.preventDefault();
-      clearMarks();
-      const from = state.dragIndex;
-      if (from < 0 || from === index) return;
-      const dragged = state.links[from];
+      const source = state.dragSource;
+      chip.classList.remove('is-over', 'is-drop-into');
+      if (!source) return;
 
-      if (folder && !isFolder(dragged)) {
-        state.links.splice(from, 1);
-        folder.items.push(dragged);   // folder 是引用，上面的 splice 不影响它
+      if (source.kind === 'link') {
+        const fromFolder = state.links[source.folder];
+        if (!isFolder(fromFolder)) return;
+        const [moved] = fromFolder.items.splice(source.item, 1);
+        if (!moved) return;
+        folder.items.push(moved);
         persistLinks();
         renderLinks();
         toast(t('toast.movedToFolder', folder.name));
         return;
       }
 
-      const [moved] = state.links.splice(from, 1);
+      if (source.index === index) return;
+      const [moved] = state.links.splice(source.index, 1);
       state.links.splice(index, 0, moved);
+      openFolderIndex = -1;
       persistLinks();
       renderLinks();
       toast(t('toast.reordered'));
     });
   }
 
-  const persistLinks = () => store.set(KEY.links, state.links);
+  /** 已展开的网址 chip 作为放置目标（文件夹内排序 / 跨文件夹移动） */
+  function attachLinkDrag(chip, folderIndex, itemIndex) {
+    chip.addEventListener('dragstart', (event) => beginDrag(event, chip, { kind: 'link', folder: folderIndex, item: itemIndex }));
+    chip.addEventListener('dragend', () => endDrag(chip));
+    chip.addEventListener('dragover', (event) => {
+      const source = state.dragSource;
+      if (!source || source.kind !== 'link') return;
+      if (source.folder === folderIndex && source.item === itemIndex) return;
+      event.preventDefault();
+      clearDropMarks();
+      chip.classList.add('is-over');
+      if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
+    });
+    chip.addEventListener('dragleave', () => chip.classList.remove('is-over'));
+    chip.addEventListener('drop', (event) => {
+      event.preventDefault();
+      chip.classList.remove('is-over');
+      const source = state.dragSource;
+      if (!source || source.kind !== 'link') return;
+      if (source.folder === folderIndex && source.item === itemIndex) return;
 
-  function removeLink(index) {
-    state.links.splice(index, 1);
-    persistLinks();
-    renderLinks();
-    toast(t('toast.removed'));
+      const fromFolder = state.links[source.folder];
+      const toFolder = state.links[folderIndex];
+      if (!isFolder(fromFolder) || !isFolder(toFolder)) return;
+
+      const [moved] = fromFolder.items.splice(source.item, 1);
+      if (!moved) return;
+      const insertAt = source.folder === folderIndex && source.item < itemIndex ? itemIndex - 1 : itemIndex;
+      toFolder.items.splice(insertAt, 0, moved);
+
+      if (source.folder !== folderIndex) openFolderIndex = folderIndex;
+      persistLinks();
+      renderLinks();
+      toast(source.folder === folderIndex ? t('toast.reordered') : t('toast.movedToFolder', toFolder.name));
+    });
   }
+
+  const persistLinks = () => store.set(KEY.links, state.links);
 
   el.editLinksBtn.addEventListener('click', () => {
     state.editing = !state.editing;
     applyI18n();
     renderLinks();
   });
-  el.addLinkBtn.addEventListener('click', () => openLinkModal('add'));
+  el.addLinkBtn.addEventListener('click', () => {
+    // 顶层只有文件夹：得先有文件夹，网址才有地方放
+    if (!state.links.some(isFolder)) {
+      toast(t('toast.needFolder'));
+      openLinkModal('folderNew');
+      return;
+    }
+    openLinkModal('add');
+  });
 
   /* ---------------------------------------------------------
      13. 添加 / 编辑 对话框
      --------------------------------------------------------- */
-  /** folderIndex: -1 表示顶层，>=0 表示某个文件夹里面 */
+  /** 顶层只有文件夹，网址都在文件夹里 */
   function linkAt(folderIndex, index) {
     const folder = state.links[folderIndex];
-    const container = folderIndex >= 0 ? (isFolder(folder) ? folder.items : null) : state.links;
-    return Array.isArray(container) ? container[index] : null;
+    return isFolder(folder) ? folder.items[index] : null;
   }
 
+  /** 顶层只有文件夹，所以网址一定有归属；select 不再有"不放入文件夹"这一项 */
   function fillFolderOptions(selected) {
     el.linkFolder.textContent = '';
-    const none = document.createElement('option');
-    none.value = '-1';
-    none.textContent = t('dialog.noFolder');
-    el.linkFolder.appendChild(none);
-
     state.links.forEach((item, index) => {
       if (!isFolder(item)) return;
       const option = document.createElement('option');
@@ -1539,7 +1535,9 @@
       option.textContent = item.name;
       el.linkFolder.appendChild(option);
     });
-    el.linkFolder.value = String(selected);
+    const fallback = state.links.findIndex(isFolder);
+    const pick = selected >= 0 && isFolder(state.links[selected]) ? selected : fallback;
+    if (pick >= 0) el.linkFolder.value = String(pick);
   }
 
   function openLinkModal(mode, index = -1, folderIndex = -1) {
@@ -1587,7 +1585,7 @@
   });
 
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && openFolderIndex >= 0) closeFolderDrawer();
+    if (event.key === 'Escape' && openFolderIndex >= 0) closeFolder();
     if (event.key === 'Escape' && !el.modal.hidden) closeLinkModal();
     if (event.key === '/' && document.activeElement !== el.input &&
         !/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName) && el.modal.hidden) {
@@ -1627,23 +1625,29 @@
     // 先按引用取出目标文件夹：下面 splice 之后下标可能已经变了
     const targetIndex = Number(el.linkFolder.value);
     const targetFolder = isFolder(state.links[targetIndex]) ? state.links[targetIndex] : null;
+    if (!targetFolder) { showLinkError(t('toast.needFolder')); return; }
     const entry = { name, url };
 
     if (state.modalMode === 'edit') {
-      const container = state.editingFolder >= 0
-        ? (isFolder(state.links[state.editingFolder]) ? state.links[state.editingFolder].items : null)
-        : state.links;
-      if (!Array.isArray(container)) { closeLinkModal(); return; }
+      const from = state.editingFolder;
+      const sourceFolder = isFolder(state.links[from]) ? state.links[from] : null;
+      if (!sourceFolder) { closeLinkModal(); return; }
 
-      if (targetIndex === state.editingFolder) {
-        container[state.editingIndex] = entry;          // 原地更新，顺序不变
+      if (targetIndex === from) {
+        sourceFolder.items[state.editingIndex] = entry;   // 原地更新，顺序不变
       } else {
-        container.splice(state.editingIndex, 1);
-        if (targetFolder) targetFolder.items.push(entry); else state.links.push(entry);
+        sourceFolder.items.splice(state.editingIndex, 1);
+        targetFolder.items.push(entry);
+        openFolderIndex = targetIndex;
       }
       toast(t('toast.saved'));
     } else {
-      if (targetFolder) targetFolder.items.push(entry); else state.links.push(entry);
+      targetFolder.items.push(entry);
+      openFolderIndex = targetIndex;                       // 加完就展开，能立刻看到
+      if (openFolderIndex === targetIndex) {
+        closedStageHeight = el.stage.offsetHeight;
+        closedPanelHeight = linksPanel.offsetHeight;
+      }
       toast(t('toast.added'));
     }
 
@@ -1663,7 +1667,7 @@
   function applyLinksVisibility() {
     el.linksBar.hidden = !state.showLinks;
     el.showLinksSwitch.setAttribute('aria-checked', String(state.showLinks));
-    if (!state.showLinks) closeFolderDrawer();
+    if (!state.showLinks) closeFolder();
     applySearchPos();
   }
 
@@ -2048,6 +2052,12 @@
     applyTheme();
     applyFont();
     applyI18n();
+    // 老数据兼容：顶层散落的网址收进「未分类」文件夹（必须在首次渲染之前做）
+    const folded = ensureFolders(state.links);
+    if (folded.length !== state.links.length || !folded.every(isFolder)) {
+      state.links = folded;
+      persistLinks();
+    }
     renderEngine();
     renderEngineSelect();
     renderLinks();
