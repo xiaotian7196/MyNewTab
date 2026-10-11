@@ -1845,7 +1845,8 @@
     applyOpacity();
   });
 
-  /** 读本地图片 → 缩到 1920px → 转 JPEG，避免超出 localStorage 容量 */
+  /** 读本地图片 → 最长边缩到 2560px → 转 JPEG。
+      2560 是为了在 2K/4K 宽屏上铺满时不至于被放大糊掉；再大就容易撑爆 localStorage。 */
   function setBackgroundFromFile(file) {
     if (!file || !/^image\//.test(file.type)) { toast(t('toast.bgFailed')); return; }
 
@@ -1855,7 +1856,7 @@
       const img = new Image();
       img.addEventListener('error', () => toast(t('toast.bgFailed')));
       img.addEventListener('load', () => {
-        const max = 1920;
+        const max = 2560;
         const scale = Math.min(1, max / Math.max(img.width, img.height));
         const width = Math.max(1, Math.round(img.width * scale));
         const height = Math.max(1, Math.round(img.height * scale));

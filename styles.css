@@ -166,16 +166,20 @@ body {
   transition: background-color 260ms ease, color 260ms ease;
 }
 
-/* 自定义背景图：垫在最底层，上面盖一层主题色薄纱（--bg-veil）保证玻璃面板可读 */
-html.has-user-bg body {
-  background-image:
-    linear-gradient(var(--bg-veil), var(--bg-veil)),
-    var(--bg-glow),
-    var(--user-bg);
-  background-size: auto, auto, cover;
+/* 自定义背景图：单独一层，铺满整个视口。
+   注意别把图片并进 body 的 background 列表里 —— --bg-glow 是两层渐变，
+   列表里 "第 N 个" 的位置对不上，图片就会拿到默认的 auto 尺寸（原图大小），
+   于是大屏或竖图上四周露出底色（黑边）。独立图层 + cover 对任何比例都铺满。 */
+html.has-user-bg body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: linear-gradient(var(--bg-veil), var(--bg-veil)), var(--user-bg);
+  background-size: auto, cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-attachment: fixed;
 }
 
 a { color: inherit; text-decoration: none; }
